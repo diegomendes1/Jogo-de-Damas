@@ -1,4 +1,4 @@
-# DamasLpoo
+# Projeto de LPOO: Jogo de damas
 
 Projeto de LPOO: Jogo de Damas
 
