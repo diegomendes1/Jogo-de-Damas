@@ -8,4 +8,22 @@ public class Peca {
        this.cor = cor;
        this.jogador = jogador;
    }
+   
+   public CorPeca getCor() {
+	   return cor;
+   }
+   
+   public void setCor(CorPeca cor) {
+	   this.cor = cor;
+   }
+   
+   public Jogador getJogador() {
+	   return jogador;
+   }
+   
+   public void setJogador(Jogador jogador) {
+	   this.jogador = jogador;
+   }
+   
+   
 }

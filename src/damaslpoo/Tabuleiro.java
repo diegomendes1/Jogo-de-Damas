@@ -4,10 +4,13 @@ package damaslpoo;
 public class Tabuleiro {
     private Casa[][] grid;
     
+    
+    //É necessário criar as casas aqui?
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
     
+    //NADA PRONTO
     public void executarMovimento(int posX, int posY){
         Casa casa = grid[posX][posY];
         if(casa.getPeca() != null){
@@ -16,7 +19,56 @@ public class Tabuleiro {
         
     }
     
+    /* "gerarTabuleiro" anda por cada casa da variável GRID, e configura para a cor da casa correta.*/
     public void gerarTabuleiro(){
-        
+    	boolean anteriorBranca = false;
+    	for(int linha = 0; linha < grid.length; linha++) {
+    		for(int coluna = 0;coluna < grid[linha].length; coluna++) {
+    			if(anteriorBranca == false) {
+    				
+    				//Cria um jogador novo, devemos mudar e usar dois jogadores criados antes.
+    				Jogador jogador = new Jogador("Eduarda");
+    				
+    				//cria uma peça.
+					Peca peca = new Peca(CorPeca.CLARO, jogador);
+					
+					//finalmnte, cria uma casa.
+    				grid[linha][coluna] = new Casa(CorCasa.BRANCO, false, peca);
+    				
+    				/*Imprime informações da casa. 
+    				 * depois de [coluna], vc pode inserir algumas coisas para mudar a impressão.
+    				 * 
+    				 * Para mostrar a cor da casa, adicione .getCor()
+    				 * 
+    				 * Para mostrar o nome do dono da peca, digite .getPeca().getJogador().getNome()
+    				 * 
+    				 * Sim, mostrar o nome do jogador não está correto, mas pelo menos conseguimos adicionar
+    				 * um nome para o jogador, certo minha amiga?*/
+    				System.out.print(" "+grid[linha][coluna].getPeca().getJogador().getNome());
+    				anteriorBranca = true;
+    			}else {
+    				
+    				Jogador jogador = new Jogador(" Diego ");
+					Peca peca = new Peca(CorPeca.CLARO, jogador);
+    				grid[linha][coluna] = new Casa(CorCasa.PRETO, false, peca);
+    				
+    				System.out.print(" "+grid[linha][coluna].getCor());
+    				anteriorBranca = false;
+    			}
+    			
+    		}
+    		System.out.println("");
+    		if(anteriorBranca == false) {
+    			anteriorBranca = true;
+    		}else {
+    			anteriorBranca = false;
+    		}
+    	}
+        System.out.println("Tabuleiro gerado");
     }
+    
+    public void posicionarPecas() {
+    	
+    }
+    
 }
