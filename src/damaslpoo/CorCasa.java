@@ -1,5 +1,6 @@
 package damaslpoo;
 
+//Guarda a cor da casa.
 public enum CorCasa {
     BRANCO(0), PRETO(1);
 	

@@ -1,5 +1,6 @@
 package damaslpoo;
 
+//guarda a cor da peça.
 public enum CorPeca {
     CLARO(0), ESCURO(1);
 
