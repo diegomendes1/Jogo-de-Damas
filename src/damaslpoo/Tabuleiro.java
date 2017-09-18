@@ -5,7 +5,7 @@ public class Tabuleiro {
     private Casa[][] grid;
     
     
-    //É necessário criar as casas aqui?
+    //ï¿½ necessï¿½rio criar as casas aqui?
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
@@ -19,40 +19,37 @@ public class Tabuleiro {
         
     }
     
-    /* "gerarTabuleiro" anda por cada casa da variável GRID, e configura para a cor da casa correta.*/
+    /* "gerarTabuleiro" anda por cada casa da variï¿½vel GRID, e configura para a cor da casa correta.*/
     public void gerarTabuleiro(){
     	boolean anteriorBranca = false;
     	for(int linha = 0; linha < grid.length; linha++) {
     		for(int coluna = 0;coluna < grid[linha].length; coluna++) {
     			if(anteriorBranca == false) {
-    				
     				//Cria um jogador novo, devemos mudar e usar dois jogadores criados antes.
     				Jogador jogador = new Jogador("Eduarda");
-    				
-    				//cria uma peça.
-					Peca peca = new Peca(CorPeca.CLARO, jogador);
-					
-					//finalmnte, cria uma casa.
+    				//cria uma peï¿½a.
+				Peca peca = new Peca(CorPeca.ESCURO, jogador);
+                                //finalmnte, cria uma casa.
     				grid[linha][coluna] = new Casa(CorCasa.BRANCO, false, peca);
     				
-    				/*Imprime informações da casa. 
-    				 * depois de [coluna], vc pode inserir algumas coisas para mudar a impressão.
+    				/*Imprime informaï¿½ï¿½es da casa. 
+    				 * depois de [coluna], vc pode inserir algumas coisas para mudar a impressï¿½o.
     				 * 
     				 * Para mostrar a cor da casa, adicione .getCor()
     				 * 
     				 * Para mostrar o nome do dono da peca, digite .getPeca().getJogador().getNome()
     				 * 
-    				 * Sim, mostrar o nome do jogador não está correto, mas pelo menos conseguimos adicionar
+    				 * Sim, mostrar o nome do jogador nï¿½o estï¿½ correto, mas pelo menos conseguimos adicionar
     				 * um nome para o jogador, certo minha amiga?*/
     				System.out.print(" "+grid[linha][coluna].getPeca().getJogador().getNome());
     				anteriorBranca = true;
     			}else {
     				
     				Jogador jogador = new Jogador(" Diego ");
-					Peca peca = new Peca(CorPeca.CLARO, jogador);
+				Peca peca = new Peca(CorPeca.CLARO, jogador);
     				grid[linha][coluna] = new Casa(CorCasa.PRETO, false, peca);
     				
-    				System.out.print(" "+grid[linha][coluna].getCor());
+    				System.out.print(" "+grid[linha][coluna].getPeca().getCor());
     				anteriorBranca = false;
     			}
     			
@@ -64,11 +61,5 @@ public class Tabuleiro {
     			anteriorBranca = false;
     		}
     	}
-        System.out.println("Tabuleiro gerado");
     }
-    
-    public void posicionarPecas() {
-    	
-    }
-    
 }
