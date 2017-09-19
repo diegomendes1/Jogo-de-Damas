@@ -4,8 +4,8 @@ public class Jogador {
     private String nome;
     private Peca[] pecas;
     
-    public Jogador(String nome){
-        this.nome = nome;
+    public Jogador(){
+        this.nome = "TESTE";
         pecas = new Peca[12];
     }
     

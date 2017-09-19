@@ -25,10 +25,11 @@ public class Tabuleiro {
     	for(int linha = 0; linha < grid.length; linha++) {
     		for(int coluna = 0;coluna < grid[linha].length; coluna++) {
     			if(anteriorBranca == false) {
+    				Jogador[] jogador = new Jogador[3];
     				//Cria um jogador novo, devemos mudar e usar dois jogadores criados antes.
-    				Jogador jogador = new Jogador("Eduarda");
+    				jogador[0] = new Jogador();
     				//cria uma pe�a.
-				Peca peca = new Peca(CorPeca.ESCURO, jogador);
+    				Peca peca = new Peca(CorPeca.ESCURO, jogador[0]);
                                 //finalmnte, cria uma casa.
     				grid[linha][coluna] = new Casa(CorCasa.BRANCO, false, peca);
     				
@@ -45,7 +46,7 @@ public class Tabuleiro {
     				anteriorBranca = true;
     			}else {
     				
-    				Jogador jogador = new Jogador(" Diego ");
+    				Jogador jogador = new Jogador();
 				Peca peca = new Peca(CorPeca.CLARO, jogador);
     				grid[linha][coluna] = new Casa(CorCasa.PRETO, false, peca);
     				
