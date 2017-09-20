@@ -20,46 +20,87 @@ public class Tabuleiro {
     }
     
     /* "gerarTabuleiro" anda por cada casa da vari�vel GRID, e configura para a cor da casa correta.*/
-    public void gerarTabuleiro(){
-    	boolean anteriorBranca = false;
+    public void gerarTabuleiro(Jogador[] jogador){
+    	boolean atualBranca = true;
     	for(int linha = 0; linha < grid.length; linha++) {
     		for(int coluna = 0;coluna < grid[linha].length; coluna++) {
-    			if(anteriorBranca == false) {
-    				Jogador[] jogador = new Jogador[3];
-    				//Cria um jogador novo, devemos mudar e usar dois jogadores criados antes.
-    				jogador[0] = new Jogador();
-    				//cria uma pe�a.
-    				Peca peca = new Peca(CorPeca.ESCURO, jogador[0]);
-                                //finalmnte, cria uma casa.
-    				grid[linha][coluna] = new Casa(CorCasa.BRANCO, false, peca);
-    				
-    				/*Imprime informa��es da casa. 
-    				 * depois de [coluna], vc pode inserir algumas coisas para mudar a impress�o.
-    				 * 
-    				 * Para mostrar a cor da casa, adicione .getCor()
-    				 * 
-    				 * Para mostrar o nome do dono da peca, digite .getPeca().getJogador().getNome()
-    				 * 
-    				 * Sim, mostrar o nome do jogador n�o est� correto, mas pelo menos conseguimos adicionar
-    				 * um nome para o jogador, certo minha amiga?*/
-    				System.out.print(" "+grid[linha][coluna].getPeca().getJogador().getNome());
-    				anteriorBranca = true;
+    			if(linha <= 2) {
+    				if(atualBranca == true) {
+        				
+        				Peca peca = new Peca(CorPeca.CLARO, jogador[0]);
+        				grid[linha][coluna] = new Casa(CorCasa.BRANCO, true, peca);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("noPECA");
+        				}else {
+        					System.out.print("  "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				atualBranca = false;
+        			}else {
+        				
+        				Peca peca = new Peca(CorPeca.CLARO, jogador[0]);
+        				grid[linha][coluna] = new Casa(CorCasa.PRETO, true, peca);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("noPECA");
+        				}else {
+        					System.out.print("  "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				atualBranca = true;
+        			}
+    			}else if(linha <= 4) {
+    				if(atualBranca == true) {
+        				grid[linha][coluna] = new Casa(CorCasa.BRANCO, false, null);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("  S-PEC");
+        				}else {
+        					System.out.print("  "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				
+        				atualBranca = false;
+        			}else {
+        				
+        				grid[linha][coluna] = new Casa(CorCasa.PRETO, false, null);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("  S-PEC");
+        				}else {
+        					System.out.print(" "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				atualBranca = true;
+        			}
     			}else {
-    				
-    				Jogador jogador = new Jogador();
-				Peca peca = new Peca(CorPeca.CLARO, jogador);
-    				grid[linha][coluna] = new Casa(CorCasa.PRETO, false, peca);
-    				
-    				System.out.print(" "+grid[linha][coluna].getPeca().getCor());
-    				anteriorBranca = false;
+    				if(atualBranca == true) {
+        				
+        				Peca peca = new Peca(CorPeca.ESCURO, jogador[1]);
+        				grid[linha][coluna] = new Casa(CorCasa.BRANCO, true, peca);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("noPECA");
+        				}else {
+        					System.out.print(" "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				atualBranca = false;
+        			}else {
+        				
+        				Peca peca = new Peca(CorPeca.ESCURO, jogador[1]);
+        				grid[linha][coluna] = new Casa(CorCasa.PRETO, true, peca);
+        				
+        				if(grid[linha][coluna].getPeca() == null) {
+        					System.out.print("noPECA");
+        				}else {
+        					System.out.print(" "+grid[linha][coluna].getPeca().getCor());
+        				}
+        				atualBranca = true;
+        			}
     			}
-    			
     		}
     		System.out.println("");
-    		if(anteriorBranca == false) {
-    			anteriorBranca = true;
+    		if(atualBranca == true) {
+    			atualBranca = false;
     		}else {
-    			anteriorBranca = false;
+    			atualBranca = true;
     		}
     	}
     }

@@ -5,7 +5,7 @@ public class Teste {
     public static void main(String[] args) {
                 teste = new DamasLpoo();
                 teste.infoJogador();
-                teste.fazerTabuleiro();
+                //teste.fazerTabuleiro();
 }
         
 }

@@ -5,7 +5,7 @@ public class Jogador {
     private Peca[] pecas;
     
     public Jogador(){
-        this.nome = "TESTE";
+        this.nome = null;
         pecas = new Peca[12];
     }
     
@@ -21,9 +21,9 @@ public class Jogador {
         return pecas[j];
     }
     
-    /*public void setPecas(Peca peca, int j){
+    public void setPecas(Peca peca, int j){
         this.pecas[j] = peca;
-    }*/
+    }
     
 
 }
