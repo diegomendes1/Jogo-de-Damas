@@ -12,7 +12,7 @@ public class DamasLpoo{
         tab.gerarTabuleiro(jogador);
     }*/
         
-    public void infoJogador(){
+    public Jogador[] infoJogador(){
         //ERROS
       	jogador = new Jogador[2];
         	
@@ -23,8 +23,6 @@ public class DamasLpoo{
        		jogador[i].setNome(setJogadorNome());
        		
        	}
-       	
-       	//System.out.println("O nome do Jogador 1 é "+jogador[0].getNome()+" e o nome do Jogador 2 é "+jogador[1].getNome());
             
         //Adiciona pecas aos jogadores
         for(int i = 0; i < 2; i++){
@@ -38,10 +36,8 @@ public class DamasLpoo{
                 }
             }                               
         }
-        Tabuleiro tab = new Tabuleiro();
-        tab.gerarTabuleiro(jogador);
+        return jogador;
         
-        //System.out.println("A oitava Peça do segundo jogador tem cor " + jogador[1].getPecas(8).getCor());
     }
     
     /* PEGA O NOME DO JOGADOR*/

@@ -20,6 +20,7 @@ public class Tabuleiro {
     	}else {
     		ladoPeca = +1;
     	}
+    	
     	//FALTA TERMINAR
     	if(posY == 0){
     		grid[posX+ladoPeca][posY+ladoPeca].setPeca(grid[posX][posY].getPeca());
