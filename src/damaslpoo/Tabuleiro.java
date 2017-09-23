@@ -1,19 +1,21 @@
 package damaslpoo;
-import java.util.Random;
+//import java.util.Random;
 
 public class Tabuleiro {
     private Casa[][] grid;
     
     
-    //ï¿½ necessï¿½rio criar as casas aqui?
+    //É necessário criar as casas aqui?
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
     
     //FALTA TERMINAR ALGUMAS COISAS
-    public void executarMovimento(int posX, int posY){
+    public void executarMovimento(int posX, int posY,int lugarParaX,int lugarParaY){
+    	
+    	
     	/*Este If-else verifica se a peca deve andar de baixo pra cima(nesse caso, ladoPeca = -1) 
-    	 * ou de cima pra baixo(ladoPeca = +1).*/
+    	  ou de cima pra baixo(ladoPeca = +1).
     	int ladoPeca;
     	if(grid[posX][posY].getPeca().getCor() == CorPeca.CLARO) {
     		ladoPeca = -1;
@@ -31,6 +33,29 @@ public class Tabuleiro {
     			grid[posX+ladoPeca][posY+ladoPeca].setPeca(grid[posX][posY].getPeca());
     		}else{
     			grid[posX+ladoPeca][posY-ladoPeca].setPeca(grid[posX][posY].getPeca());
+    		}
+    	}*/
+    	
+    	if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7 && !grid[lugarParaX][lugarParaY].getOcupada())
+    	{
+    		if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
+    		{
+    			if(lugarParaX - posX == -1 && (lugarParaX - posX ==1 || lugarParaX - posX == -1))
+    			{
+    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+    				grid[posX][posY].setOcupada(false);
+    				grid[posX][posY].setPeca(null);
+    				grid[lugarParaX][lugarParaY].setOcupada(true);
+    			}
+    		}else
+    		{
+    			if(lugarParaX - posX == 1 && (lugarParaX - posX ==1 || lugarParaX - posX == -1))
+    			{
+    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+    				grid[posX][posY].setOcupada(false);
+    				grid[posX][posY].setPeca(null);
+    				grid[lugarParaX][lugarParaY].setOcupada(true);
+    			}
     		}
     	}
     }
