@@ -1,5 +1,7 @@
 package damaslpoo;
 
+import Enums.CorCasa;
+
 public class Casa {
     private CorCasa cor;
     private boolean ocupada;

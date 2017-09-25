@@ -1,6 +1,8 @@
 package damaslpoo;
 import java.util.Scanner;
 
+import Enums.CorPeca;
+
 
 //Classe principal, chama o metodo que inicia o tabuleiro, e o jogo.
 public class DamasLpoo{

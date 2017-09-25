@@ -1,5 +1,7 @@
 package damaslpoo;
 
+import Enums.CorPeca;
+
 public class Peca {
    private CorPeca cor;
    private Jogador jogador;

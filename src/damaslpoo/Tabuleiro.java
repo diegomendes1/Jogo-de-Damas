@@ -1,36 +1,46 @@
 package damaslpoo;
-import java.util.Random;
+import java.util.Scanner;
+import Enums.CorCasa;
+import Enums.CorPeca;
 
 public class Tabuleiro {
     private Casa[][] grid;
     
-    
-    //� necess�rio criar as casas aqui?
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
     
-    //FALTA TERMINAR ALGUMAS COISAS
-    public void executarMovimento(int posX, int posY){
-    	/*Este If-else verifica se a peca deve andar de baixo pra cima(nesse caso, ladoPeca = -1) 
-    	 * ou de cima pra baixo(ladoPeca = +1).*/
-    	int ladoPeca;
-    	if(grid[posX][posY].getPeca().getCor() == CorPeca.CLARO) {
-    		ladoPeca = -1;
+    public boolean VerificarCasa(int lugarParaX, int lugarParaY, int posX, int posY) {
+    	boolean result;
+    	if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7 && !grid[lugarParaX][lugarParaY].getOcupada()){
+    		result = true;
     	}else {
-    		ladoPeca = +1;
+    		result = false;
     	}
-    	
-    	//FALTA TERMINAR
-    	if(posY == 0){
-    		grid[posX+ladoPeca][posY+ladoPeca].setPeca(grid[posX][posY].getPeca());
-    	}else if(posY == 7){
-    		grid[posX+ladoPeca][posY-ladoPeca].setPeca(grid[posX][posY].getPeca());
-    	}else{
-    		if(new Random().nextInt(10) > 5){
-    			grid[posX+ladoPeca][posY+ladoPeca].setPeca(grid[posX][posY].getPeca());
-    		}else{
-    			grid[posX+ladoPeca][posY-ladoPeca].setPeca(grid[posX][posY].getPeca());
+    	return result;
+    }
+    
+    public void executarMovimento(int posX, int posY,int lugarParaX,int lugarParaY){
+    	if(VerificarCasa(lugarParaX, lugarParaY, posX, posY))
+    	{
+    		if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
+    		{
+    			if(lugarParaX - posX == -1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
+    			{
+    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+    				grid[posX][posY].setOcupada(false);
+    				grid[posX][posY].setPeca(null);
+    				grid[lugarParaX][lugarParaY].setOcupada(true);
+    			}
+    		}else
+    		{
+    			if(lugarParaX - posX == 1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
+    			{
+    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+    				grid[posX][posY].setOcupada(false);
+    				grid[posX][posY].setPeca(null);
+    				grid[lugarParaX][lugarParaY].setOcupada(true);
+    			}
     		}
     	}
     }
@@ -44,25 +54,24 @@ public class Tabuleiro {
     		for(int coluna = 0;coluna < grid[linha].length; coluna++) {
     			if(linha <= 2) {
     				if(atualBranca == true) {
-        				atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, jogador[0], true);
+        				atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, null, true, false);
         			}else {
-        				atualBranca = criarCasa(new Peca(CorPeca.ESCURO, jogador[0]), CorCasa.PRETO, linha, coluna, jogador[0], false);
+        				atualBranca = criarCasa(new Peca(CorPeca.ESCURO, jogador[0]), CorCasa.PRETO, linha, coluna, jogador[0], false, true);
         			}
     			}else if(linha <= 4) {
     				if(atualBranca == true) {
-    					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, jogador[0], true);
+    					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, null, true, false);
         			}else {
-        				atualBranca = criarCasa(null, CorCasa.PRETO, linha, coluna, jogador[0], false);
+        				atualBranca = criarCasa(null, CorCasa.PRETO, linha, coluna, null, false, false);
         			}
     			}else {
     				if(atualBranca == true) {
-    					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, jogador[0], true);
+    					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, null, true, false);
         			}else {
-        				atualBranca = criarCasa(new Peca(CorPeca.CLARO, jogador[1]), CorCasa.PRETO, linha, coluna, jogador[0], false);
+        				atualBranca = criarCasa(new Peca(CorPeca.CLARO, jogador[1]), CorCasa.PRETO, linha, coluna, jogador[0], false, true);
         			}
     			}
     		}
-    		System.out.println("");
     		if(atualBranca == true) {
     			atualBranca = false;
     		}else {
@@ -71,19 +80,51 @@ public class Tabuleiro {
     	}
     }
     
-    public boolean criarCasa(Peca peca, CorCasa corCasa, int linha, int coluna, Jogador jogador, boolean atualBranca){
-		grid[linha][coluna] = new Casa(corCasa, true, peca);
-		
-		if(grid[linha][coluna].getPeca() == null) {
-			System.out.print("  noPECA");
-		}else {
-			System.out.print("  "+grid[linha][coluna].getPeca().getCor());
-		}
+    public boolean criarCasa(Peca peca, CorCasa corCasa, int linha, int coluna, Jogador jogador, boolean atualBranca, boolean ocupada){
+		grid[linha][coluna] = new Casa(corCasa, ocupada, peca);
 		if(atualBranca == true) {
 			atualBranca = false;
 		}else {
 			atualBranca = true;
 		}
 		return atualBranca;
+    }
+    
+    //mostra o tabuleiro na tela
+    public void mostrarTabuleiro() {
+    	for(int i = 0; i < 3; i++) {
+    		System.out.println();
+    	}
+    	
+    	for(int i = 0; i < grid.length; i++) {
+    		for(int j = 0; j <grid[i].length; j++) {
+    			if(grid[i][j].getPeca() == null) {
+    				System.out.print("      ");
+    			}else {
+    				
+    				//Este if apenas deixa o tabuleiro organizado, pode apenas deixar um dos print no codigo.
+    				if(grid[i][j].getPeca().getCor() == CorPeca.ESCURO) {
+    					System.out.print(grid[i][j].getPeca().getCor());
+    				}else {
+    					System.out.print(" "+grid[i][j].getPeca().getCor());
+    				}
+    				
+    			}
+    		}
+    		System.out.println("");
+    	}
+    }
+    
+    //chama o movimento da peca
+    public void chamarMovimento() {
+    	int intVetores[] = new int[4];
+    	for(int i = 0; i < 4; i++) {
+    		System.out.print("Digite o numero "+ i + ": ");
+    		Scanner scan = new Scanner(System.in);
+    		intVetores[i] = scan.nextInt();
+    		//scan.close();
+    	}
+    	
+    	executarMovimento(intVetores[0], intVetores[1], intVetores[2], intVetores[3]);
     }
 }
