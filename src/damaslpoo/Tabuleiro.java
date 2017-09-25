@@ -23,25 +23,26 @@ public class Tabuleiro {
     public void executarMovimento(int posX, int posY,int lugarParaX,int lugarParaY){
     	if(VerificarCasa(lugarParaX, lugarParaY, posX, posY))
     	{
-    		System.out.print("MOVER CASA");
-    		if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
-    		{
-    			if(lugarParaX - posX == -1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
-    			{
-    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
-    				grid[posX][posY].setOcupada(false);
-    				grid[posX][posY].setPeca(null);
-    				grid[lugarParaX][lugarParaY].setOcupada(true);
-    			}
-    		}else
-    		{
-    			if(lugarParaX - posX == 1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
-    			{
-    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
-    				grid[posX][posY].setOcupada(false);
-    				grid[posX][posY].setPeca(null);
-    				grid[lugarParaX][lugarParaY].setOcupada(true);
-    			}
+    		if(grid[posX][posY].getPeca() != null) {
+    			if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
+        		{
+        			if(lugarParaX - posX == -1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
+        			{
+        				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+        				grid[posX][posY].setOcupada(false);
+        				grid[posX][posY].setPeca(null);
+        				grid[lugarParaX][lugarParaY].setOcupada(true);
+        			}
+        		}else
+        		{
+        			if(lugarParaX - posX == 1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
+        			{
+        				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
+        				grid[posX][posY].setOcupada(false);
+        				grid[posX][posY].setPeca(null);
+        				grid[lugarParaX][lugarParaY].setOcupada(true);
+        			}
+        		}
     		}
     	}
     }
@@ -100,15 +101,16 @@ public class Tabuleiro {
     	for(int i = 0; i < grid.length; i++) {
     		for(int j = 0; j <grid[i].length; j++) {
     			if(grid[i][j].getPeca() == null) {
-    				System.out.print("      ");
+    				System.out.print("     ");
     			}else {
-    				
+    				System.out.print("("+ i + "," + j+")");
+    				/*
     				//Este if apenas deixa o tabuleiro organizado, pode apenas deixar um dos print no codigo.
     				if(grid[i][j].getPeca().getCor() == CorPeca.ESCURO) {
     					System.out.print(grid[i][j].getPeca().getCor());
     				}else {
     					System.out.print(" "+grid[i][j].getPeca().getCor());
-    				}
+    				}*/
     				
     			}
     		}
