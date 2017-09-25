@@ -1,40 +1,19 @@
 package damaslpoo;
-<<<<<<< HEAD
 import java.util.Scanner;
 import Enums.CorCasa;
 import Enums.CorPeca;
-=======
-//import java.util.Random;
->>>>>>> 0e847dfd92cabbbd7b3d7978b777b95a0d9d9604
 
 public class Tabuleiro {
     private Casa[][] grid;
     
-<<<<<<< HEAD
-=======
-    
-    //É necessário criar as casas aqui?
->>>>>>> 0e847dfd92cabbbd7b3d7978b777b95a0d9d9604
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
     
-<<<<<<< HEAD
     public boolean VerificarCasa(int lugarParaX, int lugarParaY, int posX, int posY) {
     	boolean result;
     	if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7 && !grid[lugarParaX][lugarParaY].getOcupada()){
     		result = true;
-=======
-    //FALTA TERMINAR ALGUMAS COISAS
-    public void executarMovimento(int posX, int posY,int lugarParaX,int lugarParaY){
-    	
-    	
-    	/*Este If-else verifica se a peca deve andar de baixo pra cima(nesse caso, ladoPeca = -1) 
-    	  ou de cima pra baixo(ladoPeca = +1).
-    	int ladoPeca;
-    	if(grid[posX][posY].getPeca().getCor() == CorPeca.CLARO) {
-    		ladoPeca = -1;
->>>>>>> 0e847dfd92cabbbd7b3d7978b777b95a0d9d9604
     	}else {
     		result = false;
     	}
@@ -44,6 +23,7 @@ public class Tabuleiro {
     public void executarMovimento(int posX, int posY,int lugarParaX,int lugarParaY){
     	if(VerificarCasa(lugarParaX, lugarParaY, posX, posY))
     	{
+    		System.out.print("MOVER CASA");
     		if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
     		{
     			if(lugarParaX - posX == -1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
@@ -56,29 +36,6 @@ public class Tabuleiro {
     		}else
     		{
     			if(lugarParaX - posX == 1 && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
-    			{
-    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
-    				grid[posX][posY].setOcupada(false);
-    				grid[posX][posY].setPeca(null);
-    				grid[lugarParaX][lugarParaY].setOcupada(true);
-    			}
-    		}
-    	}*/
-    	
-    	if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7 && !grid[lugarParaX][lugarParaY].getOcupada())
-    	{
-    		if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO)
-    		{
-    			if(lugarParaX - posX == -1 && (lugarParaX - posX ==1 || lugarParaX - posX == -1))
-    			{
-    				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
-    				grid[posX][posY].setOcupada(false);
-    				grid[posX][posY].setPeca(null);
-    				grid[lugarParaX][lugarParaY].setOcupada(true);
-    			}
-    		}else
-    		{
-    			if(lugarParaX - posX == 1 && (lugarParaX - posX ==1 || lugarParaX - posX == -1))
     			{
     				grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
     				grid[posX][posY].setOcupada(false);
