@@ -1,7 +1,8 @@
 package damaslpoo;
-
 import Enums.CorCasa;
 
+
+//Classe responsavel por guardar as informacoes de uma casa do tabuleiro.
 public class Casa {
     private CorCasa cor;
     private boolean ocupada;

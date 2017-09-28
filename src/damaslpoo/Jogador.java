@@ -1,5 +1,6 @@
 package damaslpoo;
 
+//Classe responsavel por guardar informacoes de um jogador.
 public class Jogador {
     private String nome;
     private Peca[] pecas;

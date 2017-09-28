@@ -1,29 +1,23 @@
 package damaslpoo;
 import java.util.Scanner;
-
 import Enums.CorPeca;
 
 
 //Classe principal, chama o metodo que inicia o tabuleiro, e o jogo.
 public class DamasLpoo{
-	private static Tabuleiro tab;
     private Jogador[] jogador;
-        
-    /*public void fazerTabuleiro(){
-        tab = new Tabuleiro();
-        tab.gerarTabuleiro(jogador);
-    }*/
+    
+    public DamasLpoo() {
+    	jogador = null;
+    }
         
     public Jogador[] infoJogador(){
-        //ERROS
       	jogador = new Jogador[2];
         	
        	for(int i = 0; i < 2; i++) {
        		jogador[i] = new Jogador();
-       		/* ESSA LINHA CHAMA O METODO QUE PEDE O NOME DO JOGADOR 
-       		 * ATRAVES DO SCANNER. SERA RETIRADO NO FUTURO.*/
+       		/* Recebe o nome do jogador e adiciona para sua respectiva classe.*/
        		jogador[i].setNome(setJogadorNome());
-       		
        	}
             
         //Adiciona pecas aos jogadores
@@ -39,10 +33,9 @@ public class DamasLpoo{
             }                               
         }
         return jogador;
-        
     }
     
-    /* PEGA O NOME DO JOGADOR*/
+    /* Funcao que coleta o nome do jogador*/
     public String setJogadorNome() {
     	Scanner scan = new Scanner(System.in);
     	String nome = scan.nextLine();

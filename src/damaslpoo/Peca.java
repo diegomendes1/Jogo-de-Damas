@@ -1,7 +1,7 @@
 package damaslpoo;
-
 import Enums.CorPeca;
 
+//Classe responsavel por guardar informacoes de uma peca.
 public class Peca {
    private CorPeca cor;
    private Jogador jogador;
