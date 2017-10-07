@@ -7,11 +7,16 @@ public class Casa {
     private boolean ocupada;
     private Peca peca;
     
-    public Casa(CorCasa cor,boolean ocupada,Peca peca)
+    private int posX;
+    private int posY;
+    
+    public Casa(CorCasa cor,boolean ocupada,Peca peca, int posX, int posY)
     {
         this.cor = cor;
         this.ocupada = ocupada;
         this.peca = peca;
+        this.posX = posX;
+        this.posY = posY;
     }
     
     //COR
@@ -40,5 +45,24 @@ public class Casa {
     
     public Peca getPeca(){
         return peca;
+    }
+    
+    //COORDENADAS
+    public void setPosX(int posX)
+    {
+        this.posX = posX;
+    }
+    
+    public int getPosX(){
+        return posX;
+    }
+    
+    public void setPosY(int posY)
+    {
+        this.posY = posY;
+    }
+    
+    public int getPosY(){
+        return posY;
     }
 }

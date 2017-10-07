@@ -5,8 +5,12 @@ import Enums.CorPeca;
 
 //Apenas para teste, esta classe testa todos os metodos principais.
 public class Main {
-
 	public static void main(String[] args) {
+		Tabuleiro tabuleiro = new Tabuleiro();
+		//Jogo jogo = new Jogo();
+		
+	}
+	/*public static void main(String[] args) {
 		//Jogadores, uma classe que cria os jogadores, adicionando seus nomes e criando e adicionando suas pecas.
 		Jogadores jogadoresMetodos = new Jogadores();
 		
@@ -65,5 +69,5 @@ public class Main {
 		
 		
 	}
-
+*/
 }
