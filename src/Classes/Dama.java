@@ -7,4 +7,12 @@ public class Dama extends Peca{
         super(cor, jogador);
         pecaDama = true;
     }
+    
+    public void setDamaBool(boolean pecaDama){
+        this.pecaDama = pecaDama;
+    }
+    
+    public boolean getDamaBool(){
+        return pecaDama;
+    }
 }

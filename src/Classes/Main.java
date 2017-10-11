@@ -1,14 +1,14 @@
 package Classes;
 
+import java.util.Date;
+
 import Enums.CorCasa;
 import Enums.CorPeca;
 
 //Apenas para teste, esta classe testa todos os metodos principais.
 public class Main {
 	public static void main(String[] args) {
-		Tabuleiro tabuleiro = new Tabuleiro();
-		//Jogo jogo = new Jogo();
-		
+		Jogo jogo = new Jogo(new Jogador(), new Jogador(), null, new Tabuleiro(), null, new Date(), 0, null);
 	}
 	/*public static void main(String[] args) {
 		//Jogadores, uma classe que cria os jogadores, adicionando seus nomes e criando e adicionando suas pecas.

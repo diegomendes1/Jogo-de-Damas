@@ -110,6 +110,8 @@ public class Tabuleiro {
     //Adiciona uma nova casa num certo lugar do tabuleiro(grid).
     public boolean criarCasa(Peca peca, CorCasa corCasa, int linha, int coluna, boolean atualBranca, boolean ocupada){
 		grid[linha][coluna] = new Casa(corCasa, ocupada, peca, linha, coluna);
+		grid[linha][coluna].setPosX(linha);
+		grid[linha][coluna].setPosX(coluna);
 		if(atualBranca == true) {
 			atualBranca = false;
 		}else {

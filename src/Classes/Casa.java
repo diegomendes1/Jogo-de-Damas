@@ -6,6 +6,7 @@ public class Casa {
     private CorCasa cor;
     private boolean ocupada;
     private Peca peca;
+    private Dama dama;
     
     private int posX;
     private int posY;
@@ -45,6 +46,14 @@ public class Casa {
     
     public Peca getPeca(){
         return peca;
+    }
+    
+    public void setDama(Dama dama){
+        this.dama = dama;
+    }
+    
+    public Peca getDama(){
+        return dama;
     }
     
     //COORDENADAS
