@@ -1,14 +1,38 @@
 package Classes;
 
 import java.util.Date;
+import java.util.Scanner;
 
 import Enums.CorCasa;
 import Enums.CorPeca;
+import Enums.Resultado;
 
 //Apenas para teste, esta classe testa todos os metodos principais.
 public class Main {
 	public static void main(String[] args) {
-		Jogo jogo = new Jogo(new Jogador(), new Jogador(), null, new Tabuleiro(), null, new Date(), 0, null);
+		Jogo jogo = new Jogo(new Jogador(), new Jogador(), new Jogador(), new Tabuleiro(), null, new Date());
+		jogo.iniciarPartida();
+		
+		jogo.getTabuleiro().mostrarTabuleiro();
+		System.out.println("Vez do " + jogo.getAtualJogador().getNome());
+		while(!jogo.isFimDeJogo()) {
+			int intVetores[] = new int[4];
+	    	for(int i = 0; i < 4; i++) {
+	    		System.out.print("Digite o numero "+ i+ ": ");
+	    		Scanner scan = new Scanner(System.in);
+	    		intVetores[i] = scan.nextInt();
+	    		//scan.close();
+	    	}
+	    	if(jogo.jogar(jogo.getTabuleiro().getCasaGrid(intVetores[0], intVetores[1]), jogo.getTabuleiro().getCasaGrid(intVetores[2], intVetores[3]))) {
+	    		jogo.getTabuleiro().mostrarTabuleiro();
+	    		System.out.println("Vez do " + jogo.getAtualJogador().getNome());
+	    	}else {
+	    		jogo.getTabuleiro().mostrarTabuleiro();
+	    		System.out.println("Jogue outra vez, " + jogo.getAtualJogador().getNome());
+	    	}
+		}
+		
+		System.out.println("JOGO ACABOU");
 	}
 	/*public static void main(String[] args) {
 		//Jogadores, uma classe que cria os jogadores, adicionando seus nomes e criando e adicionando suas pecas.

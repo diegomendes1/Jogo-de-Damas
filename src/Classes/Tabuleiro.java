@@ -12,54 +12,6 @@ public class Tabuleiro {
         this.grid = new Casa[8][8];
     }
     
-    //Verifica se o movimento nao ultrapassa as barreiras do tabuleiro, e se a casa possui outra peca.
-   /* public boolean VerificarCasa(int lugarParaX, int lugarParaY, int posX, int posY) {
-    	boolean result;
-        if(grid[posX][posY].getOcupada() == true){
-        	if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7 && !grid[lugarParaX][lugarParaY].getOcupada()){
-        		result = true;
-        	}else {
-        		System.out.println("MOVIMENTO INVALIDO: de " + "(" +posX + ","+posY+") para (" + lugarParaX +","+ lugarParaY+").");
-        		result = false;
-        	}
-    	return result;
-        }else{
-            System.out.println("MOVIMENTO INVALIDO: de " + "(" +posX + ","+posY+") para (" + lugarParaX +","+ lugarParaY+").");
-            return false;
-        }
-    }
-    
-    //move uma peca escolhida para uma outra casa, tambem escolhida.
-    public void executarMovimento(Casa casaAtual, Casa novaCasa, Jogador atualJogador){
-    	int posX = casaAtual.getPosX();
-    	int posY = casaAtual.getPosY();
-    	int lugarParaX = novaCasa.getPosX();
-    	int lugarParaY = novaCasa.getPosY();
-    	
-    	if(grid[posX][posY].getPeca().getJogador() == atualJogador) {
-    		if(VerificarCasa(lugarParaX, lugarParaY, posX, posY))
-    		{
-    			if(grid[posX][posY].getPeca() != null) {
-    				int direcaoPeca;
-    				//dependendo da cor da peca, a variavel direcaoPeca vai mudar de valor.
-    				if(grid[posX][posY].getPeca().getCor()== CorPeca.CLARO){
-    					direcaoPeca = -1;
-    				}else {
-    					direcaoPeca = 1;
-    				}
-    			
-    				if(lugarParaX - posX == direcaoPeca && (lugarParaY - posY ==1 || lugarParaY - posY == -1))
-    				{
-    					grid[lugarParaX][lugarParaY].setPeca(grid[posX][posY].getPeca());
-    					grid[posX][posY].setOcupada(false);
-    					grid[posX][posY].setPeca(null);
-    					grid[lugarParaX][lugarParaY].setOcupada(true);
-    				}
-    			}
-    		}
-    	}
-    }*/
-    
     public void executarMovimento(Casa casaOrigem, Casa casaDestino){
 			casaDestino.setPeca(casaOrigem.getPeca());
 			casaOrigem.setOcupada(false);
@@ -122,6 +74,18 @@ public class Tabuleiro {
     
     //mostra o tabuleiro na tela.
     public void mostrarTabuleiro() {
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	System.out.println();
+    	
     	for(int i = 0; i < grid.length; i++) {
     		for(int j = 0; j <grid[i].length; j++) {
     			if(grid[i][j].getPeca() == null) {

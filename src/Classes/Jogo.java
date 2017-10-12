@@ -13,28 +13,42 @@ public class Jogo {
     private Date tempo;
     private int contadorJogadas;
     
-    private Jogador atualJogador;
+    private Jogador atualJogador = null;
     
     public Jogo(Jogador jogador1, Jogador jogador2, Jogador vencedor, Tabuleiro tabuleiro,
-                Resultado resultado, Date tempo, int contadorJogadas, Jogador atualJogador){
+                Resultado resultado, Date tempo){
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = tabuleiro;
         this.vencedor = vencedor;
         this.resulado = resultado;
         this.tempo = tempo;
-        this.contadorJogadas = contadorJogadas;
-        this.atualJogador = atualJogador;
+        this.contadorJogadas = 0;
     }
     
-    public void isFimDeJogo(){
-        //Checar fim de jogo
+    public void iniciarPartida(){
+    	jogador1.setNome("Jogador 1");
+    	jogador2.setNome("Jogador 2");
+    	tabuleiro.gerarTabuleiro(jogador1, jogador2);
+    	atualJogador = jogador1;
+    }
+    
+  //Checar fim de jogo
+    public boolean isFimDeJogo(){
     	boolean jogoAcabou = false;
-    	for(int i = 0; i < 7; i++) {
-    		for(int j = 0; j < 7 ; j++) {
+    	if(contadorJogadas == 20) {
+			jogoAcabou = true;
+			return true;
+		}
+    	
+    	for(int i = 0; i < 8; i++) {
+    		for(int j = 0; j < 8; j++) {
     			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
     				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1) {
+    					
     					jogoAcabou = false;
+    					vencedor = null;
+    					break;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador2;
@@ -42,6 +56,8 @@ public class Jogo {
     			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
     				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador1) {
     					jogoAcabou = false;
+    					vencedor = null;
+    					break;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador2;
@@ -51,6 +67,8 @@ public class Jogo {
     			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
     				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador2) {
     					jogoAcabou = false;
+    					vencedor = null;
+    					break;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador1;
@@ -58,6 +76,8 @@ public class Jogo {
     			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
     				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador2) {
     					jogoAcabou = false;
+    					vencedor = null;
+    					break;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador1;
@@ -65,20 +85,12 @@ public class Jogo {
     			}
     		}
     	}
-    	
-    	if(jogoAcabou) {
-    		//JOGO ACABOOOOOOOOOOOU
-    	}else {
-    		if(contadorJogadas == 20) {
-    			jogoAcabou = true;
-    		}
-    	}
+    	return jogoAcabou;
     	
     }
     
+    //Retorna True se movimentou o capturou, retorna falso se o jogador precisar escolher outra casaOrigem e casaDestino.
     public boolean jogar(Casa casaOrigem, Casa casaDestino){
-        //Verificar se a jogada seria valida, pode capturar, se seria fimd e jogo, desocupar casa.
-    	
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	
@@ -89,6 +101,11 @@ public class Jogo {
     	int posY = casaOrigem.getPosY();
     	int lugarParaX = casaDestino.getPosX();
     	int lugarParaY = casaDestino.getPosY();
+
+		System.out.println(posX);
+		System.out.println(posY);
+		System.out.println(lugarParaX);
+		System.out.println(lugarParaY);
     	
     	/* Se existir pedra na casa atual*/
     	if(casaOrigem.getOcupada() == true) {
@@ -103,150 +120,222 @@ public class Jogo {
     				existeCaptura[i] = false;
     			}
     			
-    			
-    				casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
-    				if(casaPossivel != null) {
-    					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
-    					}else {
-    						existeCaptura[0] = true;
-    					}
-    				}
-    				
-    				casaPossivel = verificarCapturaSuperiorDir(posX, posY);
-    				if(casaPossivel != null) {
-    					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
-    					}else {
-    						existeCaptura[1] = true;
-    					}
-    				}
-    				
-    				casaPossivel = verificarCapturaInferiorEsq(posX, posY);
-    				if(casaPossivel != null) {
-    					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
-    					}else {
-    						existeCaptura[2] = true;
-    					}
-    				}
-    				
-    				casaPossivel = verificarCapturaInferiorDir(posX, posY);
-    				if(casaPossivel != null) {
-    					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
-    					}else {
-    						existeCaptura[3] = true;
-    					}
-    				}
-    				
-    				//Se o jogador escolheu uma captura possivel
-    				if(casaOponente != null) {
-    					capturar(casaOrigem, casaOponente, casaDestino);
+    			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
+    			if(casaPossivel != null) {
+    				if(casaPossivel == casaDestino) {
+    					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
     				}else {
-    					//se nao, verifica se realmente existe alguma captura possivel
-    					if(existeCaptura[0] == true || existeCaptura[1] == true || existeCaptura[2] == true || existeCaptura[3] == true) {
-    						return false;
-    					}else {
-    						//Se não existe capturas, faz o movimento da dama e/ou pedra normal
+    					existeCaptura[0] = true;
+    				}
+    			}
+    				
+    			casaPossivel = verificarCapturaSuperiorDir(posX, posY);
+    			if(casaPossivel != null) {
+    				if(casaPossivel == casaDestino) {
+    					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
+    				}else {
+    					existeCaptura[1] = true;
+    				}
+    			}
+    				
+    			casaPossivel = verificarCapturaInferiorEsq(posX, posY);
+    			if(casaPossivel != null) {
+   					if(casaPossivel == casaDestino) {
+   						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
+   					}else {
+   						existeCaptura[2] = true;
+   					}
+    			}
+    				
+    			casaPossivel = verificarCapturaInferiorDir(posX, posY);
+    			if(casaPossivel != null) {
+   					if(casaPossivel == casaDestino) {
+   						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
+   					}else {
+   						existeCaptura[3] = true;
+   					}
+   				}
+    				
+    			//Se o jogador escolheu uma captura possivel
+    			if(casaOponente != null) {
+    				capturar(casaOrigem, casaOponente, casaDestino);
+    				if(atualJogador == jogador1) {
+	    				atualJogador = jogador2;
+	    			}else {
+	    				atualJogador = jogador1;
+	    			}
+    				contadorJogadas = 0;
+    			}else {
+   					//se nao, verifica se realmente existe alguma captura possivel
+   					if(existeCaptura[0] == true || existeCaptura[1] == true || existeCaptura[2] == true || existeCaptura[3] == true) {
+   						return false;
+   					}else {
+   						//Se não existe capturas, faz o movimento da dama e/ou pedra normal
+    					//ESSA PARTE DO MOVIMENTO AINDA PODE SER MELHORADA, PROVAVELMENTE REDUZIDA PELA METADE.
+    					
+    					if(verificarDama(casaOrigem)) {
     						
-    						
-    						//ESSA PARTE DO MOVIMENTO AINDA PODE SER MELHORADA, PROVAVELMENTE REDUZIDA PELA METADE.
-    						
-    						if(verificarDama(casaOrigem)) {
-    	        				//MOVIMENTO E CAPTURA DA DAMA
-    	    					
-    	    				//Se este if for verdadeiro, significa que nao existe capturas possiveis
-    	    				if(casaPossivel == null) {
-    	        				
-    	        				contadorJogadas = 0;
-    	        			}else {
-    	    				if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7){
-    	        				/*Se a peca destino esta vazia*/
-    	                		if(casaDestino.getOcupada() == false) {
-    	                			//APENAS MOVER A PECA
-    	                			int direcaoPeca;
-    	                			//dependendo da cor da peca, a variavel direcaoPeca vai mudar de valor.
-    	                			if(casaOrigem.getPeca().getCor()== CorPeca.CLARO){
-    	                				direcaoPeca = -1;
-    	                			}else {
-    	                				direcaoPeca = 1;
-    	                			}
-    	                			//se a pedra pode ser alcancada
-    	                			if(lugarParaX - posX == direcaoPeca && (lugarParaY - posY ==1 || lugarParaY - posY == -1)){
-    	                			tabuleiro.executarMovimento(casaOrigem, casaDestino);
-    	                			contadorJogadas++;
-    	                			}else {
-    	                				//MOVIMENTO IMPOSSIVEL - MOVIMENTO INVALIDO
-    	                			}
-    	                		}else {
-    	                			//MOVIMENTO INVALIDO - MOVIMENTO NA MESMA CASA DE UMA PECA INIMIGA
-    	                		}
-    	        				
-    	                		
-    	                		
-    	                		
-    	                		
-    	                		
-    	                	}else {
-    	                		//MOVIMENTO IMPOSSIVEL - FORA DO TABULEIRO
-    	                	}
-    	        		}
+    						casaPossivel = null;
+    						//Verifica movimento da dama pro lado Superior Esquerdo
+    						int j = posY;
+    			    		for(int i = posX; i > 0; i--) {
+    			    			j--;
+    			    			if(j > 0) {
+    			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
+    			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        				}
+    			        			}
+    			        		}
+
+    			    		j = posY;
+    			    		for(int i = posX; i > 0; i--) {
+    			    			j--;
+    			    			if(j < 7) {
+    			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
+    			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        				}
+    			        			}
+    			        		}
+
+    			    		j = posY;
+    			    		for(int i = posX; i < 7; i--) {
+    			    			j--;
+    			    			if(j > 0) {
+    			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
+    			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        				}
+    			        			}
+    			        		}
+
+    			    		j = posY;
+    			    		for(int i = posX; i < 7; i--) {
+    			    			j--;
+    			    			if(j < 7) {
+    			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
+    			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        				}
+    			        			}
+    			        		}
+    			    		
+    			    		
+    			    		//Se casaPossivel for null, significa que nenhuma oportunidade de movimento pro jogador.
+    			    		if(casaPossivel == null) {
+    			    			return false;
+    			    		}else {
+    			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+    			    			if(atualJogador == jogador1) {
+    			    				atualJogador = jogador2;
+    			    			}else {
+    			    				atualJogador = jogador1;
+    			    			}
+    			    			contadorJogadas++;
+    			    		}
+    			    		
     	    			}else {
-    	    			//Se possui alguma peca em volta
     	    				
-    	    			//A casaPossivel vai receber a casa onde o jogador pode ir, e que se possui um oponente em potencial
-    	    			
-    	    			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
-    	    			if(casaPossivel!= null) {
-    	    				//Encontra a casa a ser capturada
-    	    				casaOponente = tabuleiro.getCasaGrid((casaOrigem.getPosX() + casaPossivel.getPosX())/2, (casaOrigem.getPosY() + casaPossivel.getPosY())/2);
-    	    				
-    	    				capturar(casaOrigem, casaOponente, casaPossivel);
-    	    				contadorJogadas = 0;
-    	    			}else {
-    	    				// Se nao, executa o movimento normalmente.
-    	    				
-    	    			/*se o movimento nao sai do tabuleiro*/
+    	    			//Movimento da pedra comum
     	    			if(lugarParaX>=0 && lugarParaX <=7 && lugarParaY>=0 && lugarParaY<=7){
     	    				/*Se a peca destino esta vazia*/
     	            		if(casaDestino.getOcupada() == false) {
+    	            			
     	            			//APENAS MOVER A PECA
     	            			int direcaoPeca;
     	            			//dependendo da cor da peca, a variavel direcaoPeca vai mudar de valor.
-    	            			if(casaOrigem.getPeca().getCor()== CorPeca.CLARO){
+    	            			if(atualJogador == jogador1){
     	            				direcaoPeca = -1;
     	            			}else {
     	            				direcaoPeca = 1;
     	            			}
-    	            			//se a pedra pode ser alcancada
+    	            			
+    	            			casaPossivel = null;
+    	            			if(posX > 0 && posY > 0) {
+    	            			//Lado Superior Esquerdo
+    	            			if(tabuleiro.getCasaGrid(posX-1, posY-1).getOcupada() == false && tabuleiro.getCasaGrid(posX-1, posY-1) == casaDestino) {
+		        					casaPossivel = tabuleiro.getCasaGrid(posX-1, posY-1);
+		        					System.out.println("Superior Esquerdo");
+		        				}
+    	            			}
+    	            			
+    	            			if(posX > 0 && posY < 7) {
+    	            			//Lado Superior Direito
+    	            			if(tabuleiro.getCasaGrid(posX-1, posY+1).getOcupada() == false && tabuleiro.getCasaGrid(posX-1, posY+1) == casaDestino) {
+		        					casaPossivel = tabuleiro.getCasaGrid(posX-1, posY+1);
+		        					System.out.println("Superior Direito");
+		        				}
+    	            			}
+    	            			
+    	            			if(posX < 7 && posY > 0) {
+    	            			//Lado Inferior Esquerdo
+    	            			if(tabuleiro.getCasaGrid(posX+1, posY-1).getOcupada() == false && tabuleiro.getCasaGrid(posX+1, posY-1) == casaDestino) {
+		        					casaPossivel = tabuleiro.getCasaGrid(posX+1, posY-1);
+		        					System.out.println("Inferior Esquerdo");
+		        				}
+    	            			}
+    	            			
+    	            			if(posX < 7 && posY < 7) {
+    	            			//Lado Inferior Direito
+    	            			if(tabuleiro.getCasaGrid(posX+1, posY+1).getOcupada() == false && tabuleiro.getCasaGrid(posX+1, posY+1) == casaDestino) {
+		        					casaPossivel = tabuleiro.getCasaGrid(posX+1, posY+1);
+		        					System.out.println("Superior Esquerdo");
+		        				}
+    	            			}
+    	            			if(casaPossivel == null) {
+    	            				System.out.println("MINGAU");
+        			    			return false;
+        			    		}else {
+        			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+        			    			if(atualJogador == jogador1) {
+        			    				atualJogador = jogador2;
+        			    			}else {
+        			    				atualJogador = jogador1;
+        			    			}
+        			    			contadorJogadas = 0;
+        			    			return true;
+        			    		}
+    	            			
+    	            			/*//se a pedra pode ser alcancada
     	            			if(lugarParaX - posX == direcaoPeca && (lugarParaY - posY ==1 || lugarParaY - posY == -1)){
+    	            			System.out.println("TESTE");
     	            			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+    	            			if(atualJogador == jogador1) {
+    			    				atualJogador = jogador2;
+    			    			}else {
+    			    				atualJogador = jogador1;
+    			    			}
     	            			contadorJogadas = 0;
+    	            			return true;
+    	            			
     	            			}else {
     	            				//MOVIMENTO IMPOSSIVEL - MOVIMENTO INVALIDO
-    	            			}
+    	            				return false;
+    	            			}*/
     	            		}else {
-    	            			//WOW
+    	            			//MOVIMENTO INVALIDO - TENTANDO SE MOVER PARA UM LUGAR OCUPADO
+    	            			return false;
     	            		}
+    	    			
     	    				
     	            	}else {
     	            		//MOVIMENTO IMPOSSIVEL - FORA DO TABULEIRO
+    	            		return false;
     	            	}
-    	    			}
     	    			
-    	    		}
-    					}
-    				}
+    	    			}
+   					}
+    			}
     				
     		}else {
     			//MOVIMENTO IMPOSSIVEL - A PEDRA SERIA DE OUTRO JOGADOR
+    			return false;
     		}
     	}else {
     		//MOVIMENTO IMPOSSIVEL - SEM PECA PARA MOVIMENTAR
+    		return false;
     	}
     	return false;
     }
+    
+    //Grupo de metodos para verificar se existe oportunidade de captura em certa direcao.
     
     public Casa verificarCapturaSuperiorEsq(int posX, int posY) {
     	//impede de verificar captura fora do tabuleiro
@@ -262,7 +351,7 @@ public class Jogo {
         	}
     	}else {
     		int j = posY;
-    		for(int i = posX; i <= 1; i--) {
+    		for(int i = posX; i > 1; i--) {
     			j--;
     			if(j > 1) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
@@ -295,7 +384,7 @@ public class Jogo {
     		}
     	}else {
     		int j = posY;
-    		for(int i = posX; i <= 0; i--) {
+    		for(int i = posX; i > 1; i--) {
         		if(j < 6) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == false) {
@@ -327,7 +416,7 @@ public class Jogo {
     		}
     	}else {
     		int j = posY;
-    		for(int i = posX; i <= 7; i++) {
+    		for(int i = posX; i < 6; i++) {
         		if(j > 1) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == false) {
@@ -359,7 +448,7 @@ public class Jogo {
     		}
     	}else {
     		int j = posY;
-    		for(int i = posX; i <= 7; i++) {
+    		for(int i = posX; i < 6; i++) {
         		if(j < 6) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == false) {
@@ -384,11 +473,6 @@ public class Jogo {
         casaAtual.setOcupada(false);
         casaOponente.setPeca(null);
         casaOponente.setOcupada(false);
-    }
-    
-    public void iniciarPartida(){
-    	tabuleiro.gerarTabuleiro(jogador1, jogador2);
-    	atualJogador = jogador1;
     }
     
     public boolean verificarDama(Casa casaAtual)
@@ -416,5 +500,17 @@ public class Jogo {
     
     public Tabuleiro getTabuleiro() {
     	return this.tabuleiro;
+    }
+    
+    public Jogador getJogador1() {
+    	return jogador1;
+    }
+    
+    public Jogador getJogador2() {
+    	return jogador2;
+    }
+    
+    public Jogador getAtualJogador() {
+    	return atualJogador;
     }
 }
