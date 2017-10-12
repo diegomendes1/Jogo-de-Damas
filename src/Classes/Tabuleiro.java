@@ -151,7 +151,7 @@ public class Tabuleiro {
     	//executarMovimento(intVetores[0], intVetores[1], intVetores[2], intVetores[3], atualJogador);
     }
     
-    public Casa GetCasaGrid(int i, int j) {
+    public Casa getCasaGrid(int i, int j) {
     	return grid[i][j];
     }
 }

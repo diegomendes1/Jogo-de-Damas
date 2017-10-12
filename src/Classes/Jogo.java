@@ -32,15 +32,15 @@ public class Jogo {
     	boolean jogoAcabou = false;
     	for(int i = 0; i < 7; i++) {
     		for(int j = 0; j < 7 ; j++) {
-    			if(tabuleiro.GetCasaGrid(i, j).getPeca() != null) {
-    				if(tabuleiro.GetCasaGrid(i, j).getPeca().getJogador() == jogador1) {
+    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
+    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1) {
     					jogoAcabou = false;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador2;
     				}
-    			}else if(tabuleiro.GetCasaGrid(i, j).getDama() != null){
-    				if(tabuleiro.GetCasaGrid(i, j).getDama().getJogador() == jogador1) {
+    			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
+    				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador1) {
     					jogoAcabou = false;
     				}else {
     					jogoAcabou = true;
@@ -48,15 +48,15 @@ public class Jogo {
     				}
     			}
     			
-    			if(tabuleiro.GetCasaGrid(i, j).getPeca() != null) {
-    				if(tabuleiro.GetCasaGrid(i, j).getPeca().getJogador() == jogador2) {
+    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
+    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador2) {
     					jogoAcabou = false;
     				}else {
     					jogoAcabou = true;
     					vencedor = jogador1;
     				}
-    			}else if(tabuleiro.GetCasaGrid(i, j).getDama() != null){
-    				if(tabuleiro.GetCasaGrid(i, j).getDama().getJogador() == jogador2) {
+    			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
+    				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador2) {
     					jogoAcabou = false;
     				}else {
     					jogoAcabou = true;
@@ -107,7 +107,7 @@ public class Jogo {
     				casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
     				if(casaPossivel != null) {
     					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.GetCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
+    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
     					}else {
     						existeCaptura[0] = true;
     					}
@@ -116,7 +116,7 @@ public class Jogo {
     				casaPossivel = verificarCapturaSuperiorDir(posX, posY);
     				if(casaPossivel != null) {
     					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.GetCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
+    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
     					}else {
     						existeCaptura[1] = true;
     					}
@@ -125,7 +125,7 @@ public class Jogo {
     				casaPossivel = verificarCapturaInferiorEsq(posX, posY);
     				if(casaPossivel != null) {
     					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.GetCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
+    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
     					}else {
     						existeCaptura[2] = true;
     					}
@@ -134,7 +134,7 @@ public class Jogo {
     				casaPossivel = verificarCapturaInferiorDir(posX, posY);
     				if(casaPossivel != null) {
     					if(casaPossivel == casaDestino) {
-    						casaOponente = tabuleiro.GetCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
+    						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
     					}else {
     						existeCaptura[3] = true;
     					}
@@ -200,7 +200,7 @@ public class Jogo {
     	    			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
     	    			if(casaPossivel!= null) {
     	    				//Encontra a casa a ser capturada
-    	    				casaOponente = tabuleiro.GetCasaGrid((casaOrigem.getPosX() + casaPossivel.getPosX())/2, (casaOrigem.getPosY() + casaPossivel.getPosY())/2);
+    	    				casaOponente = tabuleiro.getCasaGrid((casaOrigem.getPosX() + casaPossivel.getPosX())/2, (casaOrigem.getPosY() + casaPossivel.getPosY())/2);
     	    				
     	    				capturar(casaOrigem, casaOponente, casaPossivel);
     	    				contadorJogadas = 0;
@@ -251,12 +251,12 @@ public class Jogo {
     public Casa verificarCapturaSuperiorEsq(int posX, int posY) {
     	//impede de verificar captura fora do tabuleiro
     	if(posX > 1 && posY > 1) {
-    	//Se esse if for verdadeiro, a pedra nao e' dama
-    	if(this.tabuleiro.GetCasaGrid(posX, posY).getDama() == null) {
-        	if(tabuleiro.GetCasaGrid(posX-1, posY-1).getOcupada() == true && tabuleiro.GetCasaGrid(posX-1, posY-1).getPeca().getJogador() != atualJogador) {
-    			if(tabuleiro.GetCasaGrid(posX-2, posY-2).getOcupada() == false) {
+    	//Se esse if for verdadeiro, a pedra nao é dama
+    	if(this.tabuleiro.getCasaGrid(posX, posY).getDama() == null) {
+        	if(tabuleiro.getCasaGrid(posX-1, posY-1).getOcupada() == true && tabuleiro.getCasaGrid(posX-1, posY-1).getPeca().getJogador() != atualJogador) {
+    			if(tabuleiro.getCasaGrid(posX-2, posY-2).getOcupada() == false) {
     				Casa novaCasa = null;
-    				novaCasa = tabuleiro.GetCasaGrid(posX-2, posY-2);
+    				novaCasa = tabuleiro.getCasaGrid(posX-2, posY-2);
     				return novaCasa;
     			}
         	}
@@ -265,10 +265,10 @@ public class Jogo {
     		for(int i = posX; i <= 1; i--) {
     			j--;
     			if(j > 1) {
-        			if(tabuleiro.GetCasaGrid(i, j).getOcupada() == true && tabuleiro.GetCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
-        				if(tabuleiro.GetCasaGrid(i-1, j-1).getOcupada() == false) {
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
+        				if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == false) {
         					Casa novaCasa = null;
-        					novaCasa = tabuleiro.GetCasaGrid(i-1, j-1);
+        					novaCasa = tabuleiro.getCasaGrid(i-1, j-1);
         					return novaCasa;
         				}
         			}
@@ -285,11 +285,11 @@ public class Jogo {
     	//impede de verificar captura fora do tabuleiro
     	if(posX > 1 && posY < 6) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
-    	if(this.tabuleiro.GetCasaGrid(posX, posY).getDama() == null) {
-    		if(tabuleiro.GetCasaGrid(posX-1, posY+1).getOcupada() == true && tabuleiro.GetCasaGrid(posX-1, posY+1).getPeca().getJogador() != atualJogador) {
-    			if(tabuleiro.GetCasaGrid(posX-2, posY+2).getOcupada() == false) {
+    	if(this.tabuleiro.getCasaGrid(posX, posY).getDama() == null) {
+    		if(tabuleiro.getCasaGrid(posX-1, posY+1).getOcupada() == true && tabuleiro.getCasaGrid(posX-1, posY+1).getPeca().getJogador() != atualJogador) {
+    			if(tabuleiro.getCasaGrid(posX-2, posY+2).getOcupada() == false) {
     				Casa novaCasa = null;
-    				novaCasa = tabuleiro.GetCasaGrid(posX-2, posY+2);
+    				novaCasa = tabuleiro.getCasaGrid(posX-2, posY+2);
     				return novaCasa;
     			}
     		}
@@ -297,10 +297,10 @@ public class Jogo {
     		int j = posY;
     		for(int i = posX; i <= 0; i--) {
         		if(j < 6) {
-        			if(tabuleiro.GetCasaGrid(i, j).getOcupada() == true && tabuleiro.GetCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
-        				if(tabuleiro.GetCasaGrid(i-1, j+1).getOcupada() == false) {
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
+        				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
-        					novaCasa = tabuleiro.GetCasaGrid(i-1, j+1);
+        					novaCasa = tabuleiro.getCasaGrid(i-1, j+1);
         					return novaCasa;
         				}
         			}
@@ -317,11 +317,11 @@ public class Jogo {
     	//impede de verificar captura fora do tabuleiro
     	if(posX < 6 && posY > 1) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
-    	if(this.tabuleiro.GetCasaGrid(posX, posY).getDama() == null) {
-    		if(tabuleiro.GetCasaGrid(posX+1, posY-1).getOcupada() == true&& tabuleiro.GetCasaGrid(posX+1, posY-1).getPeca().getJogador() != atualJogador) {
-    			if(tabuleiro.GetCasaGrid(posX+2, posY-2).getOcupada() == false) {
+    	if(this.tabuleiro.getCasaGrid(posX, posY).getDama() == null) {
+    		if(tabuleiro.getCasaGrid(posX+1, posY-1).getOcupada() == true&& tabuleiro.getCasaGrid(posX+1, posY-1).getPeca().getJogador() != atualJogador) {
+    			if(tabuleiro.getCasaGrid(posX+2, posY-2).getOcupada() == false) {
     				Casa novaCasa = null;
-    				novaCasa = tabuleiro.GetCasaGrid(posX+2, posY-2);
+    				novaCasa = tabuleiro.getCasaGrid(posX+2, posY-2);
     				return novaCasa;
     			}
     		}
@@ -329,10 +329,10 @@ public class Jogo {
     		int j = posY;
     		for(int i = posX; i <= 7; i++) {
         		if(j > 1) {
-        			if(tabuleiro.GetCasaGrid(i, j).getOcupada() == true && tabuleiro.GetCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
-        				if(tabuleiro.GetCasaGrid(i+1, j-1).getOcupada() == false) {
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
+        				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == false) {
         					Casa novaCasa = null;
-        					novaCasa = tabuleiro.GetCasaGrid(i+1, j-1);
+        					novaCasa = tabuleiro.getCasaGrid(i+1, j-1);
         					return novaCasa;
         				}
         			}
@@ -349,11 +349,11 @@ public class Jogo {
     	//impede de verificar captura fora do tabuleiro
     	if(posX < 6 && posY < 6) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
-    	if(this.tabuleiro.GetCasaGrid(posX, posY).getDama() == null) {
-    		if(tabuleiro.GetCasaGrid(posX+1, posY+1).getOcupada() == true&& tabuleiro.GetCasaGrid(posX+1, posY+1).getPeca().getJogador() != atualJogador) {
-    			if(tabuleiro.GetCasaGrid(posX+2, posY+2).getOcupada() == false) {
+    	if(this.tabuleiro.getCasaGrid(posX, posY).getDama() == null) {
+    		if(tabuleiro.getCasaGrid(posX+1, posY+1).getOcupada() == true&& tabuleiro.getCasaGrid(posX+1, posY+1).getPeca().getJogador() != atualJogador) {
+    			if(tabuleiro.getCasaGrid(posX+2, posY+2).getOcupada() == false) {
     				Casa novaCasa = null;
-    				novaCasa = tabuleiro.GetCasaGrid(posX+2, posY+2);
+    				novaCasa = tabuleiro.getCasaGrid(posX+2, posY+2);
     				return novaCasa;
     			}
     		}
@@ -361,10 +361,10 @@ public class Jogo {
     		int j = posY;
     		for(int i = posX; i <= 7; i++) {
         		if(j < 6) {
-        			if(tabuleiro.GetCasaGrid(i, j).getOcupada() == true && tabuleiro.GetCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
-        				if(tabuleiro.GetCasaGrid(i+1, j+1).getOcupada() == false) {
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(j, j).getPeca().getJogador() != atualJogador) {
+        				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
-        					novaCasa = tabuleiro.GetCasaGrid(i+1, j+1);
+        					novaCasa = tabuleiro.getCasaGrid(i+1, j+1);
         					return novaCasa;
         				}
         			}
