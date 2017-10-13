@@ -1,7 +1,7 @@
-package Classes;
+package br.com.poli;
 
 import java.util.Scanner;
-import Enums.CorPeca;
+import enums.CorPeca;
 
 //Essa classe fica encarregada de criar os jogadores, coletar seus nomes e criar suas respectivas pecas.
 public class Jogadores {

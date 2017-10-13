@@ -1,5 +1,5 @@
-package Classes;
-import Enums.CorPeca;
+package br.com.poli;
+import enums.CorPeca;
 
 public class Dama extends Peca{
 	private boolean pecaDama;

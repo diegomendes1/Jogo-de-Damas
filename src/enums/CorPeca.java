@@ -1,4 +1,4 @@
-package Enums;
+package enums;
 
 //guarda a cor da peça.
 public enum CorPeca {

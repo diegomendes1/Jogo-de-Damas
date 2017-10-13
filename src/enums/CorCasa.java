@@ -1,4 +1,4 @@
-package Enums;
+package enums;
 
 //Guarda a cor da casa.
 public enum CorCasa {

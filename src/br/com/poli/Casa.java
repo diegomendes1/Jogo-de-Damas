@@ -1,5 +1,5 @@
-package Classes;
-import Enums.CorCasa;
+package br.com.poli;
+import enums.CorCasa;
 
 //Classe responsavel por guardar as informacoes de uma casa do tabuleiro.
 public class Casa {

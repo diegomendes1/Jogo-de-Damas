@@ -1,7 +1,7 @@
-package Classes;
+package br.com.poli;
 import java.util.Scanner;
-import Enums.CorCasa;
-import Enums.CorPeca;
+import enums.CorCasa;
+import enums.CorPeca;
 
 /*Classe responsavel por gerenciar o tabuleiro. Aqui se cria o tabuleiro, adiciona peca nas casas,
  * e movimenta alguma peca.*/
@@ -63,7 +63,7 @@ public class Tabuleiro {
     public boolean criarCasa(Peca peca, CorCasa corCasa, int linha, int coluna, boolean atualBranca, boolean ocupada){
 		grid[linha][coluna] = new Casa(corCasa, ocupada, peca, linha, coluna);
 		grid[linha][coluna].setPosX(linha);
-		grid[linha][coluna].setPosX(coluna);
+		grid[linha][coluna].setPosY(coluna);
 		if(atualBranca == true) {
 			atualBranca = false;
 		}else {
@@ -74,17 +74,10 @@ public class Tabuleiro {
     
     //mostra o tabuleiro na tela.
     public void mostrarTabuleiro() {
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
+    	//Este FOR pula algumas linhas para melhor visualizacao do tabuleiro
+    	for(int i = 0; i < 10; i++) {
+    		System.out.println();
+    	}
     	
     	for(int i = 0; i < grid.length; i++) {
     		for(int j = 0; j <grid[i].length; j++) {
@@ -94,25 +87,15 @@ public class Tabuleiro {
     				//Este if apenas deixa o tabuleiro organizado, pode apenas deixar um dos print no codigo.
     				if(grid[i][j].getPeca().getCor() == CorPeca.ESCURO) {
     					System.out.print(grid[i][j].getPeca().getCor());
+    					
     				}else {
     					System.out.print(" "+grid[i][j].getPeca().getCor());
+    					
     				}
     			}
     		}
     		System.out.println();
     	}
-    }
-    
-    //chama o movimento da peca, coletando os 4 ints para compor os dois vetores, um para cada casa.
-    public void chamarMovimento(Jogador atualJogador) {
-    	int intVetores[] = new int[4];
-    	for(int i = 0; i < 4; i++) {
-    		System.out.print("Digite o numero "+ i+1 + ": ");
-    		Scanner scan = new Scanner(System.in);
-    		intVetores[i] = scan.nextInt();
-    		//scan.close();
-    	}
-    	//executarMovimento(intVetores[0], intVetores[1], intVetores[2], intVetores[3], atualJogador);
     }
     
     public Casa getCasaGrid(int i, int j) {
