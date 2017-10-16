@@ -199,42 +199,50 @@ public class Jogo {
     						//Verifica movimento da dama pro lado Superior Esquerdo
     						/*Este for todo estranho foi necessario para andar na diagonal pelo tabuleiro, um simples for
     						 * nao resolveria*/
-    						int j = posY;
-    			    		for(int i = posX; i > 0; i--) {
+    						int j = posY+1;
+    			    		for(int i = posX; i >= 0; i--) {
     			    			j--;
-    			    			if(j > 0) {
+    			    			if(j >= 0) {
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        					System.out.println("OK");
+    			        					break;
     			        				}
     			        			}
     			        		}
     			    		//Verifica movimento da dama pro lado Superior Direito
-    			    		j = posY;
-    			    		for(int i = posX; i > 0; i--) {
-    			    			j--;
-    			    			if(j < 7) {
+    			    		j = posY-1;
+    			    		for(int i = posX; i >= 0; i--) {
+    			    			j++;
+    			    			if(j <= 7) {
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        					System.out.println("OK");
+    			        					break;
     			        				}
     			        			}
     			        		}
     			    		//Verifica movimento da dama pro lado Inferior Esquerdo
-    			    		j = posY;
-    			    		for(int i = posX; i < 7; i--) {
+    			    		j = posY+1;
+    			    		for(int i = posX; i <= 7; i++) {
     			    			j--;
-    			    			if(j > 0) {
+    			    			if(j >= 0) {
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        					System.out.println("OK");
+    			        					break;
     			        				}
     			        			}
     			        		}
     			    		//Verifica movimento da dama pro lado Inferior Direito
-    			    		j = posY;
-    			    		for(int i = posX; i < 7; i--) {
-    			    			j--;
-    			    			if(j < 7) {
+    			    		j = posY-1;
+    			    		for(int i = posX; i <= 7; i++) {
+    			    			j++;
+    			    			if(j <= 7) {
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
+    			        					System.out.println("OK");
+    			        					break;
     			        				}
     			        			}
     			        		}
