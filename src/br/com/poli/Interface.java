@@ -12,4 +12,6 @@ public interface Interface {
 	public Jogador getAtualJogador();
 	public Jogador getVencedor();
 	public Resultado getResultado();
+	public int getPecasCapturadas1();
+	public int getPecasCapturadas2();
 }

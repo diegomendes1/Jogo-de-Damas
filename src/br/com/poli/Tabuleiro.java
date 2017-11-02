@@ -31,7 +31,7 @@ public class Tabuleiro {
         				atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
         				atualBranca = criarCasa(new Peca(CorPeca.ESCURO, jogador2), CorCasa.PRETO, linha, coluna, false, true);
-        				
+        				//grid[linha][coluna].getPeca().setDama(true);
         			}
     				//as duas linhas do meio(sem peca)
     			}else if(linha <= 4) {
@@ -46,7 +46,7 @@ public class Tabuleiro {
     					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
         				atualBranca = criarCasa(new Peca(CorPeca.CLARO, jogador1), CorCasa.PRETO, linha, coluna, false, true);
-        				
+        				//grid[linha][coluna].getPeca().setDama(true);
         			}
     			}
     		}
