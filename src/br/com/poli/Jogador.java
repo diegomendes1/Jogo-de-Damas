@@ -8,7 +8,7 @@ public class Jogador {
     
     public Jogador(){
         this.nome = null;
-        pecas = new Peca[12];
+        pecas = null;
     }
     
     public String getNome(){
@@ -20,7 +20,7 @@ public class Jogador {
     }
     
     public Peca getPecas(int j){
-        return pecas[j];
+        return this.pecas[j];
     }
     
     public void setPecas(Peca peca, int j){

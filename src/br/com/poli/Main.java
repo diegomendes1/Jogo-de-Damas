@@ -1,14 +1,40 @@
 package br.com.poli;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		Parent root = FXMLLoader.load(getClass().getResource("/interfaces/MenuScreen.fxml"));
+		Scene cena = new Scene(root);
+		primaryStage.setScene(cena);
+		primaryStage.show();
+		primaryStage.setResizable(false);
+		primaryStage.setFullScreenExitHint("");
+		primaryStage.setTitle("Jogo de Damas");
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+}
+/*package br.com.poli;
+
 import java.util.Date;
 import java.util.Scanner;
 
 import enums.CorCasa;
 import enums.CorPeca;
 import enums.Resultado;
+import javafx.application.Application;
 
 //Apenas para teste, esta classe testa todos os metodos principais.
-public class Main {
+public class seriaMain {
 	public static void main(String[] args) {
 		//Classe Casa que recebe uma cor, um boolean pra saber se esta ocupada, e uma peca.
 		Casa casaBranca = new Casa(CorCasa.BRANCO, false, null, 0, 0);
@@ -53,7 +79,7 @@ public class Main {
 	    	if(jogo.jogar(jogo.getTabuleiro().getCasaGrid(intVetores[0], intVetores[1]), jogo.getTabuleiro().getCasaGrid(intVetores[2], intVetores[3]))) {
 	    	
 	    		/*O metodo jogar() faz tudo sozinho, sem a necessidade de modificar nada. ele nao depende de outro metodo,
-	    		 * entao ajuda no encapsulamento. Ele deixa tudo pronto para uma proxima chamada deste metodo, ou do fim do jogo.*/
+	    		 * entao ajuda no encapsulamento. Ele deixa tudo pronto para uma proxima chamada deste metodo, ou do fim do jogo.
 	    		
 	    		jogo.getTabuleiro().mostrarTabuleiro();
 	    		System.out.println();
@@ -61,7 +87,7 @@ public class Main {
 	    		System.out.println();
 	    	}else {
 	    		/*Se jogar() retornar false, entao precisa jogar de novo. A jogada recomeca sem precisar modificar nada, apenas
-	    		 * coletar as coordenadas e chamar de novo o metodo jogar()*/ 
+	    		 * coletar as coordenadas e chamar de novo o metodo jogar()
 	    		 
 	    		jogo.getTabuleiro().mostrarTabuleiro();
 	    		System.out.println();
@@ -75,4 +101,4 @@ public class Main {
 			System.out.println("O jogo acabou e o vencedor foi o "+ jogo.getVencedor());
 		}
 	}
-}
+}*/

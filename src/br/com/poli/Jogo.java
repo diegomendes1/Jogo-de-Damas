@@ -5,7 +5,7 @@ import enums.CorPeca;
 import enums.Resultado;
 import java.util.Date;
 
-public class Jogo {
+public class Jogo implements Interface{
     private Jogador jogador1;
     private Jogador jogador2;
     private Jogador vencedor;
@@ -41,7 +41,6 @@ public class Jogo {
     	boolean jogoAcabou = false;
     	//Verifica a regra de empate.
     	if(contadorJogadas == 20) {
-			jogoAcabou = true;
 			resultado = Resultado.empate;
 			return true;
 		}
@@ -49,14 +48,41 @@ public class Jogo {
     	//Verifica se ainda existem pecas do jogador. Se nao existir, declara o adversario como vencedor.
     	for(int i = 0; i < 8; i++) {
     		for(int j = 0; j < 8; j++) {
-    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
+    			
+    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null || tabuleiro.getCasaGrid(i, j).getDama() != null) {
+    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1 || tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador1) {
+    					jogoAcabou = false;
+    					vencedor = null;
+    					break;
+    				}else {
+    					jogoAcabou = true;
+    					resultado = Resultado.comVencedor;
+    					vencedor = jogador2;
+    				}
+    				
+    			}
+    			
+    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null || tabuleiro.getCasaGrid(i, j).getDama() != null) {
+    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador2 || tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador2) {
+    					jogoAcabou = false;
+    					vencedor = null;
+    					break;
+    				}else {
+    					jogoAcabou = true;
+    					resultado = Resultado.comVencedor;
+    					vencedor = jogador1;
+    				}
+    				
+    			}
+    			
+    			/*if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
     				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1) {
     					jogoAcabou = false;
     					vencedor = null;
     					break;
     				}else {
     					jogoAcabou = true;
-    					resultado = Resultado.comVentedor;
+    					resultado = Resultado.comVencedor;
     					vencedor = jogador2;
     				}
     			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
@@ -66,7 +92,7 @@ public class Jogo {
     					break;
     				}else {
     					jogoAcabou = true;
-    					resultado = Resultado.comVentedor;
+    					resultado = Resultado.comVencedor;
     					vencedor = jogador2;
     				}
     			}
@@ -89,7 +115,7 @@ public class Jogo {
     					jogoAcabou = true;
     					vencedor = jogador1;
     				}
-    			}
+    			}*/
     		}
     	}
     	return jogoAcabou;
@@ -99,6 +125,9 @@ public class Jogo {
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
     public boolean jogar(Casa casaOrigem, Casa casaDestino){
+    	System.out.println("JOGANDO");
+    	//Se o jogo acabou
+    	//if(!isFimDeJogo()) {
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	
@@ -110,7 +139,6 @@ public class Jogo {
     	int posY = casaOrigem.getPosY();
     	int lugarParaX = casaDestino.getPosX();
     	int lugarParaY = casaDestino.getPosY();
-    	
     	// Se existir pedra na casa atual
     	if(casaOrigem.getOcupada() == true) {
     		//e se a pedra for do jogador que deve jogar agora
@@ -176,6 +204,7 @@ public class Jogo {
 	    				atualJogador = jogador1;
 	    			}
     				contadorJogadas = 0;
+    				return true;
     			}else {
    					/*se nao, verifica se realmente existe alguma captura possivel. Se alguma for true, o o metodo jogar acaba
     				pois o jogador deveria ter escolhi alguma captura que existia.*/
@@ -329,7 +358,6 @@ public class Jogo {
         			    					}
         			    				}
         			    			}
-        			    			
         			    			//Atualiza quem e´ o proximo jogador para fazer a jogada.
         			    			if(atualJogador == jogador1) {
         			    				atualJogador = jogador2;
@@ -363,6 +391,11 @@ public class Jogo {
     		return false;
     	}
     	return false;
+    	
+    	//significa que o jogo acabou
+    	//}else {
+    	//	return false;
+    	//}
     }
     
     //Grupo de metodos para verificar se existe oportunidade de captura em certa direcao.

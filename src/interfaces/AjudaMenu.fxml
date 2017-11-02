@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.AjudaMenuController">
+   <children>
+      <Button fx:id="botaoVoltarMenu" layoutX="588.0" layoutY="546.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" onAction="#voltarMenu" text="Voltar" />
+      <TextArea editable="false" layoutX="73.0" layoutY="54.0" prefHeight="381.0" prefWidth="669.0" text="PRIMEIRO VOCE JOGA, DEPOIS PERDE" />
+   </children>
+</AnchorPane>

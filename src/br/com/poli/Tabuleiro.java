@@ -7,7 +7,6 @@ import enums.CorPeca;
  * e movimenta alguma peca.*/
 public class Tabuleiro {
     private Casa[][] grid;
-    
     public Tabuleiro(){
         this.grid = new Casa[8][8];
     }
@@ -32,6 +31,7 @@ public class Tabuleiro {
         				atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
         				atualBranca = criarCasa(new Peca(CorPeca.ESCURO, jogador2), CorCasa.PRETO, linha, coluna, false, true);
+        				
         			}
     				//as duas linhas do meio(sem peca)
     			}else if(linha <= 4) {
@@ -46,6 +46,7 @@ public class Tabuleiro {
     					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
         				atualBranca = criarCasa(new Peca(CorPeca.CLARO, jogador1), CorCasa.PRETO, linha, coluna, false, true);
+        				
         			}
     			}
     		}
@@ -99,6 +100,13 @@ public class Tabuleiro {
     }
     
     public Casa getCasaGrid(int i, int j) {
+    	if(grid[i][j] != null) {
     	return grid[i][j];
+    	}
+    	return null;
+    }
+    
+    public Casa[][] getGrid(){
+    	return grid;
     }
 }
