@@ -14,4 +14,5 @@ public interface Interface {
 	public Resultado getResultado();
 	public int getPecasCapturadas1();
 	public int getPecasCapturadas2();
+	public int getJogadas();
 }

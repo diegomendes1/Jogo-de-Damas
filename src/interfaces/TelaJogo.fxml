@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.TelaJogoController">
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d0d3d7" height="300.0" layoutX="567.0" layoutY="50.0" stroke="#00ff22" strokeType="INSIDE" width="222.0" />
       <GridPane fx:id="tabuleiro" layoutX="50.0" layoutY="50.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
@@ -99,5 +100,45 @@
             <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
+      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#837357d9" height="600.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+            <Button layoutX="426.0" layoutY="401.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="60.0" prefWidth="200.0" text="Menu">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Button>
+            <Button layoutX="179.0" layoutY="401.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="200.0" text="Reiniciar">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Button>
+            <Text fill="#b91010" layoutX="180.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIM DE JOGO" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Text>
+            <Text fx:id="tempoPassado" layoutX="174.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Jogo: 59:59" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+            <Text fx:id="textoResultado" layoutX="181.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEM GANHOU FOI:" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+            <Text fx:id="jogadorVencedor" layoutX="192.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENCEDOR" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="87.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <Label fx:id="contadorJogadas" alignment="TOP_RIGHT" layoutX="630.0" layoutY="7.0" prefHeight="45.0" prefWidth="158.0" text="20 Jogadas para empate" textAlignment="RIGHT" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

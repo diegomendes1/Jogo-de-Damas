@@ -35,8 +35,6 @@ public class Jogo implements Interface{
     
     //O primeiro metodo a ser chamado, ele configura os jogadores, define o primeiro a jogar e cria o tabuleiro.
     public void iniciarPartida(){
-    	jogador1.setNome("Jogador 1");
-    	jogador2.setNome("Jogador 2");
     	tabuleiro.gerarTabuleiro(jogador1, jogador2);
     	atualJogador = jogador1;
     }
@@ -44,88 +42,48 @@ public class Jogo implements Interface{
   /*Metodo a ser chamado antes de cada jogada, ele verifica as condicoes para fim de jogo, 
    * retornando um boolean representando se o jogo acabou ou nao.*/
     public boolean isFimDeJogo(){
-    	boolean jogoAcabou = false;
+    	vencedor = null;
     	//Verifica a regra de empate.
-    	if(contadorJogadas == 20) {
+    	if(contadorJogadas >= 20) {
 			resultado = Resultado.empate;
 			return true;
 		}
     	
+    	boolean possuiPecasJogador1 = false;
+    	boolean possuiPecasJogador2 = false;
     	//Verifica se ainda existem pecas do jogador. Se nao existir, declara o adversario como vencedor.
     	for(int i = 0; i < 8; i++) {
     		for(int j = 0; j < 8; j++) {
     			
-    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null || tabuleiro.getCasaGrid(i, j).getDama() != null) {
-    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1 || tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador1) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					resultado = Resultado.comVencedor;
-    					vencedor = jogador2;
-    				}
-    				
-    			}
-    			
-    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null || tabuleiro.getCasaGrid(i, j).getDama() != null) {
-    				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador2 || tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador2) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					resultado = Resultado.comVencedor;
-    					vencedor = jogador1;
-    				}
-    				
-    			}
-    			
-    			/*if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
+    			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
     				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador1) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					resultado = Resultado.comVencedor;
-    					vencedor = jogador2;
-    				}
-    			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
-    				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador1) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					resultado = Resultado.comVencedor;
-    					vencedor = jogador2;
+    					possuiPecasJogador1 = true;
     				}
     			}
     			
     			if(tabuleiro.getCasaGrid(i, j).getPeca() != null) {
     				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogador2) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					vencedor = jogador1;
+    					possuiPecasJogador2 = true;
     				}
-    			}else if(tabuleiro.getCasaGrid(i, j).getDama() != null){
-    				if(tabuleiro.getCasaGrid(i, j).getDama().getJogador() == jogador2) {
-    					jogoAcabou = false;
-    					vencedor = null;
-    					break;
-    				}else {
-    					jogoAcabou = true;
-    					vencedor = jogador1;
-    				}
-    			}*/
+    			}
+    			
+    			
     		}
     	}
-    	return jogoAcabou;
     	
+    	if(possuiPecasJogador1 == true && possuiPecasJogador2 == true) {
+    		return false;
+    	}else if(possuiPecasJogador1 == false){
+    		vencedor = jogador2;
+    		resultado = Resultado.comVencedorJogador2;
+    		return true;
+    	}else if(possuiPecasJogador2 == false) {
+    		vencedor = jogador1;
+    		resultado = Resultado.comVencedorJogador1;
+    		return true;
+    	}
+    	
+    	return true;
     }
     
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
@@ -204,6 +162,17 @@ public class Jogo implements Interface{
     			if(casaOponente != null) {
     				capturar(casaOrigem, casaOponente, casaDestino);
     				
+    				if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
+    					if(casaDestino.getPosX() == 0) {
+    						casaDestino.getPeca().setDama(true);
+    					}
+    				}else {
+    					if(casaDestino.getPosX() == 7) {
+    						casaDestino.getPeca().setDama(true);
+    					}
+    				}
+    				
+    				
     				if(atualJogador == jogador1) {
     					pecasCapturadasJogador2++;
 	    				atualJogador = jogador2;
@@ -240,6 +209,9 @@ public class Jogo implements Interface{
     			    		for(int i = posX; i >= 0; i--) {
     			    			j--;
     			    			if(j >= 0) {
+    			    				if(i != posX && j != posY && tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+    			    					break;
+    			    				}
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
     			        					break;
@@ -251,6 +223,9 @@ public class Jogo implements Interface{
     			    		for(int i = posX; i >= 0; i--) {
     			    			j++;
     			    			if(j <= 7) {
+    			    				if(i != posX && j != posY && tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+    			    					break;
+    			    				}
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
     			        					break;
@@ -262,6 +237,9 @@ public class Jogo implements Interface{
     			    		for(int i = posX; i <= 7; i++) {
     			    			j--;
     			    			if(j >= 0) {
+    			    				if(i != posX && j != posY && tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+    			    					break;
+    			    				}
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
     			        					break;
@@ -273,6 +251,9 @@ public class Jogo implements Interface{
     			    		for(int i = posX; i <= 7; i++) {
     			    			j++;
     			    			if(j <= 7) {
+    			    				if(i != posX && j != posY && tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+    			    					break;
+    			    				}
     			        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == false && tabuleiro.getCasaGrid(i, j) == casaDestino) {
     			        					casaPossivel = tabuleiro.getCasaGrid(i, j);
     			        					break;
@@ -346,20 +327,18 @@ public class Jogo implements Interface{
         			    			//Executa o movimento
         			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
         			    			
+        			    			if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
+    			    					if(casaDestino.getPosX() == 0) {
+    			    						casaDestino.getPeca().setDama(true);
+    			    					}
+    			    				}else {
+    			    					if(casaDestino.getPosX() == 7) {
+    			    						casaDestino.getPeca().setDama(true);
+    			    					}
+    			    				}
         			    			
         			    			//Verifica se a pedra e´ dama. se nao for, verifica se pode se tornar, e a torna uma dama.
-        			    			if(!verificarDama(casaDestino)) {
-        			    				
-        			    				if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
-        			    					if(casaDestino.getPosX() == 0) {
-        			    						casaDestino.getPeca().setDama(true);
-        			    					}
-        			    				}else {
-        			    					if(casaDestino.getPosX() == 7) {
-        			    						casaDestino.getPeca().setDama(true);
-        			    					}
-        			    				}
-        			    			}
+        			    			
         			    			//Atualiza quem e´ o proximo jogador para fazer a jogada.
         			    			if(atualJogador == jogador1) {
         			    				atualJogador = jogador2;
@@ -424,12 +403,14 @@ public class Jogo implements Interface{
     		for(int i = posX; i >= 1; i--) {
     			j--;
     			if(j >= 1) {
-        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
-        				
-        				if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == false) {
-        					Casa novaCasa = null;
-        					novaCasa = tabuleiro.getCasaGrid(i-1, j-1);
-        					return novaCasa;
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
+        			
+        					if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == false) {
+        						Casa novaCasa = null;
+        						novaCasa = tabuleiro.getCasaGrid(i-1, j-1);
+        						return novaCasa;
+        					}
         				}
         			}
         		}
@@ -459,12 +440,13 @@ public class Jogo implements Interface{
     		for(int i = posX; i >= 1; i--) {
     			j++;
         		if(j <= 6) {
-        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
-        				
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i-1, j+1);
         					return novaCasa;
+        				}
         				}
         			}
         		}
@@ -494,12 +476,13 @@ public class Jogo implements Interface{
     		for(int i = posX; i <= 6; i++) {
     			j--;
         		if(j >= 1) {
-        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
-        				
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == false) {
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i+1, j-1);
         					return novaCasa;
+        				}
         				}
         			}
         		}
@@ -529,12 +512,13 @@ public class Jogo implements Interface{
     		for(int i = posX; i <= 6; i++) {
     			j++;
         		if(j <= 6) {
-        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true && tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
-        				
+        			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i+1, j+1);
         					return novaCasa;
+        				}
         				}
         			}
         		}
@@ -563,6 +547,10 @@ public class Jogo implements Interface{
     	}else {
     		return false;
     	}
+    }
+    
+    public int getJogadas() {
+    	return this.contadorJogadas;
     }
     
     public Tabuleiro getTabuleiro() {

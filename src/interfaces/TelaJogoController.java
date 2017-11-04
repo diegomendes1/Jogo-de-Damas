@@ -8,6 +8,7 @@ import br.com.poli.Jogador;
 import br.com.poli.Jogo;
 import br.com.poli.Tabuleiro;
 import enums.CorPeca;
+import enums.Resultado;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,10 +21,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class TelaJogoController implements Initializable{
@@ -46,31 +49,54 @@ public class TelaJogoController implements Initializable{
 	@FXML 
 	Label tempoQuePassou;
 	
+	@FXML
+	AnchorPane gameOverMenu;
+	
+	@FXML
+	Text textoResultado;
+	
+	@FXML
+	Text jogadorVencedor;
+	
+	@FXML
+	Text tempoPassado;
+	
+	@FXML
+	Label contadorJogadas;
+	
 	Casa casaOrigem;
 	Casa casaDestino;
 	boolean escolhendoCasaOrigem = true;
 	int pecasCapturadasJogador1;
 	int pecasCapturadasJogador2;
+	boolean fimDeJogo = false;
 	
-	
+	String jogador1Nome;
+	String jogador2Nome;
 
-	public TelaJogoController() {
-		// TODO Auto-generated constructor stub
+	public TelaJogoController(String jogador1, String jogador2) {
+		this.jogador1Nome = jogador1;
+		this.jogador2Nome = jogador2;
 	}
 	
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("wow");
+		gameOverMenu.setVisible(false);
+		this.contadorJogadas.setText(" ");
 		long inicioTempo = System.currentTimeMillis();
+		
 		new AnimationTimer() {
-
+			long minPassado;
 			@Override
 			public void handle(long agora) {
+				if(!fimDeJogo) {
 				long tempoPassado = System.currentTimeMillis() - inicioTempo;
-				tempoQuePassou.setText("Tempo de Jogo: " + tempoPassado/60000 + ":"+ tempoPassado/1000);
-				
+				minPassado = tempoPassado/60000;
+				tempoQuePassou.setText("Tempo de Jogo: " + tempoPassado/60000 + ":"+ (tempoPassado/1000 - minPassado*60));
+				}
 			}
 	
 		}.start();
+		
 		rodandoJogo();
     }
 	
@@ -82,10 +108,25 @@ public class TelaJogoController implements Initializable{
 		stage.setScene(cenaMenu);
 	}
 	
+	@FXML
+	protected void abrirCenaJogo(ActionEvent event) throws Exception{
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/interfaces/TelaJogo.fxml"));
+		
+		TelaJogoController controller = new TelaJogoController(jogador1Nome, jogador2Nome);
+		fxmlloader.setController(controller);
+		Parent root = (Parent)fxmlloader.load();
+		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
+		Scene cenaJogo = new Scene(root);
+		stage.setScene(cenaJogo);
+	}
+	
 	public void rodandoJogo() {
 		tabPecas.setDisable(true);
 		Jogador jogador1 = new Jogador();
 		Jogador jogador2 = new Jogador();
+		jogador1.setNome(jogador1Nome);
+		jogador2.setNome(jogador2Nome);
+		
 		Tabuleiro tab = new Tabuleiro();
 		tab.gerarTabuleiro(jogador1, jogador2);
 		Interface jogo = new Jogo(jogador1, jogador2, null, tab, null, null);
@@ -183,6 +224,7 @@ public class TelaJogoController implements Initializable{
 					imagem.setDisable(true);
 					Button btn = new Button();
 					btn.setPrefSize(64, 64);
+					btn.setStyle("-fx-focus-color: transparent;");
 					this.tabuleiro.add(btn, j, i);
 					this.tabuleiro.add(imagem, j, i);
 					atualBranca = true;
@@ -206,14 +248,28 @@ public class TelaJogoController implements Initializable{
 							mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
 							mostrarPecasCapturadas(false, pecasJogador2, pecasCapturadasJogador2);
 							this.qualJogador.setText("Jogue, " + jogo.getAtualJogador().getNome());
+							if(jogo.getJogadas() <= 0) {
+								this.contadorJogadas.setText(" ");
+							}else {
+								this.contadorJogadas.setText(20 - (jogo.getJogadas()) + " Jogadas para empate");
+							}
 							casaOrigem = null;
 							casaDestino = null;
-							
+							if(jogo.isFimDeJogo()) {
+								fimDeJogo = true;
+								qualJogador.setVisible(false);
+								gameOverMenu.setVisible(true);
+								tempoPassado.setText(tempoQuePassou.getText());
+								if(jogo.getResultado() == Resultado.empate) {
+									textoResultado.setVisible(false);
+									jogadorVencedor.setText("EMPATE");
+								}else if(jogo.getResultado() == Resultado.comVencedorJogador1 ||
+										jogo.getResultado() == Resultado.comVencedorJogador2) {
+									jogadorVencedor.setText(jogo.getVencedor().getNome());
+								}
+							}
 						}
 					});
-					
-					
-					
 				}
 			}
 			
@@ -255,5 +311,4 @@ public class TelaJogoController implements Initializable{
 		pecasCapturadasJogador1 = jogo.getPecasCapturadas1();
 		pecasCapturadasJogador2 = jogo.getPecasCapturadas2();
 	}
-
 }

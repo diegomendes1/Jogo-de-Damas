@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane layoutX="492.0" layoutY="396.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+      </GridPane>
+      <Button layoutX="502.0" layoutY="407.0" mnemonicParsing="false" text="Avançar" />
+      <Label layoutX="84.0" layoutY="57.0" prefHeight="17.0" prefWidth="423.0" text="                Insira o nome dos jogadores:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="84.0" layoutY="129.0" text="Jogador 1:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField layoutX="84.0" layoutY="161.0" />
+      <Label layoutX="84.0" layoutY="254.0" text="Jogador 2:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField layoutX="84.0" layoutY="285.0" />
+   </children>
+</Pane>

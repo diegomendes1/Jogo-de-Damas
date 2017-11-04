@@ -2,5 +2,5 @@ package enums;
 
 //Guarda os resultados possiveis.
 public enum Resultado {
-    empate, comVencedor;
+    empate, comVencedorJogador1, comVencedorJogador2;
 }

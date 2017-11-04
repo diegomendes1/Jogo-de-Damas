@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
@@ -9,18 +11,63 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="25.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.MenuScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.MenuScreenController">
    <children>
-      <ImageView fitHeight="270.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
-      	<image>
-      		<Image url="/resources/titulo.png" />
-  		 </image>
-      
+      <ImageView fx:id="fundo" fitHeight="1001.0" fitWidth="1001.0" layoutX="-106.0" layoutY="-190.0" rotate="26.6">
+         <image>
+            <Image url="@../../../../../Pictures/back1.PNG" />
+         </image>
+         <effect>
+            <GaussianBlur />
+         </effect>
       </ImageView>
-      <CheckBox fx:id="isTelaCheia" mnemonicParsing="false" onAction="#alternarTelaCheia" text="Tela Cheia" />
-      <Button fx:id="botaoIniciar" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="45.0" prefWidth="200.0" text="Iniciar" />
-      <Button fx:id="botaoAjuda" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#abrirCenaAjuda" prefHeight="45.0" prefWidth="200.0" text="Ajuda" />
-      <Button fx:id="botaoSair" mnemonicParsing="false" onAction="#feharJogo" prefHeight="45.0" prefWidth="200.0" text="Sair" />
+      <ImageView fx:id="titulo" fitHeight="277.0" fitWidth="457.0" layoutX="184.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/titulo.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="botaoSair" alignment="CENTER_RIGHT" layoutX="685.0" layoutY="545.0" mnemonicParsing="false" onAction="#feharJogo" prefHeight="45.0" prefWidth="103.0" text="Sair" textAlignment="RIGHT">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="botaoAjuda" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="538.0" layoutY="546.0" mnemonicParsing="false" onAction="#abrirCenaAjuda" prefHeight="44.0" prefWidth="132.0" text="Ajuda">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <CheckBox fx:id="isTelaCheia" alignment="CENTER_RIGHT" layoutX="410.0" layoutY="542.0" mnemonicParsing="false" onAction="#alternarTelaCheia" prefHeight="47.0" prefWidth="117.0" text="Tela Cheia">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+      <AnchorPane layoutX="14.0" layoutY="291.0" prefHeight="224.0" prefWidth="772.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4f381fb0" height="235.0" layoutX="-1.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="81.05" radius="45.0275" width="101.06" />
+               </effect>
+            </Rectangle>
+            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="590.0" layoutY="166.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="59.0" prefWidth="178.0" text="Iniciar">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <TextField fx:id="jogador1Name" layoutX="74.0" layoutY="81.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 1" AnchorPane.leftAnchor="75.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="jogador2Name" layoutX="86.0" layoutY="129.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 2" AnchorPane.leftAnchor="75.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
+            <Label layoutX="-12.0" layoutY="28.0" prefHeight="27.0" prefWidth="343.0" text="                Insira o nome dos jogadores:" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
-   
-</VBox>
+</AnchorPane>
