@@ -110,93 +110,84 @@ public class Jogo implements Interface{
     			//Para verificar a captura, tanto a dama quanto a pedra comum sao verificadas da mesma maneira, 
     			//Mas nos metodos de verificacao fora de jogar(), cada tipo possui seu jeito de capturar.
     			
-    			
-    			boolean existeCaptura1 = false;
-    			boolean existeCaptura2 = false;
-    			boolean existeCaptura3 = false;
-    			boolean existeCaptura4 = false;
-    			
-    			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
-    			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
-    			
-    			//Se existir um lugar para capturar
-    			if(casaPossivel != null) {
-    				//Se o jogador escolheu esse lugar para capturar
-    				if(casaPossivel == casaDestino) {
-    					//Encontra a casa em que o oponente a ser capturado estaria.
-    					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
-    				}else {
-    					//Se o jogador nao escolheu, deixa salvo que ele poderia ter escolhido. s
-    					existeCaptura1 = true;
-    				}
-    			}
-    			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
-    			casaPossivel = verificarCapturaSuperiorDir(posX, posY);
-    			if(casaPossivel != null) {
-    				if(casaPossivel == casaDestino) {
-    					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
-    				}else {
-    					existeCaptura2 = true;
-    				}
-    			}
-    			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
-    			casaPossivel = verificarCapturaInferiorEsq(posX, posY);
-    			if(casaPossivel != null) {
-   					if(casaPossivel == casaDestino) {
-   						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
-   					}else {
-   						existeCaptura3 = true;
-   					}
-    			}
-    			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
-    			casaPossivel = verificarCapturaInferiorDir(posX, posY);
-    			if(casaPossivel != null) {
-   					if(casaPossivel == casaDestino) {
-   						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
-   					}else {
-   						existeCaptura4 = true;
-   					}
-   				}
+    			if(verificarCapturaTabuleiro()) {
     				
-    			//Se o jogador escolheu uma captura possivel
-    			if(casaOponente != null) {
-    				capturar(casaOrigem, casaOponente, casaDestino);
-    				
-    				if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
-    					if(casaDestino.getPosX() == 0) {
-    						casaDestino.getPeca().setDama(true);
-    					}
-    				}else {
-    					if(casaDestino.getPosX() == 7) {
-    						casaDestino.getPeca().setDama(true);
-    					}
-    				}
-    				
-    				
-    				if(atualJogador == jogador1) {
-    					pecasCapturadasJogador2++;
-	    				atualJogador = jogador2;
-	    			}else {
-	    				pecasCapturadasJogador1++;
-	    				atualJogador = jogador1;
-	    			}
-    				contadorJogadas = 0;
-    				return true;
+    				boolean existeCaptura1 = false;
+        			boolean existeCaptura2 = false;
+        			boolean existeCaptura3 = false;
+        			boolean existeCaptura4 = false;
+        			
+        			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
+        			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
+        			
+        			//Se existir um lugar para capturar
+        			if(casaPossivel != null) {
+        				//Se o jogador escolheu esse lugar para capturar
+        				if(casaPossivel == casaDestino) {
+        					//Encontra a casa em que o oponente a ser capturado estaria.
+        					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
+        				}else {
+        					//Se o jogador nao escolheu, deixa salvo que ele poderia ter escolhido. s
+        					existeCaptura1 = true;
+        				}
+        			}
+        			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
+        			casaPossivel = verificarCapturaSuperiorDir(posX, posY);
+        			if(casaPossivel != null) {
+        				if(casaPossivel == casaDestino) {
+        					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
+        				}else {
+        					existeCaptura2 = true;
+        				}
+        			}
+        			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
+        			casaPossivel = verificarCapturaInferiorEsq(posX, posY);
+        			if(casaPossivel != null) {
+       					if(casaPossivel == casaDestino) {
+       						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
+       					}else {
+       						existeCaptura3 = true;
+       					}
+        			}
+        			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
+        			casaPossivel = verificarCapturaInferiorDir(posX, posY);
+        			if(casaPossivel != null) {
+       					if(casaPossivel == casaDestino) {
+       						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
+       					}else {
+       						existeCaptura4 = true;
+       					}
+       				}
+        				
+        			//Se o jogador escolheu uma captura possivel
+        			if(casaOponente != null) {
+        				capturar(casaOrigem, casaOponente, casaDestino);
+            			
+        				if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
+        					if(casaDestino.getPosX() == 0) {
+        						casaDestino.getPeca().setDama(true);
+        					}
+        				}else {
+        					if(casaDestino.getPosX() == 7) {
+        						casaDestino.getPeca().setDama(true);
+        					}
+        				}
+        				
+        				
+        				if(atualJogador == jogador1) {
+        					pecasCapturadasJogador2++;
+    	    				atualJogador = jogador2;
+    	    			}else {
+    	    				pecasCapturadasJogador1++;
+    	    				atualJogador = jogador1;
+    	    			}
+        				contadorJogadas = 0;
+        				return true;
+        			}else {
+        				//Existe capturas mas o jogador não quis capturar
+        				return false;
+        			}
     			}else {
-   					/*se nao, verifica se realmente existe alguma captura possivel. Se alguma for true, o o metodo jogar acaba
-    				pois o jogador deveria ter escolhi alguma captura que existia.*/
-    				
-    				
-    				//Se exsite captura, o jogador deve capturar. faz o jogar() retornar falso, pedindo novos comandos.
-   					if(existeCaptura1 == true) {
-   						return false;
-   					}else if(existeCaptura2 == true) {
-   						return false;
-   					}else if(existeCaptura3 == true) {
-   						return false;
-   					}else if(existeCaptura4 == true) {
-   						return false;
-   					}else {
    						
    						//Se não existe capturas, faz o movimento da dama e/ou pedra normal
     					if(verificarDama(casaOrigem)) {
@@ -359,8 +350,16 @@ public class Jogo implements Interface{
     	            		return false;
     	            	}
     	    			
-    	    			}
+    	    			
+    					
+    					
+    					
    					}
+   					
+   					
+   					
+   					
+   					
     			}
     				
     		}else {
@@ -379,6 +378,45 @@ public class Jogo implements Interface{
     	//}
     }
     
+    public boolean verificarCapturaTabuleiro() {
+    	for(int i = 0; i < 8; i++) {
+    		for(int j =0; j < 8; j++) {
+    			
+    		//Casa em que se pode ir depois do movimento ou captura.
+    	    Casa capturaPossivel = null;
+    			
+    		if(tabuleiro.getCasaGrid(i, j).getCor() == CorCasa.PRETO && 
+    			tabuleiro.getCasaGrid(i, j).getPeca() != null &&
+    			tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == atualJogador) {
+    				
+    			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
+    			capturaPossivel = verificarCapturaSuperiorEsq(i, j);
+    			if(capturaPossivel != null) {
+    				return true;
+    			}
+    			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
+    			capturaPossivel = verificarCapturaSuperiorDir(i, j);
+    			if(capturaPossivel != null) {
+    				return true;
+    			}
+    			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
+    			capturaPossivel = verificarCapturaInferiorEsq(i, j);
+    			if(capturaPossivel != null) {
+    				return true;
+    			}
+    			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
+    			capturaPossivel = verificarCapturaInferiorDir(i, j);
+    			if(capturaPossivel != null) {
+    				return true;
+    			}
+    		}
+    			
+    		}
+    	}
+    	
+    	return false;
+    }
+    
     //Grupo de metodos para verificar se existe oportunidade de captura em certa direcao.
     public Casa verificarCapturaSuperiorEsq(int posX, int posY) {
     	
@@ -386,6 +424,7 @@ public class Jogo implements Interface{
     	if(posX >= 2 && posY >= 2) {
     		
     	//Se esse if for verdadeiro, a pedra nao é dama
+    		if(this.tabuleiro.getCasaGrid(posX, posY).getPeca() != null) {
     	if(this.tabuleiro.getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
     		
         	if(tabuleiro.getCasaGrid(posX-1, posY-1).getOcupada() == true && tabuleiro.getCasaGrid(posX-1, posY-1).getPeca().getJogador() != atualJogador) {
@@ -404,8 +443,10 @@ public class Jogo implements Interface{
     			j--;
     			if(j >= 1) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == true) {
+    						return null;
+    					}
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
-        			
         					if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == false) {
         						Casa novaCasa = null;
         						novaCasa = tabuleiro.getCasaGrid(i-1, j-1);
@@ -415,6 +456,9 @@ public class Jogo implements Interface{
         			}
         		}
         	}
+    	}
+    	}else {
+    		return null;
     	}
     }else {
     	return null;
@@ -426,6 +470,8 @@ public class Jogo implements Interface{
     	//impede de verificar captura fora do tabuleiro
     	if(posX >= 2 && posY <= 5) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
+    		
+    		if(this.tabuleiro.getCasaGrid(posX, posY).getPeca() != null) {
     	if(this.tabuleiro.getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
     		if(tabuleiro.getCasaGrid(posX-1, posY+1).getOcupada() == true && tabuleiro.getCasaGrid(posX-1, posY+1).getPeca().getJogador() != atualJogador) {
     			if(tabuleiro.getCasaGrid(posX-2, posY+2).getOcupada() == false) {
@@ -441,6 +487,9 @@ public class Jogo implements Interface{
     			j++;
         		if(j <= 6) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == true) {
+    						return null;
+    					}
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
@@ -452,6 +501,9 @@ public class Jogo implements Interface{
         		}
         	}
     	}
+    		}else {
+        		return null;
+        	}
     	}else {
     		return null;
     	}
@@ -462,6 +514,9 @@ public class Jogo implements Interface{
     	//impede de verificar captura fora do tabuleiro
     	if(posX <= 5 && posY >= 2) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
+    		if(this.tabuleiro.getCasaGrid(posX, posY).getPeca() != null) {
+    			
+    		
     	if(this.tabuleiro.getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
     		if(tabuleiro.getCasaGrid(posX+1, posY-1).getOcupada() == true&& tabuleiro.getCasaGrid(posX+1, posY-1).getPeca().getJogador() != atualJogador) {
     			if(tabuleiro.getCasaGrid(posX+2, posY-2).getOcupada() == false) {
@@ -477,6 +532,9 @@ public class Jogo implements Interface{
     			j--;
         		if(j >= 1) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == true) {
+    						return null;
+    					}
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == false) {
         					Casa novaCasa = null;
@@ -488,6 +546,10 @@ public class Jogo implements Interface{
         		}
         	}
     	}
+    	
+    	}else {
+    		return null;
+    	}
     	}else {
     		return null;
     	}
@@ -498,6 +560,7 @@ public class Jogo implements Interface{
     	//impede de verificar captura fora do tabuleiro
     	if(posX <= 5 && posY <= 5) {
     	//Se esse if for verdadeiro, a pedra nao e' dama
+    		if(this.tabuleiro.getCasaGrid(posX, posY).getPeca() != null) {
     	if(this.tabuleiro.getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
     		if(tabuleiro.getCasaGrid(posX+1, posY+1).getOcupada() == true&& tabuleiro.getCasaGrid(posX+1, posY+1).getPeca().getJogador() != atualJogador) {
     			if(tabuleiro.getCasaGrid(posX+2, posY+2).getOcupada() == false) {
@@ -507,12 +570,15 @@ public class Jogo implements Interface{
     			}
     		}
     	}else {
-    		
     		int j = posY-1;
     		for(int i = posX; i <= 6; i++) {
     			j++;
         		if(j <= 6) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				
+        				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == true) {
+    						return null;
+    					}
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == false) {
         					Casa novaCasa = null;
@@ -524,6 +590,9 @@ public class Jogo implements Interface{
         		}
     		}
     	}
+    		}else {
+        		return null;
+        	}
     	}else {
     		return null;
     	}

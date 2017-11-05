@@ -109,7 +109,6 @@ public class MenuScreenController implements Initializable{
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
 		Scene cenaJogo = new Scene(root);
 		stage.setScene(cenaJogo);
-		
 	}
 	
 	@FXML
@@ -122,7 +121,7 @@ public class MenuScreenController implements Initializable{
 	}
 	
 	@FXML
-	protected void feharJogo(ActionEvent event) throws Exception{
+	protected void fecharJogo(ActionEvent event) throws Exception{
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
 		stage.close();
 	}

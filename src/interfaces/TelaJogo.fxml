@@ -12,8 +12,9 @@
 
 <AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f1d08" height="538.0" layoutX="10.0" layoutY="51.0" stroke="BLACK" strokeType="INSIDE" width="538.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d0d3d7" height="300.0" layoutX="567.0" layoutY="50.0" stroke="#00ff22" strokeType="INSIDE" width="222.0" />
-      <GridPane fx:id="tabuleiro" layoutX="50.0" layoutY="50.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
+      <GridPane fx:id="tabuleiro" layoutX="25.0" layoutY="65.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
@@ -38,7 +39,7 @@
             <Point3D />
          </rotationAxis>
       </GridPane>
-      <GridPane fx:id="tabPecas" gridLinesVisible="true" layoutX="50.0" layoutY="50.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
+      <GridPane fx:id="tabPecas" gridLinesVisible="true" layoutX="25.0" layoutY="65.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
@@ -61,13 +62,13 @@
          </rowConstraints>
       </GridPane>
       <Button layoutX="589.0" layoutY="508.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="45.0" prefWidth="200.0" text="Menu" />
-      <Label fx:id="tempoQuePassou" layoutX="53.0" layoutY="4.0" prefHeight="36.0" prefWidth="252.0" text="Tempo de Jogo: 99:99">
+      <Label fx:id="tempoQuePassou" layoutX="10.0" layoutY="7.0" prefHeight="36.0" prefWidth="252.0" text="Tempo de Jogo: 99:99">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
       <Button layoutX="588.0" layoutY="440.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" text="Desistir" />
-      <Label fx:id="qualJogador" alignment="CENTER_RIGHT" layoutX="313.0" layoutY="4.0" prefHeight="36.0" prefWidth="249.0" text="Jogue, Jogador1" textAlignment="RIGHT">
+      <Label fx:id="qualJogador" alignment="CENTER_RIGHT" layoutX="299.0" layoutY="7.0" prefHeight="36.0" prefWidth="249.0" text="Jogue, Jogador1" textAlignment="RIGHT">
          <font>
             <Font size="25.0" />
          </font>
@@ -100,15 +101,15 @@
             <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
          </rowConstraints>
       </GridPane>
-      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0" visible="false">
+      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#837357d9" height="600.0" stroke="BLACK" strokeType="INSIDE" width="800.0" />
-            <Button layoutX="426.0" layoutY="401.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="60.0" prefWidth="200.0" text="Menu">
+            <Button layoutX="426.0" layoutY="401.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #D98B83;" text="MENU" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font size="27.0" />
                </font>
             </Button>
-            <Button layoutX="179.0" layoutY="401.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="200.0" text="Reiniciar">
+            <Button layoutX="179.0" layoutY="401.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #8FBC8F;" text="REINICIAR" textFill="WHITE">
                <font>
                   <Font size="27.0" />
                </font>
@@ -118,17 +119,17 @@
                   <Font size="45.0" />
                </font>
             </Text>
-            <Text fx:id="tempoPassado" layoutX="174.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Jogo: 59:59" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+            <Text fx:id="tempoPassado" fill="WHITE" layoutX="174.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Jogo: 59:59" textAlignment="CENTER" wrappingWidth="450.1366882324219">
                <font>
                   <Font size="33.0" />
                </font>
             </Text>
-            <Text fx:id="textoResultado" layoutX="181.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEM GANHOU FOI:" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+            <Text fx:id="textoResultado" fill="WHITE" layoutX="181.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEM GANHOU FOI:" textAlignment="CENTER" wrappingWidth="450.1366882324219">
                <font>
                   <Font size="33.0" />
                </font>
             </Text>
-            <Text fx:id="jogadorVencedor" layoutX="192.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENCEDOR" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+            <Text fx:id="jogadorVencedor" fill="WHITE" layoutX="192.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENCEDOR" textAlignment="CENTER" wrappingWidth="450.1366882324219">
                <font>
                   <Font size="87.0" />
                </font>

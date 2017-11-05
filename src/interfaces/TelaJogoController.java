@@ -19,6 +19,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -26,6 +27,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -159,6 +161,12 @@ public class TelaJogoController implements Initializable{
 		Image imgPecaClaraDama = new Image("/resources/claraDama.png");
 		Image imgPecaEscuraDama = new Image("/resources/escuraDama.png");
 		
+		DropShadow dropShadow = new DropShadow();
+		 dropShadow.setRadius(5.0);
+		 dropShadow.setOffsetX(3.0);
+		 dropShadow.setOffsetY(3.0);
+		 dropShadow.setColor(Color.color(0, 0, 0));
+		 
 		boolean atualBranca = true;
 		tabPecas.getChildren().clear();
 		for(int i = 0; i < 8; i++) {
@@ -172,6 +180,7 @@ public class TelaJogoController implements Initializable{
 								imagemPecaEscura = new ImageView(imgPecaEscuraDama);
 							}
 							imagemPecaEscura.setDisable(true);
+							imagemPecaEscura.setEffect(dropShadow);
 							this.tabPecas.add(imagemPecaEscura, j, i);
 							
 	    				}else {
@@ -182,6 +191,7 @@ public class TelaJogoController implements Initializable{
 									imagemPecaClara = new ImageView(imgPecaClaraDama);
 								}
 	    					imagemPecaClara.setDisable(true);
+	    					imagemPecaClara.setEffect(dropShadow);
 	    					this.tabPecas.add(imagemPecaClara, j, i);
 	    				}
 					}
@@ -223,7 +233,7 @@ public class TelaJogoController implements Initializable{
 					ImageView imagem = new ImageView(imgCasaPreta);
 					imagem.setDisable(true);
 					Button btn = new Button();
-					btn.setPrefSize(64, 64);
+					btn.setPrefSize(60,60);
 					btn.setStyle("-fx-focus-color: transparent;");
 					this.tabuleiro.add(btn, j, i);
 					this.tabuleiro.add(imagem, j, i);

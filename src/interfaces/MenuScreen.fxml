@@ -11,62 +11,71 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.MenuScreenController">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.MenuScreenController">
    <children>
       <ImageView fx:id="fundo" fitHeight="1001.0" fitWidth="1001.0" layoutX="-106.0" layoutY="-190.0" rotate="26.6">
          <image>
             <Image url="@../../../../../Pictures/back1.PNG" />
          </image>
          <effect>
-            <GaussianBlur />
+            <GaussianBlur radius="43.7" />
          </effect>
       </ImageView>
-      <ImageView fx:id="titulo" fitHeight="277.0" fitWidth="457.0" layoutX="184.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="titulo" fitHeight="298.0" fitWidth="690.0" layoutX="87.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../resources/titulo.png" />
          </image>
       </ImageView>
-      <Button fx:id="botaoSair" alignment="CENTER_RIGHT" layoutX="685.0" layoutY="545.0" mnemonicParsing="false" onAction="#feharJogo" prefHeight="45.0" prefWidth="103.0" text="Sair" textAlignment="RIGHT">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <Button fx:id="botaoAjuda" alignment="CENTER_RIGHT" contentDisplay="TOP" layoutX="538.0" layoutY="546.0" mnemonicParsing="false" onAction="#abrirCenaAjuda" prefHeight="44.0" prefWidth="132.0" text="Ajuda">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <CheckBox fx:id="isTelaCheia" alignment="CENTER_RIGHT" layoutX="410.0" layoutY="542.0" mnemonicParsing="false" onAction="#alternarTelaCheia" prefHeight="47.0" prefWidth="117.0" text="Tela Cheia">
+      <CheckBox fx:id="isTelaCheia" alignment="CENTER_RIGHT" layoutX="410.0" layoutY="542.0" mnemonicParsing="false" onAction="#alternarTelaCheia" prefHeight="47.0" prefWidth="117.0" text="Tela Cheia" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </CheckBox>
-      <AnchorPane layoutX="14.0" layoutY="291.0" prefHeight="224.0" prefWidth="772.0">
+      <AnchorPane layoutX="14.0" layoutY="308.0" prefHeight="291.0" prefWidth="775.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4f381fb0" height="235.0" layoutX="-1.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8d7b55b0" height="235.0" layoutX="-1.0" layoutY="-7.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="81.05" radius="45.0275" width="101.06" />
                </effect>
             </Rectangle>
-            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="590.0" layoutY="166.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="59.0" prefWidth="178.0" text="Iniciar">
+            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="590.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="59.0" prefWidth="178.0" style="-fx-background-color: #8FBC8F;" text="INICIAR" textFill="WHITE">
                <font>
-                  <Font size="20.0" />
-               </font></Button>
-            <TextField fx:id="jogador1Name" layoutX="74.0" layoutY="81.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 1" AnchorPane.leftAnchor="75.0">
+                  <Font size="28.0" />
+               </font>
+               <effect>
+                  <DropShadow height="74.37" radius="36.685" width="74.37" />
+               </effect></Button>
+            <TextField fx:id="jogador1Name" layoutX="77.0" layoutY="101.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 1" AnchorPane.leftAnchor="75.0">
                <font>
                   <Font size="15.0" />
                </font>
             </TextField>
-            <TextField fx:id="jogador2Name" layoutX="86.0" layoutY="129.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 2" AnchorPane.leftAnchor="75.0">
+            <TextField fx:id="jogador2Name" layoutX="80.0" layoutY="151.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 2" AnchorPane.leftAnchor="75.0">
                <font>
                   <Font size="15.0" />
                </font>
             </TextField>
-            <Label layoutX="-12.0" layoutY="28.0" prefHeight="27.0" prefWidth="343.0" text="                Insira o nome dos jogadores:" textFill="WHITE">
+            <Label alignment="TOP_CENTER" layoutX="3.0" layoutY="2.0" prefHeight="81.0" prefWidth="343.0" text="Insira o nome dos jogadores:" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
-                  <Font size="18.0" />
+                  <Font size="28.0" />
                </font>
             </Label>
+            <Button fx:id="botaoAjuda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="530.0" layoutY="237.0" mnemonicParsing="false" onAction="#abrirCenaAjuda" prefHeight="44.0" prefWidth="132.0" style="-fx-background-color: #66A7A7;" text="AJUDA" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
+            <Button fx:id="botaoSair" alignment="CENTER_RIGHT" layoutX="672.0" layoutY="236.0" mnemonicParsing="false" onAction="#fecharJogo" prefHeight="45.0" prefWidth="103.0" style="-fx-background-color: #D98B83;" text="SAIR" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Button>
          </children>
       </AnchorPane>
    </children>
