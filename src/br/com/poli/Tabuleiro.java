@@ -1,5 +1,4 @@
 package br.com.poli;
-import java.util.Scanner;
 import enums.CorCasa;
 import enums.CorPeca;
 

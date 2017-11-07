@@ -13,12 +13,12 @@
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaces.MenuScreenController">
    <children>
-      <ImageView fx:id="fundo" fitHeight="1001.0" fitWidth="1001.0" layoutX="-106.0" layoutY="-190.0" rotate="26.6">
+      <ImageView fx:id="fundo" fitHeight="1001.0" fitWidth="1001.0" layoutX="-106.0" layoutY="-190.0" rotate="22.5">
          <image>
             <Image url="@../../../../../Pictures/back1.PNG" />
          </image>
          <effect>
-            <GaussianBlur radius="43.7" />
+            <GaussianBlur radius="19.05" />
          </effect>
       </ImageView>
       <ImageView fx:id="titulo" fitHeight="298.0" fitWidth="690.0" layoutX="87.0" pickOnBounds="true" preserveRatio="true">
@@ -33,9 +33,9 @@
       </CheckBox>
       <AnchorPane layoutX="14.0" layoutY="308.0" prefHeight="291.0" prefWidth="775.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8d7b55b0" height="235.0" layoutX="-1.0" layoutY="-7.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8c7a56a6" height="235.0" layoutX="-1.0" layoutY="-7.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
                <effect>
-                  <DropShadow blurType="GAUSSIAN" height="81.05" radius="45.0275" width="101.06" />
+                  <DropShadow blurType="TWO_PASS_BOX" height="47.44" radius="22.479999999999997" spread="0.08" width="44.48" />
                </effect>
             </Rectangle>
             <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="590.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="59.0" prefWidth="178.0" style="-fx-background-color: #8FBC8F;" text="INICIAR" textFill="WHITE">
@@ -43,17 +43,23 @@
                   <Font size="28.0" />
                </font>
                <effect>
-                  <DropShadow height="74.37" radius="36.685" width="74.37" />
+                  <DropShadow height="74.37" offsetX="5.0" offsetY="5.0" radius="36.685" width="74.37" />
                </effect></Button>
             <TextField fx:id="jogador1Name" layoutX="77.0" layoutY="101.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 1" AnchorPane.leftAnchor="75.0">
                <font>
                   <Font size="15.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </TextField>
             <TextField fx:id="jogador2Name" layoutX="80.0" layoutY="151.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 2" AnchorPane.leftAnchor="75.0">
                <font>
                   <Font size="15.0" />
                </font>
+               <effect>
+                  <DropShadow />
+               </effect>
             </TextField>
             <Label alignment="TOP_CENTER" layoutX="3.0" layoutY="2.0" prefHeight="81.0" prefWidth="343.0" text="Insira o nome dos jogadores:" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
@@ -65,7 +71,7 @@
                   <Font size="20.0" />
                </font>
                <effect>
-                  <DropShadow />
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
                </effect>
             </Button>
             <Button fx:id="botaoSair" alignment="CENTER_RIGHT" layoutX="672.0" layoutY="236.0" mnemonicParsing="false" onAction="#fecharJogo" prefHeight="45.0" prefWidth="103.0" style="-fx-background-color: #D98B83;" text="SAIR" textAlignment="RIGHT" textFill="WHITE">
@@ -73,7 +79,7 @@
                   <Font size="20.0" />
                </font>
                <effect>
-                  <DropShadow />
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
                </effect>
             </Button>
          </children>

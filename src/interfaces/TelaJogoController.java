@@ -2,10 +2,12 @@ package interfaces;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import br.com.poli.CapturaInvalidaException;
 import br.com.poli.Casa;
 import br.com.poli.Interface;
 import br.com.poli.Jogador;
 import br.com.poli.Jogo;
+import br.com.poli.MovimentoInvalidoException;
 import br.com.poli.Tabuleiro;
 import enums.CorPeca;
 import enums.Resultado;
@@ -20,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -38,6 +42,9 @@ public class TelaJogoController implements Initializable{
 	
 	@FXML
 	GridPane tabPecas;
+	
+	@FXML
+	GridPane efeitosPane;
 	
 	@FXML
 	GridPane pecasJogador1;
@@ -64,17 +71,32 @@ public class TelaJogoController implements Initializable{
 	Text tempoPassado;
 	
 	@FXML
+	Text desistenciaTexto;
+	
+	@FXML
+	AnchorPane desistenciaMenu;
+	
+	@FXML
 	Label contadorJogadas;
 	
-	Casa casaOrigem;
-	Casa casaDestino;
-	boolean escolhendoCasaOrigem = true;
-	int pecasCapturadasJogador1;
-	int pecasCapturadasJogador2;
-	boolean fimDeJogo = false;
+	@FXML
+	Rectangle erroFundo;
 	
-	String jogador1Nome;
-	String jogador2Nome;
+	@FXML
+	Text erroTexto;
+	
+	private Casa casaOrigem;
+	private Casa casaDestino;
+	private int pecasCapturadasJogador1;
+	private int pecasCapturadasJogador2;
+	private boolean fimDeJogo = false;
+	
+	private String jogador1Nome;
+	private String jogador2Nome;
+	
+	private Interface jogo;
+	
+	
 
 	public TelaJogoController(String jogador1, String jogador2) {
 		this.jogador1Nome = jogador1;
@@ -122,6 +144,26 @@ public class TelaJogoController implements Initializable{
 		stage.setScene(cenaJogo);
 	}
 	
+	@FXML
+	protected void botaoDesistir() {
+		desistenciaMenu.setVisible(true);
+		qualJogador.setVisible(false);
+		desistenciaTexto.setText(jogo.getAtualJogador().getNome() + ", DESEJA DESISTIR DA PARTIDA?");
+	}
+	
+	@FXML
+	public void jogadorDesistiu() {
+		jogo.isFimDeJogo(true);
+		desistenciaMenu.setVisible(false);
+		fimDeJogo();
+	}
+	
+	@FXML
+	public void naoDesistiu() {
+		desistenciaMenu.setVisible(false);
+		qualJogador.setVisible(true);
+	}
+	
 	public void rodandoJogo() {
 		tabPecas.setDisable(true);
 		Jogador jogador1 = new Jogador();
@@ -131,15 +173,18 @@ public class TelaJogoController implements Initializable{
 		
 		Tabuleiro tab = new Tabuleiro();
 		tab.gerarTabuleiro(jogador1, jogador2);
-		Interface jogo = new Jogo(jogador1, jogador2, null, tab, null, null);
+		jogo = new Jogo(jogador1, jogador2, null, tab, null);
 		pecasCapturadasJogador1 = 0;
 		pecasCapturadasJogador2 = 0;
 		jogo.iniciarPartida();
-		mostrarTabuleiro(jogo.getTabuleiro(), jogo);
-		mostrarPecasTabuleiro(jogo.getTabuleiro());
+		mostrarTabuleiro(jogo.getTabuleiro());
+		mostrarPecasTabuleiro(jogo.getTabuleiro(), false);
 		mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
 		mostrarPecasCapturadas(false, pecasJogador2, pecasCapturadasJogador2);
+		limparEfeitos();
 		this.qualJogador.setText("Jogue, " + jogo.getJogador1().getNome());
+		erroFundo.setVisible(false);
+		erroTexto.setVisible(false);
 	}
 	
 	
@@ -151,11 +196,11 @@ public class TelaJogoController implements Initializable{
 		this.casaDestino = casa;
 	}
 	
-	public void setIsCasaOrigem(boolean opcao) {
-		this.escolhendoCasaOrigem = opcao;
+	public void limparEfeitos() {
+		efeitosPane.getChildren().clear();
 	}
 	
-	public void mostrarPecasTabuleiro(Tabuleiro tabuleiro) {
+	public void mostrarPecasTabuleiro(Tabuleiro tabuleiro, boolean captura) {
 		Image imgPecaClara = new Image("/resources/clara.png");
 		Image imgPecaEscura = new Image("/resources/escura.png");
 		Image imgPecaClaraDama = new Image("/resources/claraDama.png");
@@ -167,7 +212,9 @@ public class TelaJogoController implements Initializable{
 		 dropShadow.setOffsetY(3.0);
 		 dropShadow.setColor(Color.color(0, 0, 0));
 		 
-		boolean atualBranca = true;
+		 GaussianBlur blur = new GaussianBlur();
+		 blur.setRadius(20);
+		 
 		tabPecas.getChildren().clear();
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
@@ -181,6 +228,15 @@ public class TelaJogoController implements Initializable{
 							}
 							imagemPecaEscura.setDisable(true);
 							imagemPecaEscura.setEffect(dropShadow);
+							if(captura) {
+								if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() && 
+										jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+									if(!jogo.verificarCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
+										imagemPecaEscura.setEffect(blur);
+									}
+								}
+							}
+							
 							this.tabPecas.add(imagemPecaEscura, j, i);
 							
 	    				}else {
@@ -192,6 +248,15 @@ public class TelaJogoController implements Initializable{
 								}
 	    					imagemPecaClara.setDisable(true);
 	    					imagemPecaClara.setEffect(dropShadow);
+	    					if(captura) {
+		    					if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() && 
+		    							jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+		    						if(!jogo.verificarCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
+		    							imagemPecaClara.setEffect(blur);
+		    						}
+		    					}
+		    				}
+	    					
 	    					this.tabPecas.add(imagemPecaClara, j, i);
 	    				}
 					}
@@ -201,7 +266,7 @@ public class TelaJogoController implements Initializable{
 		}
 	}
 	
-	public void mostrarTabuleiro(Tabuleiro tabuleiro, Interface jogo) {
+	public void mostrarTabuleiro(Tabuleiro tabuleiro) {
 		Image imgCasaBranca = new Image("/resources/white.png");
 		Image imgCasaPreta = new Image("/resources/black.png");
 		Image imgCasaSelecionadaP1 = new Image("/resources/casaSelecionadaP1.png");
@@ -244,16 +309,31 @@ public class TelaJogoController implements Initializable{
 							casaOrigem = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
 							if(jogo.getAtualJogador() == jogo.getJogador1()) {
 							ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP2);
-							this.tabPecas.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
+							this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
 							}else {
 								ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP1);
-								this.tabPecas.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
+								this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
 							}
 							
 						}else {
 							casaDestino = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
+							try {
 							jogo.jogar(casaOrigem, casaDestino);
-							mostrarPecasTabuleiro(tabuleiro);
+							mostrarPecasTabuleiro(tabuleiro, false);
+							limparEfeitos();
+							}catch(MovimentoInvalidoException excecao) {
+								System.out.println(excecao);
+								limparEfeitos();
+								erroFundo.setVisible(true);
+								erroTexto.setText(excecao.toString());
+							}catch(CapturaInvalidaException excecao){
+								System.out.println(excecao);
+								limparEfeitos();
+								erroFundo.setVisible(true);
+								erroTexto.setText(excecao.);
+								//mostrarCapturasDisponiveis(jogo, tabuleiro);
+								mostrarPecasTabuleiro(tabuleiro, true);
+							}
 							atualizarPecasCapturadas(jogo);
 							mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
 							mostrarPecasCapturadas(false, pecasJogador2, pecasCapturadasJogador2);
@@ -265,18 +345,8 @@ public class TelaJogoController implements Initializable{
 							}
 							casaOrigem = null;
 							casaDestino = null;
-							if(jogo.isFimDeJogo()) {
-								fimDeJogo = true;
-								qualJogador.setVisible(false);
-								gameOverMenu.setVisible(true);
-								tempoPassado.setText(tempoQuePassou.getText());
-								if(jogo.getResultado() == Resultado.empate) {
-									textoResultado.setVisible(false);
-									jogadorVencedor.setText("EMPATE");
-								}else if(jogo.getResultado() == Resultado.comVencedorJogador1 ||
-										jogo.getResultado() == Resultado.comVencedorJogador2) {
-									jogadorVencedor.setText(jogo.getVencedor().getNome());
-								}
+							if(jogo.isFimDeJogo(false)) {
+								fimDeJogo();
 							}
 						}
 					});
@@ -292,10 +362,32 @@ public class TelaJogoController implements Initializable{
 		
 	}
 	
+	public void fimDeJogo() {
+		fimDeJogo = true;
+		qualJogador.setVisible(false);
+		gameOverMenu.setVisible(true);
+		tempoPassado.setText(tempoQuePassou.getText());
+		if(jogo.getResultado() == Resultado.empate) {
+			textoResultado.setVisible(false);
+			jogadorVencedor.setText("EMPATE");
+		}else if(jogo.getResultado() == Resultado.comVencedorJogador1 ||
+				jogo.getResultado() == Resultado.comVencedorJogador2) {
+			jogadorVencedor.setText(jogo.getVencedor().getNome());
+		}
+	}
+	
 	public void mostrarPecasCapturadas(boolean isJogador1, GridPane grid, int totalPecas) {
 		Image imgPecaClara = new Image("/resources/clara.png");
 		Image imgPecaEscura = new Image("/resources/escura.png");
 		int pecasMostradas = 0;
+		
+		DropShadow dropShadow = new DropShadow();
+		 dropShadow.setRadius(5.0);
+		 dropShadow.setOffsetX(3.0);
+		 dropShadow.setOffsetY(3.0);
+		 dropShadow.setColor(Color.color(0, 0, 0));
+		 
+		grid.getChildren().clear();
 		for(int i = 0; i < 6; i++) {
 			for(int j = 0; j < 2; j++) {
 				if(pecasMostradas < totalPecas) {
@@ -304,11 +396,13 @@ public class TelaJogoController implements Initializable{
 						ImageView imagem = new ImageView(imgPecaClara);
 						imagem.setFitHeight(48);
 						imagem.setFitWidth(48);
+						imagem.setEffect(dropShadow);
 						grid.add(imagem, j, i);
 					}else {
 						ImageView imagem = new ImageView(imgPecaEscura);
 						imagem.setFitHeight(48);
 						imagem.setFitWidth(48);
+						imagem.setEffect(dropShadow);
 						grid.add(imagem, j, i);
 					}
 					

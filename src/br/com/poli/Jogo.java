@@ -3,7 +3,7 @@ package br.com.poli;
 import enums.CorCasa;
 import enums.CorPeca;
 import enums.Resultado;
-import java.util.Date;
+//import java.util.Date;
 
 public class Jogo implements Interface{
     private Jogador jogador1;
@@ -11,7 +11,7 @@ public class Jogo implements Interface{
     private Jogador vencedor;
     private Tabuleiro tabuleiro;
     private Resultado resultado;
-    private Date tempo;
+    //private Date tempo;
     private int contadorJogadas;
     
     private Jogador atualJogador;
@@ -19,13 +19,13 @@ public class Jogo implements Interface{
     private int pecasCapturadasJogador2;
     
     public Jogo(Jogador jogador1, Jogador jogador2, Jogador vencedor, Tabuleiro tabuleiro,
-                Resultado resultado, Date tempo){
+                Resultado resultado/*, Date tempo*/){
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = tabuleiro;
         this.vencedor = vencedor;
         this.resultado = resultado;
-        this.tempo = tempo;
+       // this.tempo = tempo;
         this.contadorJogadas = 0;
         atualJogador = jogador1;
         pecasCapturadasJogador1 = 0;
@@ -41,8 +41,22 @@ public class Jogo implements Interface{
     
   /*Metodo a ser chamado antes de cada jogada, ele verifica as condicoes para fim de jogo, 
    * retornando um boolean representando se o jogo acabou ou nao.*/
-    public boolean isFimDeJogo(){
+    public boolean isFimDeJogo(boolean desistiu){
     	vencedor = null;
+    	
+    	//Verifica a desistência do jogador
+    	if(desistiu) {
+    		if(atualJogador == jogador1) {
+    			vencedor = jogador2;
+    			resultado = Resultado.comVencedorJogador2;
+    			return true;
+    		}else {
+    			vencedor = jogador1;
+    			resultado = Resultado.comVencedorJogador1;
+    			return true;
+    		}
+    	}
+    	
     	//Verifica a regra de empate.
     	if(contadorJogadas >= 20) {
 			resultado = Resultado.empate;
@@ -88,7 +102,7 @@ public class Jogo implements Interface{
     
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
-    public boolean jogar(Casa casaOrigem, Casa casaDestino){
+    public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException{
     	//Se o jogo acabou
     	//if(!isFimDeJogo()) {
     	//Casa em que se pode ir depois do movimento ou captura.
@@ -102,8 +116,13 @@ public class Jogo implements Interface{
     	int posY = casaOrigem.getPosY();
     	int lugarParaX = casaDestino.getPosX();
     	int lugarParaY = casaDestino.getPosY();
+    	
+    	if(casaDestino != null){
     	// Se existir pedra na casa atual
     	if(casaOrigem.getOcupada() == true) {
+    		
+    		//se a casa destino estiver desocupada
+        	if(casaDestino.getOcupada() == false){
     		//e se a pedra for do jogador que deve jogar agora
     		if(casaOrigem.getPeca().getJogador() == atualJogador){
     			
@@ -111,11 +130,6 @@ public class Jogo implements Interface{
     			//Mas nos metodos de verificacao fora de jogar(), cada tipo possui seu jeito de capturar.
     			
     			if(verificarCapturaTabuleiro()) {
-    				
-    				boolean existeCaptura1 = false;
-        			boolean existeCaptura2 = false;
-        			boolean existeCaptura3 = false;
-        			boolean existeCaptura4 = false;
         			
         			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
         			casaPossivel = verificarCapturaSuperiorEsq(posX, posY);
@@ -126,9 +140,6 @@ public class Jogo implements Interface{
         				if(casaPossivel == casaDestino) {
         					//Encontra a casa em que o oponente a ser capturado estaria.
         					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()+1);
-        				}else {
-        					//Se o jogador nao escolheu, deixa salvo que ele poderia ter escolhido. s
-        					existeCaptura1 = true;
         				}
         			}
         			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
@@ -136,8 +147,6 @@ public class Jogo implements Interface{
         			if(casaPossivel != null) {
         				if(casaPossivel == casaDestino) {
         					casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()+1, casaPossivel.getPosY()-1);
-        				}else {
-        					existeCaptura2 = true;
         				}
         			}
         			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
@@ -145,8 +154,6 @@ public class Jogo implements Interface{
         			if(casaPossivel != null) {
        					if(casaPossivel == casaDestino) {
        						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()+1);
-       					}else {
-       						existeCaptura3 = true;
        					}
         			}
         			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
@@ -154,8 +161,6 @@ public class Jogo implements Interface{
         			if(casaPossivel != null) {
        					if(casaPossivel == casaDestino) {
        						casaOponente = tabuleiro.getCasaGrid(casaPossivel.getPosX()-1, casaPossivel.getPosY()-1);
-       					}else {
-       						existeCaptura4 = true;
        					}
        				}
         				
@@ -185,7 +190,8 @@ public class Jogo implements Interface{
         				return true;
         			}else {
         				//Existe capturas mas o jogador não quis capturar
-        				return false;
+        				throw new CapturaInvalidaException("Existe Captura");
+        				//return false;
         			}
     			}else {
    						
@@ -366,16 +372,36 @@ public class Jogo implements Interface{
     			//MOVIMENTO IMPOSSIVEL - A PEDRA SERIA DE OUTRO JOGADOR
     			return false;
     		}
+        	}else {
+        		throw new MovimentoInvalidoException("CASA OCUPADA");
+        	}
     	}else {
     		//MOVIMENTO IMPOSSIVEL - SEM PECA PARA MOVIMENTAR
     		return false;
     	}
+    	
+    }else {
+    	throw new MovimentoInvalidoException("Casa destino invalida");
+    }
     	return false;
     	
     	//significa que o jogo acabou
     	//}else {
     	//	return false;
     	//}
+    }
+    
+    public boolean verificarCapturaCasa(Casa casa) {
+    	int x = casa.getPosX();
+    	int y = casa.getPosY();
+    	if(verificarCapturaSuperiorEsq(x,y) != null||
+    		verificarCapturaSuperiorDir(x,y)!= null||
+    		verificarCapturaInferiorEsq(x,y)!= null||
+    		verificarCapturaInferiorDir(x,y)!= null) {
+    		return true;
+    	}
+    	
+    	return false;
     }
     
     public boolean verificarCapturaTabuleiro() {
@@ -442,6 +468,9 @@ public class Jogo implements Interface{
     		for(int i = posX; i >= 1; i--) {
     			j--;
     			if(j >= 1) {
+    				if(tabuleiro.getCasaGrid(i, j) == tabuleiro.getCasaGrid(posX, posY)) {
+    					break;
+    				}
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
         				if(tabuleiro.getCasaGrid(i-1, j-1).getOcupada() == true) {
     						return null;
@@ -487,6 +516,9 @@ public class Jogo implements Interface{
     			j++;
         		if(j <= 6) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j) == tabuleiro.getCasaGrid(posX, posY)) {
+        					break;
+        				}
         				if(tabuleiro.getCasaGrid(i-1, j+1).getOcupada() == true) {
     						return null;
     					}
@@ -532,6 +564,9 @@ public class Jogo implements Interface{
     			j--;
         		if(j >= 1) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
+        				if(tabuleiro.getCasaGrid(i, j) == tabuleiro.getCasaGrid(posX, posY)) {
+        					break;
+        				}
         				if(tabuleiro.getCasaGrid(i+1, j-1).getOcupada() == true) {
     						return null;
     					}
@@ -577,7 +612,7 @@ public class Jogo implements Interface{
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
         				
         				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == true) {
-    						return null;
+    						break;
     					}
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
         				if(tabuleiro.getCasaGrid(i+1, j+1).getOcupada() == false) {
