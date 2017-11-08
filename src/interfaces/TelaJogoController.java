@@ -1,14 +1,8 @@
 package interfaces;
+
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import br.com.poli.CapturaInvalidaException;
-import br.com.poli.Casa;
-import br.com.poli.Interface;
-import br.com.poli.Jogador;
-import br.com.poli.Jogo;
-import br.com.poli.MovimentoInvalidoException;
-import br.com.poli.Tabuleiro;
+import br.com.poli.*;
 import enums.CorPeca;
 import enums.Resultado;
 import javafx.animation.AnimationTimer;
@@ -38,7 +32,7 @@ import javafx.stage.Stage;
 public class TelaJogoController implements Initializable{
 	
 	@FXML
-	GridPane tabuleiro;
+	private GridPane tabuleiro;
 	
 	@FXML
 	GridPane tabPecas;
@@ -95,8 +89,6 @@ public class TelaJogoController implements Initializable{
 	private String jogador2Nome;
 	
 	private Interface jogo;
-	
-	
 
 	public TelaJogoController(String jogador1, String jogador2) {
 		this.jogador1Nome = jogador1;
@@ -321,17 +313,20 @@ public class TelaJogoController implements Initializable{
 							jogo.jogar(casaOrigem, casaDestino);
 							mostrarPecasTabuleiro(tabuleiro, false);
 							limparEfeitos();
+							erroFundo.setVisible(false);
+							erroTexto.setVisible(false);
 							}catch(MovimentoInvalidoException excecao) {
 								System.out.println(excecao);
 								limparEfeitos();
 								erroFundo.setVisible(true);
-								erroTexto.setText(excecao.toString());
+								erroTexto.setVisible(true);
+								erroTexto.setText("Movimento Incorreto!");
 							}catch(CapturaInvalidaException excecao){
 								System.out.println(excecao);
 								limparEfeitos();
 								erroFundo.setVisible(true);
-								erroTexto.setText(excecao.);
-								//mostrarCapturasDisponiveis(jogo, tabuleiro);
+								erroTexto.setVisible(true);
+								erroTexto.setText("Ainda Existem Capturas!");
 								mostrarPecasTabuleiro(tabuleiro, true);
 							}
 							atualizarPecasCapturadas(jogo);
