@@ -205,7 +205,7 @@ public class TelaJogoController implements Initializable{
 		 dropShadow.setColor(Color.color(0, 0, 0));
 		 
 		 GaussianBlur blur = new GaussianBlur();
-		 blur.setRadius(20);
+		 blur.setRadius(50);
 		 
 		tabPecas.getChildren().clear();
 		for(int i = 0; i < 8; i++) {
