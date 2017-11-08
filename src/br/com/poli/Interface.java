@@ -16,5 +16,6 @@ public interface Interface {
 	public int getPecasCapturadas2();
 	public int getJogadas();
 	public boolean verificarCapturaTabuleiro();
-	public boolean verificarCapturaCasa(Casa casa);
+	public Casa verificarCapturaCasa(Casa casa, Casa casaDestino);
+	public boolean verificarPossibilidadeCapturaCasa(Casa casa);
 }

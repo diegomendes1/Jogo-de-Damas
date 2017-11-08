@@ -223,7 +223,7 @@ public class TelaJogoController implements Initializable{
 							if(captura) {
 								if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() && 
 										jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
-									if(!jogo.verificarCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
+									if(!jogo.verificarPossibilidadeCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
 										imagemPecaEscura.setEffect(blur);
 									}
 								}
@@ -243,7 +243,7 @@ public class TelaJogoController implements Initializable{
 	    					if(captura) {
 		    					if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() && 
 		    							jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
-		    						if(!jogo.verificarCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
+		    						if(!jogo.verificarPossibilidadeCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
 		    							imagemPecaClara.setEffect(blur);
 		    						}
 		    					}
@@ -302,6 +302,7 @@ public class TelaJogoController implements Initializable{
 							if(jogo.getAtualJogador() == jogo.getJogador1()) {
 							ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP2);
 							this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
+							
 							}else {
 								ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP1);
 								this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
