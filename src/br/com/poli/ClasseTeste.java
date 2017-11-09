@@ -1,5 +1,8 @@
 package br.com.poli;
 
+import br.com.poli.componentes.Jogador;
+import br.com.poli.componentes.Tabuleiro;
+
 //Apenas para teste, esta classe testa todos os metodos principais.
 	public class ClasseTeste {
 		public static void main(String[] args) {

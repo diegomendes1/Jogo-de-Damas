@@ -1,5 +1,5 @@
-package br.com.poli;
-import enums.CorPeca;
+package br.com.poli.componentes;
+import br.com.poli.enums.CorPeca;
 
 //Classe responsavel por guardar informacoes de uma peca.
 public class Peca {

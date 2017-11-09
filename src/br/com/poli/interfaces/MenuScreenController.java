@@ -1,4 +1,4 @@
-package interfaces;
+package br.com.poli.interfaces;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,21 +50,11 @@ public class MenuScreenController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		Image imgFundo = new Image("/resources/back1.png");
+		Image imgFundo = new Image("/br/com/poli/resources/back1.png");
 		fundo.setImage(imgFundo);
 		
-		Image imgTitulo = new Image("/resources/titulo.png");
+		Image imgTitulo = new Image("/br/com/poli/resources/titulo.png");
 		titulo.setImage(imgTitulo);
-		
-		/*TranslateTransition tt = new TranslateTransition();
-		tt.setDuration(Duration.seconds(10));
-		tt.setNode(botaoIniciar);
-		
-		tt.setToX(250);
-		
-		
-		tt.play();*/
 		
 	}
 	
@@ -83,7 +73,7 @@ public class MenuScreenController implements Initializable{
 	//Desejaria transformar os tres metodos em um so, mudando apenas a string do nome. Mas parece que chamar o metodo assim do fxml nao da :(
 	@FXML
 	protected void abrirCenaJogo(ActionEvent event) throws Exception{
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/interfaces/TelaJogo.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/br/com/poli/interfaces/TelaJogo.fxml"));
 		String nome1 = null;
 		String nome2 = null;
 		
@@ -113,7 +103,7 @@ public class MenuScreenController implements Initializable{
 	
 	@FXML
 	protected void abrirCenaAjuda(ActionEvent event) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/interfaces/AjudaMenu.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/br/com/poli/interfaces/AjudaMenu.fxml"));
 
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
 		Scene cenaAjuda = new Scene(root);

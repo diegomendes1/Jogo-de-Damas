@@ -1,4 +1,4 @@
-package enums;
+package br.com.poli.enums;
 
 //Guarda os resultados possiveis.
 public enum Resultado {

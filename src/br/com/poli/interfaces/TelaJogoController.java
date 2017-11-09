@@ -1,10 +1,13 @@
-package interfaces;
+package br.com.poli.interfaces;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import br.com.poli.*;
-import enums.CorPeca;
-import enums.Resultado;
+import br.com.poli.componentes.Casa;
+import br.com.poli.componentes.Jogador;
+import br.com.poli.componentes.Tabuleiro;
+import br.com.poli.enums.CorPeca;
+import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -118,7 +121,7 @@ public class TelaJogoController implements Initializable{
 	
 	@FXML
 	protected void voltarMenu(ActionEvent event) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/interfaces/MenuScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/br/com/poli/interfaces/MenuScreen.fxml"));
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
 		Scene cenaMenu = new Scene(root);
 		stage.setScene(cenaMenu);
@@ -126,7 +129,7 @@ public class TelaJogoController implements Initializable{
 	
 	@FXML
 	protected void abrirCenaJogo(ActionEvent event) throws Exception{
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/interfaces/TelaJogo.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/br/com/poli/interfaces/TelaJogo.fxml"));
 		
 		TelaJogoController controller = new TelaJogoController(jogador1Nome, jogador2Nome);
 		fxmlloader.setController(controller);
@@ -193,10 +196,10 @@ public class TelaJogoController implements Initializable{
 	}
 	
 	public void mostrarPecasTabuleiro(Tabuleiro tabuleiro, boolean captura) {
-		Image imgPecaClara = new Image("/resources/clara.png");
-		Image imgPecaEscura = new Image("/resources/escura.png");
-		Image imgPecaClaraDama = new Image("/resources/claraDama.png");
-		Image imgPecaEscuraDama = new Image("/resources/escuraDama.png");
+		Image imgPecaClara = new Image("/br/com/poli/resources/clara.png");
+		Image imgPecaEscura = new Image("/br/com/poli/resources/escura.png");
+		Image imgPecaClaraDama = new Image("/br/com/poli/resources/claraDama.png");
+		Image imgPecaEscuraDama = new Image("/br/com/poli/resources/escuraDama.png");
 		
 		DropShadow dropShadow = new DropShadow();
 		 dropShadow.setRadius(5.0);
@@ -225,6 +228,10 @@ public class TelaJogoController implements Initializable{
 										jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
 									if(!jogo.verificarPossibilidadeCapturaCasa(jogo.getTabuleiro().getCasaGrid(i, j))) {
 										imagemPecaEscura.setEffect(blur);
+									}else if(jogo.getCasaCapturaMultipla() != null) {
+										if(jogo.getTabuleiro().getCasaGrid(i, j) != jogo.getCasaCapturaMultipla()) {
+										imagemPecaEscura.setEffect(blur);
+									}
 									}
 								}
 							}
@@ -259,10 +266,10 @@ public class TelaJogoController implements Initializable{
 	}
 	
 	public void mostrarTabuleiro(Tabuleiro tabuleiro) {
-		Image imgCasaBranca = new Image("/resources/white.png");
-		Image imgCasaPreta = new Image("/resources/black.png");
-		Image imgCasaSelecionadaP1 = new Image("/resources/casaSelecionadaP1.png");
-		Image imgCasaSelecionadaP2 = new Image("/resources/casaSelecionadaP2.png");
+		Image imgCasaBranca = new Image("/br/com/poli/resources/white.png");
+		Image imgCasaPreta = new Image("/br/com/poli/resources/black.png");
+		Image imgCasaSelecionadaP1 = new Image("/br/com/poli/resources/casaSelecionadaP1.png");
+		Image imgCasaSelecionadaP2 = new Image("/br/com/poli/resources/casaSelecionadaP2.png");
 		
 		boolean atualBranca = true;
 		for(int i = 0; i < 8; i++) {
@@ -317,17 +324,17 @@ public class TelaJogoController implements Initializable{
 							erroFundo.setVisible(false);
 							erroTexto.setVisible(false);
 							}catch(MovimentoInvalidoException excecao) {
-								System.out.println(excecao);
+								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
-								erroTexto.setText("Movimento Incorreto!");
+								erroTexto.setText(excecao.getMessage());
 							}catch(CapturaInvalidaException excecao){
-								System.out.println(excecao);
+								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
-								erroTexto.setText("Ainda Existem Capturas!");
+								erroTexto.setText(excecao.getMessage());
 								mostrarPecasTabuleiro(tabuleiro, true);
 							}
 							atualizarPecasCapturadas(jogo);
@@ -373,8 +380,8 @@ public class TelaJogoController implements Initializable{
 	}
 	
 	public void mostrarPecasCapturadas(boolean isJogador1, GridPane grid, int totalPecas) {
-		Image imgPecaClara = new Image("/resources/clara.png");
-		Image imgPecaEscura = new Image("/resources/escura.png");
+		Image imgPecaClara = new Image("/br/com/poli/resources/clara.png");
+		Image imgPecaEscura = new Image("/br/com/poli/resources/escura.png");
 		int pecasMostradas = 0;
 		
 		DropShadow dropShadow = new DropShadow();

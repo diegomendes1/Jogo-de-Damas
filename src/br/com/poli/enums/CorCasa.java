@@ -1,4 +1,4 @@
-package enums;
+package br.com.poli.enums;
 
 //Guarda a cor da casa.
 public enum CorCasa {

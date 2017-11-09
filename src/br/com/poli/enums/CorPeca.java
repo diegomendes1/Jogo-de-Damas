@@ -1,4 +1,4 @@
-package enums;
+package br.com.poli.enums;
 
 //guarda a cor da peça.
 public enum CorPeca {

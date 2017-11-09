@@ -1,4 +1,4 @@
-package interfaces;
+package br.com.poli.interfaces;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ public class AjudaMenuController {
 	
 	@FXML
 	protected void voltarMenu(ActionEvent event) throws Exception{
-		Parent root = FXMLLoader.load(getClass().getResource("/interfaces/MenuScreen.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/br/com/poli/interfaces/MenuScreen.fxml"));
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
 		Scene cenaMenu = new Scene(root);
 		stage.setScene(cenaMenu);

@@ -1,4 +1,4 @@
-package br.com.poli;
+package br.com.poli.componentes;
 
 //Classe responsavel por guardar informacoes de um jogador.
 public class Jogador {

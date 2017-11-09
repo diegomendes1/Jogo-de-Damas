@@ -1,6 +1,9 @@
 package br.com.poli;
 
-import enums.Resultado;
+import br.com.poli.componentes.Casa;
+import br.com.poli.componentes.Jogador;
+import br.com.poli.componentes.Tabuleiro;
+import br.com.poli.enums.Resultado;
 
 public interface Interface {
 	public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException, CapturaInvalidaException;
@@ -18,4 +21,5 @@ public interface Interface {
 	public boolean verificarCapturaTabuleiro();
 	public Casa verificarCapturaCasa(Casa casa, Casa casaDestino);
 	public boolean verificarPossibilidadeCapturaCasa(Casa casa);
+	public Casa getCasaCapturaMultipla();
 }

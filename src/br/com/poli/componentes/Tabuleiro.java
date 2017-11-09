@@ -1,6 +1,6 @@
-package br.com.poli;
-import enums.CorCasa;
-import enums.CorPeca;
+package br.com.poli.componentes;
+import br.com.poli.enums.CorCasa;
+import br.com.poli.enums.CorPeca;
 
 /*Classe responsavel por gerenciar o tabuleiro. Aqui se cria o tabuleiro, adiciona peca nas casas,
  * e movimenta alguma peca.*/
