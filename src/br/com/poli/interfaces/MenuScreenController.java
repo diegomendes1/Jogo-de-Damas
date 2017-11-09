@@ -42,11 +42,6 @@ public class MenuScreenController implements Initializable{
 	 
 	 @FXML
 	 private TextField jogador2Name;
-	 
-	 
-	public MenuScreenController() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -60,7 +55,6 @@ public class MenuScreenController implements Initializable{
 	
 	@FXML
 	protected void alternarTelaCheia() {
-		
 		Stage stage = (Stage) isTelaCheia.getScene().getWindow();
 		if(this.isTelaCheia.isSelected()) {
 			stage.setFullScreen(true);
@@ -74,22 +68,16 @@ public class MenuScreenController implements Initializable{
 	@FXML
 	protected void abrirCenaJogo(ActionEvent event) throws Exception{
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/br/com/poli/interfaces/TelaJogo.fxml"));
-		String nome1 = null;
-		String nome2 = null;
 		
 		if(jogador1Name.getText() != null) {
 			if(jogador1Name.getText().trim().isEmpty()){
 				jogador1Name.setText("Jogador 1");
-			}else {
-				nome1 = jogador1Name.getText();
 			}
 		}
 		
 		if(jogador2Name.getText() != null) {
 			if(jogador2Name.getText().trim().isEmpty()){
 				jogador2Name.setText("Jogador 2");
-			}else {
-				nome2 = jogador2Name.getText();
 			}
 		}
 		

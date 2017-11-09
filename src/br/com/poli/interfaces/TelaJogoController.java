@@ -38,49 +38,49 @@ public class TelaJogoController implements Initializable{
 	private GridPane tabuleiro;
 	
 	@FXML
-	GridPane tabPecas;
+	private GridPane tabPecas;
 	
 	@FXML
-	GridPane efeitosPane;
+	private GridPane efeitosPane;
 	
 	@FXML
-	GridPane pecasJogador1;
+	private GridPane pecasJogador1;
 	
 	@FXML
-	GridPane pecasJogador2;
+	private GridPane pecasJogador2;
 	
 	@FXML
-	Label qualJogador;
+	private Label qualJogador;
 	
 	@FXML 
-	Label tempoQuePassou;
+	private Label tempoQuePassou;
 	
 	@FXML
-	AnchorPane gameOverMenu;
+	private AnchorPane gameOverMenu;
 	
 	@FXML
-	Text textoResultado;
+	private Text textoResultado;
 	
 	@FXML
-	Text jogadorVencedor;
+	private Text jogadorVencedor;
 	
 	@FXML
-	Text tempoPassado;
+	private Text tempoPassado;
 	
 	@FXML
-	Text desistenciaTexto;
+	private Text desistenciaTexto;
 	
 	@FXML
-	AnchorPane desistenciaMenu;
+	private AnchorPane desistenciaMenu;
 	
 	@FXML
-	Label contadorJogadas;
+	private Label contadorJogadas;
 	
 	@FXML
-	Rectangle erroFundo;
+	private Rectangle erroFundo;
 	
 	@FXML
-	Text erroTexto;
+	private Text erroTexto;
 	
 	private Casa casaOrigem;
 	private Casa casaDestino;
@@ -139,26 +139,6 @@ public class TelaJogoController implements Initializable{
 		stage.setScene(cenaJogo);
 	}
 	
-	@FXML
-	protected void botaoDesistir() {
-		desistenciaMenu.setVisible(true);
-		qualJogador.setVisible(false);
-		desistenciaTexto.setText(jogo.getAtualJogador().getNome() + ", DESEJA DESISTIR DA PARTIDA?");
-	}
-	
-	@FXML
-	public void jogadorDesistiu() {
-		jogo.isFimDeJogo(true);
-		desistenciaMenu.setVisible(false);
-		fimDeJogo();
-	}
-	
-	@FXML
-	public void naoDesistiu() {
-		desistenciaMenu.setVisible(false);
-		qualJogador.setVisible(true);
-	}
-	
 	public void rodandoJogo() {
 		tabPecas.setDisable(true);
 		Jogador jogador1 = new Jogador();
@@ -182,6 +162,25 @@ public class TelaJogoController implements Initializable{
 		erroTexto.setVisible(false);
 	}
 	
+	@FXML
+	protected void botaoDesistir() {
+		desistenciaMenu.setVisible(true);
+		qualJogador.setVisible(false);
+		desistenciaTexto.setText(jogo.getAtualJogador().getNome() + ", DESEJA DESISTIR DA PARTIDA?");
+	}
+	
+	@FXML
+	public void jogadorDesistiu() {
+		jogo.isFimDeJogo(true);
+		desistenciaMenu.setVisible(false);
+		fimDeJogo();
+	}
+	
+	@FXML
+	public void naoDesistiu() {
+		desistenciaMenu.setVisible(false);
+		qualJogador.setVisible(true);
+	}
 	
 	public void setCasaOrigem(Casa casa) {
 		this.casaOrigem = casa;
@@ -288,7 +287,6 @@ public class TelaJogoController implements Initializable{
 			    ///////////
 			    
 				if(atualBranca) {
-					
 					ImageView imagem = new ImageView(imgCasaBranca);
 					this.tabuleiro.add(imagem, j, i);
 					atualBranca = false;

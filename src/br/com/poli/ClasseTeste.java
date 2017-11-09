@@ -7,6 +7,8 @@ import br.com.poli.componentes.Tabuleiro;
 	public class ClasseTeste {
 		public static void main(String[] args) {
 			
+			/* 10 SEGUNDOS PARA FAZER O MOVIMENTO.*/
+			
 			Jogo jogo = new Jogo(new Jogador(), new Jogador(), new Jogador(), new Tabuleiro(), null);
 			jogo.getJogador1().setNome("Primeiro jogador");
 			jogo.getJogador2().setNome("Segundo jogador");

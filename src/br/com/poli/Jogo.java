@@ -13,22 +13,19 @@ public class Jogo implements Interface{
     private Jogador vencedor;
     private Tabuleiro tabuleiro;
     private Resultado resultado;
-    //private Date tempo;
     private int contadorJogadas;
     private Casa casaCapturaMultipla;
-    
     private Jogador atualJogador;
     private int pecasCapturadasJogador1;
     private int pecasCapturadasJogador2;
     
     public Jogo(Jogador jogador1, Jogador jogador2, Jogador vencedor, Tabuleiro tabuleiro,
-                Resultado resultado/*, Date tempo*/){
+                Resultado resultado){
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = tabuleiro;
         this.vencedor = vencedor;
         this.resultado = resultado;
-       // this.tempo = tempo;
         this.contadorJogadas = 0;
         atualJogador = jogador1;
         pecasCapturadasJogador1 = 0;
@@ -84,8 +81,6 @@ public class Jogo implements Interface{
     					possuiPecasJogador2 = true;
     				}
     			}
-    			
-    			
     		}
     	}
     	
@@ -328,25 +323,22 @@ public class Jogo implements Interface{
     	            		}else {
     	                		throw new MovimentoInvalidoException("Casa Ocupada");
     	                	}
-    	    			
-    	    				
     	            	}else {
     	            		//MOVIMENTO IMPOSSIVEL - FORA DO TABULEIRO
     	            		return false;
     	            	}
    					}
     			}
-    				
     		}else {
     			throw new MovimentoInvalidoException("Pedra de Outro Jogador");
     		}
-        	
     	}else {
     		//MOVIMENTO IMPOSSIVEL - SEM PECA PARA MOVIMENTAR
     		return false;
     	}
     	
     }else {
+    	//Codigo morto, mas a etapa tres pedia essa verificacao, entao decidimos mante-las.
     	throw new MovimentoInvalidoException("Casa destino invalida");
     }
     	return false;
