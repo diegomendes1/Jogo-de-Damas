@@ -18,9 +18,10 @@ public class Jogo implements Interface{
     private Jogador atualJogador;
     private int pecasCapturadasJogador1;
     private int pecasCapturadasJogador2;
+    private boolean isUmJogador;
     
     public Jogo(Jogador jogador1, Jogador jogador2, Jogador vencedor, Tabuleiro tabuleiro,
-                Resultado resultado){
+                Resultado resultado, boolean isUmJogador){
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = tabuleiro;
@@ -31,6 +32,7 @@ public class Jogo implements Interface{
         pecasCapturadasJogador1 = 0;
         pecasCapturadasJogador2 = 0;
         this.casaCapturaMultipla = null;
+        this.isUmJogador = isUmJogador;
         iniciarPartida();
     }
     
@@ -102,6 +104,7 @@ public class Jogo implements Interface{
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
     public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException{
+    	System.out.println(getAtualJogador().getNome());
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	//Casa para ser capturada.
@@ -129,14 +132,14 @@ public class Jogo implements Interface{
         			//Se o jogador escolheu uma captura possivel
         			if(casaOponente != null) {
         				if(casaCapturaMultipla == null) {
-        					capturar(casaOrigem, casaOponente, casaDestino);
+        					capturar(casaOrigem,/*casaOponente, */casaDestino);
         					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
         						casaCapturaMultipla = casaDestino;
         						return false;
         					}
         				}else {
         					if(casaOrigem == casaCapturaMultipla) {
-        						capturar(casaOrigem, casaOponente, casaDestino);
+        						capturar(casaOrigem,/* casaOponente,*/ casaDestino);
             					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
             						casaCapturaMultipla = casaDestino;
             					}else {
@@ -154,7 +157,7 @@ public class Jogo implements Interface{
         						casaDestino.getPeca().setDama(true);
         					}
         				}
-        				
+        				if(!isUmJogador) {
         				if(atualJogador == jogador1) {
         					pecasCapturadasJogador2++;
     	    				atualJogador = jogador2;
@@ -162,6 +165,7 @@ public class Jogo implements Interface{
     	    				pecasCapturadasJogador1++;
     	    				atualJogador = jogador1;
     	    			}
+        				}
         				contadorJogadas = 0;
         				return true;
         			}else {
@@ -239,10 +243,12 @@ public class Jogo implements Interface{
     			    			return false;
     			    		}else {
     			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+    			    			if(!isUmJogador) {
     			    			if(atualJogador == jogador1) {
     			    				atualJogador = jogador2;
     			    			}else {
     			    				atualJogador = jogador1;
+    			    			}
     			    			}
     			    			contadorJogadas++;
     			    		}
@@ -312,10 +318,12 @@ public class Jogo implements Interface{
         			    			//Verifica se a pedra e´ dama. se nao for, verifica se pode se tornar, e a torna uma dama.
         			    			
         			    			//Atualiza quem e´ o proximo jogador para fazer a jogada.
+        			    			if(!isUmJogador) {
         			    			if(atualJogador == jogador1) {
         			    				atualJogador = jogador2;
         			    			}else {
         			    				atualJogador = jogador1;
+        			    			}
         			    			}
         			    			contadorJogadas = 0;
         			    			return true;
@@ -627,13 +635,26 @@ public class Jogo implements Interface{
     }
     
     //Captura a peca.
-    public void capturar(Casa casaAtual, Casa casaOponente, Casa novaCasa){
+    public void capturar(Casa casaAtual, Casa novaCasa){
         novaCasa.setPeca(casaAtual.getPeca());
         novaCasa.setOcupada(true);
         casaAtual.setPeca(null);
         casaAtual.setOcupada(false);
-        casaOponente.setPeca(null);
-        casaOponente.setOcupada(false);
+        int x, y;
+        if((casaAtual.getPosX() - novaCasa.getPosX()) < 0) {
+        	x = (novaCasa.getPosX())-1;
+        }else {
+        	x = (novaCasa.getPosX())+1;
+        }
+        
+        if((casaAtual.getPosY() - novaCasa.getPosY()) < 0) {
+        	y = (novaCasa.getPosY())-1;
+        }else {
+        	y = (novaCasa.getPosY())+1;
+        }
+        System.out.println(x+","+y);
+        tabuleiro.getCasaGrid(x, y).setPeca(null);
+        tabuleiro.getCasaGrid(x, y).setOcupada(false);
     }
     
     //Retorna true se a peca e´ Dama.
@@ -667,6 +688,10 @@ public class Jogo implements Interface{
     
     public Jogador getAtualJogador() {
     	return atualJogador;
+    }
+    
+    public void setAtualJogador(Jogador jogador) {
+    	this.atualJogador = jogador;
     }
     
     public Jogador getVencedor() {

@@ -2,10 +2,16 @@ package br.com.poli.interfaces;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import br.com.poli.*;
+
+import br.com.poli.CapturaInvalidaException;
+import br.com.poli.Interface;
+import br.com.poli.Jogo;
+import br.com.poli.MovimentoInvalidoException;
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Jogador;
 import br.com.poli.componentes.Tabuleiro;
+import br.com.poli.damIA.AutoPlayer;
+import br.com.poli.damIA.RandomPlayer;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
@@ -92,6 +98,7 @@ public class TelaJogoController implements Initializable{
 	private String jogador2Nome;
 	
 	private Interface jogo;
+	private RandomPlayer jogador3;
 
 	public TelaJogoController(String jogador1, String jogador2) {
 		this.jogador1Nome = jogador1;
@@ -143,12 +150,16 @@ public class TelaJogoController implements Initializable{
 		tabPecas.setDisable(true);
 		Jogador jogador1 = new Jogador();
 		Jogador jogador2 = new Jogador();
+		
+		jogador3 = new RandomPlayer();
+		
 		jogador1.setNome(jogador1Nome);
 		jogador2.setNome(jogador2Nome);
 		
 		Tabuleiro tab = new Tabuleiro();
 		tab.gerarTabuleiro(jogador1, jogador2);
-		jogo = new Jogo(jogador1, jogador2, null, tab, null);
+		jogo = new Jogo(jogador1, jogador3, null, tab, null, true);
+		jogador3.setJogo(jogo);
 		pecasCapturadasJogador1 = 0;
 		pecasCapturadasJogador2 = 0;
 		jogo.iniciarPartida();
@@ -317,17 +328,21 @@ public class TelaJogoController implements Initializable{
 							casaDestino = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
 							try {
 							jogo.jogar(casaOrigem, casaDestino);
+							
+							
 							mostrarPecasTabuleiro(tabuleiro, false);
 							limparEfeitos();
 							erroFundo.setVisible(false);
 							erroTexto.setVisible(false);
-							}catch(MovimentoInvalidoException excecao) {
+							jogador3.jogarAuto();
+							
+							}catch(CapturaInvalidaException excecao) {
 								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
-							}catch(CapturaInvalidaException excecao){
+							}catch(MovimentoInvalidoException excecao){
 								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
@@ -335,6 +350,8 @@ public class TelaJogoController implements Initializable{
 								erroTexto.setText(excecao.getMessage());
 								mostrarPecasTabuleiro(tabuleiro, true);
 							}
+							
+							
 							atualizarPecasCapturadas(jogo);
 							mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
 							mostrarPecasCapturadas(false, pecasJogador2, pecasCapturadasJogador2);
@@ -346,6 +363,14 @@ public class TelaJogoController implements Initializable{
 							}
 							casaOrigem = null;
 							casaDestino = null;
+							
+							
+							
+							
+							mostrarPecasTabuleiro(tabuleiro, false);
+							
+							
+							
 							if(jogo.isFimDeJogo(false)) {
 								fimDeJogo();
 							}
