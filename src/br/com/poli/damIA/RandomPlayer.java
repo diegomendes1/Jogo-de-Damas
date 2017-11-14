@@ -14,7 +14,6 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 	private ArrayList<Casa[]> listaPossiveis;
 	private ArrayList<Casa[]> listaPossiveisCaptura;
 	private Interface jogo;
-	
 	public RandomPlayer() {
 		this.tabuleiro = null;
 		listaPossiveis = new ArrayList<Casa[]>();
@@ -22,7 +21,6 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 		jogo = null;
 	}
 	
-	@Override
 	public boolean jogarAuto() {
 		listaPossiveis.clear();
 		listaPossiveisCaptura.clear();
@@ -39,14 +37,7 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 				 Random randomGenerator = new Random();
 				 Casa[] possivel = listaPossiveis.get(randomGenerator.nextInt(listaPossiveis.size()));
 				if(possivel != null) {
-					tabuleiro.executarMovimento(possivel[0], possivel[1]);
-					
-					/*if(jogo.getAtualJogador() == jogo.getJogador1()) {
-						jogo.setAtualJogador(jogo.getJogador2());
-					}else {
-						jogo.setAtualJogador(jogo.getJogador1());
-					}
-					*/
+					tabuleiro.executarMovimento(possivel[0].getPosX(), possivel[0].getPosY(), possivel[1].getPosX(), possivel[1].getPosY());
 					return true;
 				}
 			}
@@ -54,13 +45,7 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 			Random randomGenerator = new Random();
 			 Casa[] possivel = listaPossiveisCaptura.get(randomGenerator.nextInt(listaPossiveisCaptura.size()));
 			if(possivel != null) {
-				
-				jogo.capturar(possivel[0], possivel[1]);
-				/*if(jogo.getAtualJogador() == jogo.getJogador1()) {
-					jogo.setAtualJogador(jogo.getJogador2());
-				}else {
-					jogo.setAtualJogador(jogo.getJogador1());
-				}*/
+				jogo.capturar(possivel[0].getPosX(), possivel[0].getPosY(), possivel[1].getPosX(), possivel[1].getPosY());
 				return true;
 			}
 			
@@ -77,7 +62,6 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 		return this.jogo;
 	}
 
-	@Override
 	public Jogador vencedor() {
 		// TODO Auto-generated method stub
 		return null;
@@ -281,7 +265,7 @@ public Casa verificarCapturaCasa(Casa casa) {
  		for(int i = posX-1; i >= 1; i--) {
  			j--;
  			if(j >= 1) {
- 				System.out.println(i+","+ j);
+ 				//System.out.println(i+","+ j);
  				if(tabuleiro.getCasaGrid(i, j) != tabuleiro.getCasaGrid(posX, posY)) {
      			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
      				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
@@ -360,7 +344,7 @@ public Casa verificarCapturaCasa(Casa casa) {
  			
  		
  	if(this.tabuleiro.getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
- 		if(tabuleiro.getCasaGrid(posX+1, posY-1).getOcupada() == true&& tabuleiro.getCasaGrid(posX+1, posY-1).getPeca().getJogador() == jogo.getAtualJogador()) {
+ 		if(tabuleiro.getCasaGrid(posX+1, posY-1).getOcupada() == true && tabuleiro.getCasaGrid(posX+1, posY-1).getPeca().getJogador() == jogo.getAtualJogador()) {
  			if(tabuleiro.getCasaGrid(posX+2, posY-2).getOcupada() == false) {
  				Casa novaCasa = null;
  				novaCasa = tabuleiro.getCasaGrid(posX+2, posY-2);

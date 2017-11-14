@@ -3,6 +3,8 @@ package br.com.poli.interfaces;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.sun.javafx.tk.Toolkit.Task;
+
 import br.com.poli.CapturaInvalidaException;
 import br.com.poli.Interface;
 import br.com.poli.Jogo;
@@ -10,11 +12,11 @@ import br.com.poli.MovimentoInvalidoException;
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Jogador;
 import br.com.poli.componentes.Tabuleiro;
-import br.com.poli.damIA.AutoPlayer;
 import br.com.poli.damIA.RandomPlayer;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -327,22 +329,30 @@ public class TelaJogoController implements Initializable{
 						}else {
 							casaDestino = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
 							try {
-							jogo.jogar(casaOrigem, casaDestino);
-							
-							
+							if(jogo.jogar(casaOrigem, casaDestino)) {
+								mostrarPecasTabuleiro(tabuleiro, false);
+								limparEfeitos();
+								erroFundo.setVisible(false);
+								erroTexto.setVisible(false);
+								Platform.runLater(new Runnable() {
+								    public void run() {
+								        
+								    }
+								});
+								jogador3.jogarAuto();
+							}
 							mostrarPecasTabuleiro(tabuleiro, false);
 							limparEfeitos();
 							erroFundo.setVisible(false);
 							erroTexto.setVisible(false);
-							jogador3.jogarAuto();
 							
-							}catch(CapturaInvalidaException excecao) {
+							}catch(MovimentoInvalidoException excecao) {
 								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
-							}catch(MovimentoInvalidoException excecao){
+							}catch(CapturaInvalidaException excecao){
 								excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
@@ -437,8 +447,14 @@ public class TelaJogoController implements Initializable{
 		}
 	}
 	
+	
+	
 	public void atualizarPecasCapturadas(Interface jogo) {
 		pecasCapturadasJogador1 = jogo.getPecasCapturadas1();
 		pecasCapturadasJogador2 = jogo.getPecasCapturadas2();
 	}
+	
+	
+	
+	
 }

@@ -10,7 +10,10 @@ public class Tabuleiro {
         this.grid = new Casa[8][8];
     }
     
-    public void executarMovimento(Casa casaOrigem, Casa casaDestino){
+    public void executarMovimento(int origemX, int origemY, int destinoX, int
+    		destinoY){
+    		Casa casaOrigem = grid[origemX][origemY];
+    		Casa casaDestino = grid[destinoX][destinoY];
 			casaDestino.setPeca(casaOrigem.getPeca());
 			casaOrigem.setOcupada(false);
 			casaOrigem.setPeca(null);
@@ -29,7 +32,7 @@ public class Tabuleiro {
     				if(atualBranca == true) {
         				atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
-        				atualBranca = criarCasa(new Peca(CorPeca.ESCURO, jogador2), CorCasa.PRETO, linha, coluna, false, true);
+        				atualBranca = criarCasa(new Dama(CorPeca.ESCURO, jogador2, true), CorCasa.PRETO, linha, coluna, false, true);
         				//grid[linha][coluna].getPeca().setDama(true);
         			}
     				//as duas linhas do meio(sem peca)
@@ -44,7 +47,7 @@ public class Tabuleiro {
     				if(atualBranca == true) {
     					atualBranca = criarCasa(null, CorCasa.BRANCO, linha, coluna, true, false);
         			}else {
-        				atualBranca = criarCasa(new Peca(CorPeca.CLARO, jogador1), CorCasa.PRETO, linha, coluna, false, true);
+        				atualBranca = criarCasa(new Dama(CorPeca.CLARO, jogador1, true), CorCasa.PRETO, linha, coluna, false, true);
         				//grid[linha][coluna].getPeca().setDama(true);
         			}
     			}

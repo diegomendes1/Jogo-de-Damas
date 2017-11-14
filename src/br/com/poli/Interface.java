@@ -23,5 +23,5 @@ public interface Interface {
 	public boolean verificarPossibilidadeCapturaCasa(Casa casa);
 	public Casa getCasaCapturaMultipla();
 	public void setAtualJogador(Jogador jogador);
-	public void capturar(Casa casaAtual, Casa novaCasa);
+	public void capturar(int origemX, int origemY, int destinoX, int destinoY);
 }

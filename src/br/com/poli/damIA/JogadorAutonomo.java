@@ -14,7 +14,6 @@ public class JogadorAutonomo extends Jogador implements AutoPlayer{
 		this.listaJogadas = new ArrayList<int[]>();
 	}
 	
-	
 	@Override
 	public boolean jogarAuto() {
 	//	Tabuleiro tab = jogo.getTabuleiro();

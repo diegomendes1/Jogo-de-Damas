@@ -104,7 +104,6 @@ public class Jogo implements Interface{
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
     public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException{
-    	System.out.println(getAtualJogador().getNome());
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	//Casa para ser capturada.
@@ -132,14 +131,14 @@ public class Jogo implements Interface{
         			//Se o jogador escolheu uma captura possivel
         			if(casaOponente != null) {
         				if(casaCapturaMultipla == null) {
-        					capturar(casaOrigem,/*casaOponente, */casaDestino);
+        					capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
         					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
         						casaCapturaMultipla = casaDestino;
         						return false;
         					}
         				}else {
         					if(casaOrigem == casaCapturaMultipla) {
-        						capturar(casaOrigem,/* casaOponente,*/ casaDestino);
+        						capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
             					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
             						casaCapturaMultipla = casaDestino;
             					}else {
@@ -242,7 +241,7 @@ public class Jogo implements Interface{
     			    		if(casaPossivel == null) {
     			    			return false;
     			    		}else {
-    			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+    			    			tabuleiro.executarMovimento(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
     			    			if(!isUmJogador) {
     			    			if(atualJogador == jogador1) {
     			    				atualJogador = jogador2;
@@ -303,7 +302,7 @@ public class Jogo implements Interface{
         			    			return false;
         			    		}else {
         			    			//Executa o movimento
-        			    			tabuleiro.executarMovimento(casaOrigem, casaDestino);
+        			    			tabuleiro.executarMovimento(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
         			    			
         			    			if(casaDestino.getPeca().getCor() == CorPeca.CLARO) {
     			    					if(casaDestino.getPosX() == 0) {
@@ -473,7 +472,6 @@ public class Jogo implements Interface{
     		for(int i = posX-1; i >= 1; i--) {
     			j--;
     			if(j >= 1) {
-    				System.out.println(i+","+ j);
     				if(tabuleiro.getCasaGrid(i, j) != tabuleiro.getCasaGrid(posX, posY)) {
         			if(tabuleiro.getCasaGrid(i, j).getOcupada() == true) {
         				if(tabuleiro.getCasaGrid(i, j).getPeca().getJogador() != atualJogador) {
@@ -635,7 +633,9 @@ public class Jogo implements Interface{
     }
     
     //Captura a peca.
-    public void capturar(Casa casaAtual, Casa novaCasa){
+    public void capturar(int origemX, int origemY, int destinoX, int destinoY){
+    	Casa casaAtual = tabuleiro.getCasaGrid(origemX, origemY);
+    	Casa novaCasa = tabuleiro.getCasaGrid(destinoX, destinoY);
         novaCasa.setPeca(casaAtual.getPeca());
         novaCasa.setOcupada(true);
         casaAtual.setPeca(null);
@@ -652,7 +652,8 @@ public class Jogo implements Interface{
         }else {
         	y = (novaCasa.getPosY())+1;
         }
-        System.out.println(x+","+y);
+        
+        System.out.println("Captura: "+x+","+y);
         tabuleiro.getCasaGrid(x, y).setPeca(null);
         tabuleiro.getCasaGrid(x, y).setOcupada(false);
     }
