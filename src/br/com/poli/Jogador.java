@@ -1,4 +1,6 @@
-package br.com.poli.componentes;
+package br.com.poli;
+
+import br.com.poli.componentes.Peca;
 
 //Classe responsavel por guardar informacoes de um jogador.
 public class Jogador {

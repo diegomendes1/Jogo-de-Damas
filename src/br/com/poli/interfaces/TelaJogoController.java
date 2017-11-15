@@ -1,18 +1,16 @@
 package br.com.poli.interfaces;
 
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.sun.javafx.tk.Toolkit.Task;
-
 import br.com.poli.CapturaInvalidaException;
 import br.com.poli.Interface;
+import br.com.poli.Jogador;
 import br.com.poli.Jogo;
 import br.com.poli.MovimentoInvalidoException;
+import br.com.poli.RandomPlayer;
 import br.com.poli.componentes.Casa;
-import br.com.poli.componentes.Jogador;
 import br.com.poli.componentes.Tabuleiro;
-import br.com.poli.damIA.RandomPlayer;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
@@ -100,6 +98,7 @@ public class TelaJogoController implements Initializable{
 	private String jogador2Nome;
 	
 	private Interface jogo;
+	private Jogo jogoClasse;
 	private RandomPlayer jogador3;
 
 	public TelaJogoController(String jogador1, String jogador2) {
@@ -122,7 +121,6 @@ public class TelaJogoController implements Initializable{
 				tempoQuePassou.setText("Tempo de Jogo: " + tempoPassado/60000 + ":"+ (tempoPassado/1000 - minPassado*60));
 				}
 			}
-	
 		}.start();
 		
 		rodandoJogo();
@@ -161,7 +159,7 @@ public class TelaJogoController implements Initializable{
 		Tabuleiro tab = new Tabuleiro();
 		tab.gerarTabuleiro(jogador1, jogador2);
 		jogo = new Jogo(jogador1, jogador3, null, tab, null, true);
-		jogador3.setJogo(jogo);
+		
 		pecasCapturadasJogador1 = 0;
 		pecasCapturadasJogador2 = 0;
 		jogo.iniciarPartida();
@@ -334,26 +332,33 @@ public class TelaJogoController implements Initializable{
 								limparEfeitos();
 								erroFundo.setVisible(false);
 								erroTexto.setVisible(false);
-								Platform.runLater(new Runnable() {
-								    public void run() {
-								        
-								    }
-								});
-								jogador3.jogarAuto();
+								new Thread(new Runnable() {
+								    @Override public void run() {
+								    for (int i = 1; i <= 100; i++) {
+								        final int counter = i;
+								        Platform.runLater(new Runnable() {
+								            @Override public void run() {
+								            }
+								        });
+								    }}
+								}).start();
+								
+								jogador3.jogarAuto((Jogo) jogo);
 							}
-							mostrarPecasTabuleiro(tabuleiro, false);
+							mostrarPecasTabuleiro(tabuleiro, true);
 							limparEfeitos();
 							erroFundo.setVisible(false);
 							erroTexto.setVisible(false);
 							
 							}catch(MovimentoInvalidoException excecao) {
-								excecao.printStackTrace();
+								//excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
+								mostrarPecasTabuleiro(tabuleiro, true);
 							}catch(CapturaInvalidaException excecao){
-								excecao.printStackTrace();
+								//excecao.printStackTrace();
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);

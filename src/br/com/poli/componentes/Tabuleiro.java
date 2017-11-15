@@ -1,4 +1,5 @@
 package br.com.poli.componentes;
+import br.com.poli.Jogador;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
 

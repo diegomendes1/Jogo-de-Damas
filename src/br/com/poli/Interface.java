@@ -1,7 +1,6 @@
 package br.com.poli;
 
 import br.com.poli.componentes.Casa;
-import br.com.poli.componentes.Jogador;
 import br.com.poli.componentes.Tabuleiro;
 import br.com.poli.enums.Resultado;
 

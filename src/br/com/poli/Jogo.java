@@ -1,7 +1,6 @@
 package br.com.poli;
 
 import br.com.poli.componentes.Casa;
-import br.com.poli.componentes.Jogador;
 import br.com.poli.componentes.Tabuleiro;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
@@ -652,8 +651,6 @@ public class Jogo implements Interface{
         }else {
         	y = (novaCasa.getPosY())+1;
         }
-        
-        System.out.println("Captura: "+x+","+y);
         tabuleiro.getCasaGrid(x, y).setPeca(null);
         tabuleiro.getCasaGrid(x, y).setOcupada(false);
     }

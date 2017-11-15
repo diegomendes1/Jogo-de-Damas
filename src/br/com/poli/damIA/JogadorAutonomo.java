@@ -2,8 +2,10 @@ package br.com.poli.damIA;
 
 import java.util.ArrayList;
 
+import br.com.poli.AutoPlayer;
 import br.com.poli.Interface;
-import br.com.poli.componentes.Jogador;
+import br.com.poli.Jogador;
+import br.com.poli.Jogo;
 import br.com.poli.componentes.Tabuleiro;
 
 public class JogadorAutonomo extends Jogador implements AutoPlayer{
@@ -15,7 +17,7 @@ public class JogadorAutonomo extends Jogador implements AutoPlayer{
 	}
 	
 	@Override
-	public boolean jogarAuto() {
+	public boolean jogarAuto(Jogo jogo) {
 	//	Tabuleiro tab = jogo.getTabuleiro();
 		
 		return false;
