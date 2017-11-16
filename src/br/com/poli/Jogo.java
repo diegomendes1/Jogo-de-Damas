@@ -2,6 +2,7 @@ package br.com.poli;
 
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Tabuleiro;
+import br.com.poli.damIA.RandomPlayer;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
@@ -17,21 +18,18 @@ public class Jogo implements Interface{
     private Jogador atualJogador;
     private int pecasCapturadasJogador1;
     private int pecasCapturadasJogador2;
-    private boolean isUmJogador;
     
     public Jogo(Jogador jogador1, Jogador jogador2, Jogador vencedor, Tabuleiro tabuleiro,
-                Resultado resultado, boolean isUmJogador){
+                Resultado resultados, boolean isUmJogador){
         this.jogador1 = jogador1;
         this.jogador2 = jogador2;
         this.tabuleiro = tabuleiro;
         this.vencedor = vencedor;
-        this.resultado = resultado;
         this.contadorJogadas = 0;
         atualJogador = jogador1;
         pecasCapturadasJogador1 = 0;
         pecasCapturadasJogador2 = 0;
         this.casaCapturaMultipla = null;
-        this.isUmJogador = isUmJogador;
         iniciarPartida();
     }
     
@@ -102,7 +100,10 @@ public class Jogo implements Interface{
     
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
-    public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException{
+    public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException, CapturaMultiplaException{
+    	if(atualJogador.getAutonomo()) {
+    		((RandomPlayer) atualJogador).jogarAuto();
+    	}
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	//Casa para ser capturada.
@@ -114,7 +115,6 @@ public class Jogo implements Interface{
     	int lugarParaX = casaDestino.getPosX();
     	int lugarParaY = casaDestino.getPosY();
     	
-    	if(casaDestino != null){
     	// Se existir pedra na casa atual
     	if(casaOrigem.getOcupada() == true) {
     		
@@ -133,13 +133,14 @@ public class Jogo implements Interface{
         					capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
         					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
         						casaCapturaMultipla = casaDestino;
-        						return false;
+        						throw new CapturaMultiplaException("Captura Múltipla!");
         					}
         				}else {
         					if(casaOrigem == casaCapturaMultipla) {
         						capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
             					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
             						casaCapturaMultipla = casaDestino;
+            						throw new CapturaMultiplaException("Captura Múltipla!");
             					}else {
             						casaCapturaMultipla = null;
             					}
@@ -155,7 +156,7 @@ public class Jogo implements Interface{
         						casaDestino.getPeca().setDama(true);
         					}
         				}
-        				if(!isUmJogador) {
+        				
         				if(atualJogador == jogador1) {
         					pecasCapturadasJogador2++;
     	    				atualJogador = jogador2;
@@ -163,13 +164,12 @@ public class Jogo implements Interface{
     	    				pecasCapturadasJogador1++;
     	    				atualJogador = jogador1;
     	    			}
-        				}
+        				
         				contadorJogadas = 0;
         				return true;
         			}else {
         				//Existe capturas mas o jogador não quis capturar
         				throw new CapturaInvalidaException("Ainda Existe Captura");
-        				//return false;
         			}
     			}else {
    						//Se não existe capturas, faz o movimento da dama e/ou pedra normal
@@ -241,14 +241,16 @@ public class Jogo implements Interface{
     			    			return false;
     			    		}else {
     			    			tabuleiro.executarMovimento(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
-    			    			if(!isUmJogador) {
+    			    			
+    			    			
     			    			if(atualJogador == jogador1) {
     			    				atualJogador = jogador2;
     			    			}else {
     			    				atualJogador = jogador1;
     			    			}
-    			    			}
+    			    			
     			    			contadorJogadas++;
+    			    			
     			    		}
     			    		
     			    		
@@ -316,15 +318,15 @@ public class Jogo implements Interface{
         			    			//Verifica se a pedra e´ dama. se nao for, verifica se pode se tornar, e a torna uma dama.
         			    			
         			    			//Atualiza quem e´ o proximo jogador para fazer a jogada.
-        			    			if(!isUmJogador) {
+        			    			
         			    			if(atualJogador == jogador1) {
         			    				atualJogador = jogador2;
         			    			}else {
         			    				atualJogador = jogador1;
         			    			}
-        			    			}
         			    			contadorJogadas = 0;
         			    			return true;
+        			    			
         			    		}
     	            		}else {
     	                		throw new MovimentoInvalidoException("Casa Ocupada");
@@ -342,11 +344,6 @@ public class Jogo implements Interface{
     		//MOVIMENTO IMPOSSIVEL - SEM PECA PARA MOVIMENTAR
     		return false;
     	}
-    	
-    }else {
-    	//Codigo morto, mas a etapa tres pedia essa verificacao, entao decidimos mante-las.
-    	throw new MovimentoInvalidoException("Casa destino invalida");
-    }
     	return false;
     }
     

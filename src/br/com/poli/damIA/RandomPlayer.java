@@ -1,59 +1,57 @@
-package br.com.poli;
+package br.com.poli.damIA;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import br.com.poli.Interface;
+import br.com.poli.Jogador;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
 
 public class RandomPlayer  extends Jogador implements AutoPlayer{
 	private ArrayList<int[]> listaPossiveis;
 	private ArrayList<int[]> listaPossiveisCaptura;
+	private Interface jogo;
 	
 	public RandomPlayer() {
+		super(true);
 		listaPossiveis = new ArrayList<int[]>();
 		listaPossiveisCaptura = new ArrayList<int[]>();
+		this.jogo = null;
 	}
 	
-	public boolean jogarAuto(Jogo jogo) {
+	public int[] jogarAuto() {
 		listaPossiveis.clear();
 		listaPossiveisCaptura.clear();
-		
-		int posX = 0, posY = 0;
-		
-		verificaCaptura(jogo);
+		verificaCaptura();
 		
 		if(listaPossiveisCaptura.size() == 0) {
-			iniciarVerificacaoMovimento(jogo);
+			iniciarVerificacaoMovimento();
 			if(listaPossiveis.size() == 0) {
-				return false;
+				return null;
 			}else {
 				 Random randomGenerator = new Random();
 				 int random = randomGenerator.nextInt(listaPossiveis.size());
 				 
 				if(jogo.getTabuleiro().getCasaGrid(listaPossiveis.get(random)[1], listaPossiveis.get(random)[2]) != null) {
-					jogo.getTabuleiro().executarMovimento(listaPossiveis.get(random)[1], listaPossiveis.get(random)[2], listaPossiveis.get(random)[3], listaPossiveis.get(random)[4]);
-					
-					System.out.println();
-					return true;
+					return listaPossiveis.get(random);
 				}
 			}
 		}else {
 			Random randomGenerator = new Random();
 			int random = randomGenerator.nextInt(listaPossiveisCaptura.size());
 			if(jogo.getTabuleiro().getCasaGrid(listaPossiveisCaptura.get(random)[1], listaPossiveisCaptura.get(random)[2]) != null) {
-				jogo.capturar(listaPossiveisCaptura.get(random)[1], listaPossiveisCaptura.get(random)[2], listaPossiveisCaptura.get(random)[3], listaPossiveisCaptura.get(random)[4]);
-				return true;
+				return listaPossiveisCaptura.get(random);
 			}
 		}
-		
-		return false;
+		return null;
 	}
 	
-	public void iniciarVerificacaoMovimento(Jogo jogo) {
+	public void iniciarVerificacaoMovimento() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null && jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
-					int[] destino = verificaMovimento(i, j, jogo);
+				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null && jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+					int[] destino = verificaMovimento(i, j);
 					if(destino != null) {
 						int[] opcao = new int[5];
 						opcao[1] = i;
@@ -61,14 +59,13 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 						opcao[3] = destino[0];
 						opcao[4] = destino[1];
 						listaPossiveis.add(opcao);
-						
 					}
 				}
 			}
 		}
 	}
 	
-	public int[] verificaMovimento(int posX, int posY, Jogo jogo) {
+	public int[] verificaMovimento(int posX, int posY) {
 		int[] casaPossivel = null;
     	
     			//Verifica a direcao que a peca pode movimentar
@@ -111,12 +108,11 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
     			return casaPossivel;
 	}
 	
-	public void verificaCaptura(Jogo jogo) {
-		
+	public void verificaCaptura() {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null && jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
-					int[] casaOponente = verificarCapturaCasa(i, j, jogo);
+				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null && jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+					int[] casaOponente = verificarCapturaCasa(i, j);
 					if(casaOponente != null) {
 						int[] opcao = new int[5];
 						opcao[1] = i;
@@ -130,31 +126,31 @@ public class RandomPlayer  extends Jogador implements AutoPlayer{
 		}
 	}
 	
-public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
+public int[] verificarCapturaCasa(int i, int j) {
  		//Casa em que se pode ir depois do movimento ou captura.
  	    int[] capturaPossivel = null;
  			
  		if(jogo.getTabuleiro().getCasaGrid(i, j).getCor() == CorCasa.PRETO && 
  			jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null &&
- 			jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
+ 			jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
  				
  			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaSuperiorEsq(i, j, jogo);
+ 			capturaPossivel = verificarCapturaSuperiorEsq(i, j);
  			if(capturaPossivel != null) {
  				return capturaPossivel;
  			}
  			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaSuperiorDir(i, j, jogo);
+ 			capturaPossivel = verificarCapturaSuperiorDir(i, j);
  			if(capturaPossivel != null) {
  				return capturaPossivel;
  			}
  			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaInferiorEsq(i, j, jogo);
+ 			capturaPossivel = verificarCapturaInferiorEsq(i, j);
  			if(capturaPossivel != null) {
  				return capturaPossivel;
  			}
  			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaInferiorDir(i, j, jogo);
+ 			capturaPossivel = verificarCapturaInferiorDir(i, j);
  			if(capturaPossivel != null) {
  				return capturaPossivel;
  			}
@@ -163,17 +159,17 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  	return capturaPossivel;
  }
  
- public boolean verificarPossibilidadeCapturaCasa(int x, int y, Jogo jogo) {
- 	if(verificarCapturaSuperiorEsq(x,y, jogo) != null||
- 		verificarCapturaSuperiorDir(x,y, jogo)!= null||
- 		verificarCapturaInferiorEsq(x,y, jogo)!= null||
- 		verificarCapturaInferiorDir(x,y, jogo)!= null) {
+ public boolean verificarPossibilidadeCapturaCasa(int x, int y) {
+ 	if(verificarCapturaSuperiorEsq(x,y) != null||
+ 		verificarCapturaSuperiorDir(x,y)!= null||
+ 		verificarCapturaInferiorEsq(x,y)!= null||
+ 		verificarCapturaInferiorDir(x,y)!= null) {
  		return true;
  	}
  	return false;
  }
  
- public boolean verificarCapturaTabuleiro(Jogo jogo) {
+ public boolean verificarCapturaTabuleiro() {
  	for(int i = 0; i < 8; i++) {
  		for(int j =0; j < 8; j++) {
  			
@@ -182,25 +178,25 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  			
  		if(jogo.getTabuleiro().getCasaGrid(i, j).getCor() == CorCasa.PRETO && 
  			jogo.getTabuleiro().getCasaGrid(i, j).getPeca() != null &&
- 			jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
+ 			jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
  				
  			//procura uma possivel captura na direcao Superior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaSuperiorEsq(i, j, jogo);
+ 			capturaPossivel = verificarCapturaSuperiorEsq(i, j);
  			if(capturaPossivel != null) {
  				return true;
  			}
  			//procura uma possivel captura na direcao Superior Direita. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaSuperiorDir(i, j, jogo);
+ 			capturaPossivel = verificarCapturaSuperiorDir(i, j);
  			if(capturaPossivel != null) {
  				return true;
  			}
  			//procura uma possivel captura na direcao Inferior Esquerda. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaInferiorEsq(i, j, jogo);
+ 			capturaPossivel = verificarCapturaInferiorEsq(i, j);
  			if(capturaPossivel != null) {
  				return true;
  			}
  			//procura uma possivel captura na direcao Inferior Direita. se existir um lugar, casaPossivel recebe esta casa.
- 			capturaPossivel = verificarCapturaInferiorDir(i, j, jogo);
+ 			capturaPossivel = verificarCapturaInferiorDir(i, j);
  			if(capturaPossivel != null) {
  				return true;
  			}
@@ -213,7 +209,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  }
  
  //Grupo de metodos para verificar se existe oportunidade de captura em certa direcao.
- public int[] verificarCapturaSuperiorEsq(int posX, int posY, Jogo jogo) {
+ public int[] verificarCapturaSuperiorEsq(int posX, int posY) {
  	
  	//impede de verificar captura fora do tabuleiro
  	if(posX >= 2 && posY >= 2) {
@@ -222,7 +218,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  		if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca() != null) {
  	if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
  		
-     	if(jogo.getTabuleiro().getCasaGrid(posX-1, posY-1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX-1, posY-1).getPeca().getJogador() == jogo.getAtualJogador()) {
+     	if(jogo.getTabuleiro().getCasaGrid(posX-1, posY-1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX-1, posY-1).getPeca().getJogador() != jogo.getAtualJogador()) {
  			if(jogo.getTabuleiro().getCasaGrid(posX-2, posY-2).getOcupada() == false) {
  				int[] novaCasa = new int[2];
  				novaCasa[0] = posX-2;
@@ -240,7 +236,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  				//System.out.println(i+","+ j);
  				if(jogo.getTabuleiro().getCasaGrid(i, j) != jogo.getTabuleiro().getCasaGrid(posX, posY)) {
      			if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() == true) {
-     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
      					if(jogo.getTabuleiro().getCasaGrid(i-1, j-1).getOcupada() == false) {
      						int[] novaCasa = new int[2];
      		 				novaCasa[0] = i-1;
@@ -264,14 +260,14 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  	return null;
  }
  
- public int[] verificarCapturaSuperiorDir(int posX, int posY, Jogo jogo) {
+ public int[] verificarCapturaSuperiorDir(int posX, int posY) {
  	//impede de verificar captura fora do tabuleiro
  	if(posX >= 2 && posY <= 5) {
  	//Se esse if for verdadeiro, a pedra nao e' dama
  		
  		if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca() != null) {
  	if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
- 		if(jogo.getTabuleiro().getCasaGrid(posX-1, posY+1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX-1, posY+1).getPeca().getJogador() == jogo.getAtualJogador()) {
+ 		if(jogo.getTabuleiro().getCasaGrid(posX-1, posY+1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX-1, posY+1).getPeca().getJogador() != jogo.getAtualJogador()) {
  			if(jogo.getTabuleiro().getCasaGrid(posX-2, posY+2).getOcupada() == false) {
  				int[] novaCasa = new int[2];
  				novaCasa[0] = posX-2;
@@ -287,7 +283,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
      		if(j <= 6) {
      			if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() == true) {
      				if(jogo.getTabuleiro().getCasaGrid(i, j) != jogo.getTabuleiro().getCasaGrid(posX, posY)) {
-     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
      				if(jogo.getTabuleiro().getCasaGrid(i-1, j+1).getOcupada() == false) {
      					int[] novaCasa = new int[2];
  		 				novaCasa[0] = i-1;
@@ -311,7 +307,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  	return null;
  }
  
- public int[] verificarCapturaInferiorEsq(int posX, int posY, Jogo jogo) {
+ public int[] verificarCapturaInferiorEsq(int posX, int posY) {
 	 
  	//impede de verificar captura fora do tabuleiro
  	if(posX <= 5 && posY >= 2) {
@@ -320,7 +316,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  			
  		
  	if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
- 		if(jogo.getTabuleiro().getCasaGrid(posX+1, posY-1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX+1, posY-1).getPeca().getJogador() == jogo.getAtualJogador()) {
+ 		if(jogo.getTabuleiro().getCasaGrid(posX+1, posY-1).getOcupada() == true && jogo.getTabuleiro().getCasaGrid(posX+1, posY-1).getPeca().getJogador() != jogo.getAtualJogador()) {
  			if(jogo.getTabuleiro().getCasaGrid(posX+2, posY-2).getOcupada() == false) {
  				int[] novaCasa = new int[2];
  				novaCasa[0] = posX+2;
@@ -336,7 +332,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
      		if(j >= 1) {
      			if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() == true) {
      				if(jogo.getTabuleiro().getCasaGrid(i, j) != jogo.getTabuleiro().getCasaGrid(posX, posY)) {
-     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
      				if(jogo.getTabuleiro().getCasaGrid(i+1, j-1).getOcupada() == false) {
      					int[] novaCasa = new int[2];
  		 				novaCasa[0] = i+1;
@@ -361,13 +357,13 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  	return null;
  }
  
- public int[] verificarCapturaInferiorDir(int posX, int posY, Jogo jogo) {
+ public int[] verificarCapturaInferiorDir(int posX, int posY) {
  	//impede de verificar captura fora do tabuleiro
  	if(posX <= 5 && posY <= 5) {
  	//Se esse if for verdadeiro, a pedra nao e' dama
  		if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca() != null) {
  	if(jogo.getTabuleiro().getCasaGrid(posX, posY).getPeca().getIsDama() == false) {
- 		if(jogo.getTabuleiro().getCasaGrid(posX+1, posY+1).getOcupada() == true&& jogo.getTabuleiro().getCasaGrid(posX+1, posY+1).getPeca().getJogador() == jogo.getAtualJogador()) {
+ 		if(jogo.getTabuleiro().getCasaGrid(posX+1, posY+1).getOcupada() == true&& jogo.getTabuleiro().getCasaGrid(posX+1, posY+1).getPeca().getJogador() != jogo.getAtualJogador()) {
  			if(jogo.getTabuleiro().getCasaGrid(posX+2, posY+2).getOcupada() == false) {
  				int[] novaCasa = new int[2];
  				novaCasa[0] = posX+2;
@@ -382,7 +378,7 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
      		if(j <= 6) {
      			if(jogo.getTabuleiro().getCasaGrid(i, j).getOcupada() == true) {
      				if(jogo.getTabuleiro().getCasaGrid(i, j) != jogo.getTabuleiro().getCasaGrid(posX, posY)) {
-     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
+     				if(jogo.getTabuleiro().getCasaGrid(i, j).getPeca().getJogador() != jogo.getAtualJogador()) {
      				if(jogo.getTabuleiro().getCasaGrid(i+1, j+1).getOcupada() == false) {
      					int[] novaCasa = new int[2];
  		 				novaCasa[0] = i+1;
@@ -404,6 +400,10 @@ public int[] verificarCapturaCasa(int i, int j, Jogo jogo) {
  		return null;
  	}
  	return null;
+ }
+ 
+ public void setJogo(Interface jogo) {
+	 this.jogo = jogo;
  }
 
 @Override

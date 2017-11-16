@@ -1,20 +1,20 @@
 package br.com.poli.interfaces;
 
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import br.com.poli.CapturaInvalidaException;
+import br.com.poli.CapturaMultiplaException;
 import br.com.poli.Interface;
 import br.com.poli.Jogador;
 import br.com.poli.Jogo;
 import br.com.poli.MovimentoInvalidoException;
-import br.com.poli.RandomPlayer;
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Tabuleiro;
+import br.com.poli.damIA.RandomPlayer;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,49 +42,34 @@ public class TelaJogoController implements Initializable{
 	
 	@FXML
 	private GridPane tabuleiro;
-	
 	@FXML
 	private GridPane tabPecas;
-	
 	@FXML
 	private GridPane efeitosPane;
-	
 	@FXML
 	private GridPane pecasJogador1;
-	
 	@FXML
 	private GridPane pecasJogador2;
-	
 	@FXML
 	private Label qualJogador;
-	
 	@FXML 
 	private Label tempoQuePassou;
-	
 	@FXML
 	private AnchorPane gameOverMenu;
-	
 	@FXML
 	private Text textoResultado;
-	
 	@FXML
 	private Text jogadorVencedor;
-	
 	@FXML
 	private Text tempoPassado;
-	
 	@FXML
 	private Text desistenciaTexto;
-	
 	@FXML
 	private AnchorPane desistenciaMenu;
-	
 	@FXML
 	private Label contadorJogadas;
-	
 	@FXML
 	private Rectangle erroFundo;
-	
 	@FXML
 	private Text erroTexto;
 	
@@ -94,16 +79,17 @@ public class TelaJogoController implements Initializable{
 	private int pecasCapturadasJogador2;
 	private boolean fimDeJogo = false;
 	
-	private String jogador1Nome;
-	private String jogador2Nome;
+	private String jogador1Nome, jogador2Nome;
 	
 	private Interface jogo;
-	private Jogo jogoClasse;
 	private RandomPlayer jogador3;
+	
+	private boolean isUmJogador;
 
-	public TelaJogoController(String jogador1, String jogador2) {
+	public TelaJogoController(String jogador1, String jogador2, boolean isUmJogador) {
 		this.jogador1Nome = jogador1;
 		this.jogador2Nome = jogador2;
+		this.isUmJogador = isUmJogador;
 	}
 	
 	public void initialize(URL location, ResourceBundle resources) {
@@ -138,7 +124,7 @@ public class TelaJogoController implements Initializable{
 	protected void abrirCenaJogo(ActionEvent event) throws Exception{
 		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/br/com/poli/interfaces/TelaJogo.fxml"));
 		
-		TelaJogoController controller = new TelaJogoController(jogador1Nome, jogador2Nome);
+		TelaJogoController controller = new TelaJogoController(jogador1Nome, jogador2Nome, isUmJogador);
 		fxmlloader.setController(controller);
 		Parent root = (Parent)fxmlloader.load();
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();
@@ -148,17 +134,26 @@ public class TelaJogoController implements Initializable{
 	
 	public void rodandoJogo() {
 		tabPecas.setDisable(true);
-		Jogador jogador1 = new Jogador();
-		Jogador jogador2 = new Jogador();
-		
-		jogador3 = new RandomPlayer();
-		
-		jogador1.setNome(jogador1Nome);
-		jogador2.setNome(jogador2Nome);
 		
 		Tabuleiro tab = new Tabuleiro();
+		if(!isUmJogador) {
+			Jogador jogador1 = new Jogador(false);
+			Jogador jogador2 = new Jogador(false);
+			jogador1.setNome(jogador1Nome);
+			jogador2.setNome(jogador2Nome);
 		tab.gerarTabuleiro(jogador1, jogador2);
-		jogo = new Jogo(jogador1, jogador3, null, tab, null, true);
+		jogo = new Jogo(jogador1, jogador2, null, tab, null, false);
+		}else {
+			Jogador jogador1 = new Jogador(false);
+			jogador3 = new RandomPlayer();
+			jogador1.setNome(jogador1Nome);
+			jogador3.setNome("Computador");
+			tab.gerarTabuleiro(jogador1, jogador3);
+			jogo = new Jogo(jogador1, jogador3, null, tab, null, true);
+			jogador3.setJogo(jogo);
+		}
+		
+		
 		
 		pecasCapturadasJogador1 = 0;
 		pecasCapturadasJogador2 = 0;
@@ -274,7 +269,6 @@ public class TelaJogoController implements Initializable{
 			
 		}
 	}
-	
 	public void mostrarTabuleiro(Tabuleiro tabuleiro) {
 		Image imgCasaBranca = new Image("/br/com/poli/resources/white.png");
 		Image imgCasaPreta = new Image("/br/com/poli/resources/black.png");
@@ -318,54 +312,53 @@ public class TelaJogoController implements Initializable{
 							if(jogo.getAtualJogador() == jogo.getJogador1()) {
 							ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP2);
 							this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
-							
 							}else {
 								ImageView imagemSelecionada = new ImageView(imgCasaSelecionadaP1);
 								this.efeitosPane.add(imagemSelecionada, casaOrigem.getPosY(), casaOrigem.getPosX());
 							}
-							
 						}else {
 							casaDestino = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
 							try {
-							if(jogo.jogar(casaOrigem, casaDestino)) {
+								if(jogo.jogar(casaOrigem, casaDestino)) {
+								
+								if(isUmJogador) {
+									
+								int[] escolha = jogador3.jogarAuto();
+									//System.out.println(jogo.getAtualJogador().getNome());
+									jogo.jogar(jogo.getTabuleiro().getCasaGrid(escolha[1], escolha[2]), jogo.getTabuleiro().getCasaGrid(escolha[3], escolha[4]));
+									if(jogador3 == jogo.getJogador1()) {
+										jogo.setAtualJogador(jogo.getJogador2());
+									}else {
+										jogo.setAtualJogador(jogo.getJogador1());
+									}
+								}
+								}
 								mostrarPecasTabuleiro(tabuleiro, false);
 								limparEfeitos();
 								erroFundo.setVisible(false);
 								erroTexto.setVisible(false);
-								new Thread(new Runnable() {
-								    @Override public void run() {
-								    for (int i = 1; i <= 100; i++) {
-								        final int counter = i;
-								        Platform.runLater(new Runnable() {
-								            @Override public void run() {
-								            }
-								        });
-								    }}
-								}).start();
-								
-								jogador3.jogarAuto((Jogo) jogo);
-							}
-							mostrarPecasTabuleiro(tabuleiro, true);
-							limparEfeitos();
-							erroFundo.setVisible(false);
-							erroTexto.setVisible(false);
-							
 							}catch(MovimentoInvalidoException excecao) {
-								//excecao.printStackTrace();
+								System.out.println(excecao);
+								mostrarPecasTabuleiro(tabuleiro, false);
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
-								mostrarPecasTabuleiro(tabuleiro, true);
 							}catch(CapturaInvalidaException excecao){
-								//excecao.printStackTrace();
+								System.out.println(excecao);
+								mostrarPecasTabuleiro(tabuleiro, true);
 								limparEfeitos();
 								erroFundo.setVisible(true);
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
+							}catch(CapturaMultiplaException excecao) {
+								System.out.println(excecao);
 								mostrarPecasTabuleiro(tabuleiro, true);
+								limparEfeitos();
+								erroFundo.setVisible(true);
+								erroTexto.setVisible(true);
+								erroTexto.setText(excecao.getMessage());
 							}
-							
 							
 							atualizarPecasCapturadas(jogo);
 							mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
@@ -378,14 +371,6 @@ public class TelaJogoController implements Initializable{
 							}
 							casaOrigem = null;
 							casaDestino = null;
-							
-							
-							
-							
-							mostrarPecasTabuleiro(tabuleiro, false);
-							
-							
-							
 							if(jogo.isFimDeJogo(false)) {
 								fimDeJogo();
 							}

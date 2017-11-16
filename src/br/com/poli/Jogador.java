@@ -7,10 +7,12 @@ public class Jogador {
     private String nome;
     //Decidimos colocar as pecas em cada jogador, ao inves de criar pecas com jogadores nulos.
     private Peca[] pecas;
+    private boolean isAutonomo;
     
-    public Jogador(){
+    public Jogador(boolean isAutonomo){
         this.nome = null;
         pecas = null;
+        this.isAutonomo = isAutonomo;
     }
     
     public String getNome(){
@@ -27,5 +29,9 @@ public class Jogador {
     
     public void setPecas(Peca peca, int j){
         this.pecas[j] = peca;
+    }
+    
+    public boolean getAutonomo() {
+    	return this.isAutonomo;
     }
 }

@@ -179,7 +179,7 @@
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0" visible="false">
+      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#837357d9" height="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
             <Button layoutX="426.0" layoutY="401.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #D98B83;" text="MENU" textAlignment="CENTER" textFill="WHITE">
@@ -213,7 +213,7 @@
                   <Font size="33.0" />
                </font>
             </Text>
-            <Text fx:id="jogadorVencedor" fill="WHITE" layoutX="192.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENCEDOR" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+            <Text fx:id="jogadorVencedor" fill="WHITE" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JOGADOR" textAlignment="CENTER" wrappingWidth="800.0">
                <font>
                   <Font size="87.0" />
                </font>

@@ -42,6 +42,14 @@ public class MenuScreenController implements Initializable{
 	 
 	 @FXML
 	 private TextField jogador2Name;
+	 
+	 @FXML
+	 private Button umPlayer;
+	 
+	 @FXML
+	 private Button doisPlayers;
+	 
+	 private boolean isUmJogador;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -51,6 +59,24 @@ public class MenuScreenController implements Initializable{
 		Image imgTitulo = new Image("/br/com/poli/resources/titulo.png");
 		titulo.setImage(imgTitulo);
 		
+	}
+	
+
+	
+	@FXML
+	protected void escolherUmJogador() {
+		doisPlayers.setDisable(false);
+		umPlayer.setDisable(true);
+			isUmJogador = true;
+			botaoIniciar.setText("INICIAR(UM JOGADOR)");
+	}
+	
+	@FXML
+	protected void escolherDoisJogadores() {
+		doisPlayers.setDisable(true);
+		umPlayer.setDisable(false);
+		isUmJogador = false;
+		botaoIniciar.setText("INICIAR(MULTIJOGADOR)");
 	}
 	
 	@FXML
@@ -80,8 +106,14 @@ public class MenuScreenController implements Initializable{
 				jogador2Name.setText("Jogador 2");
 			}
 		}
+		if(jogador1Name.getLength() > 10) {
+			jogador1Name.setText(jogador1Name.getText().substring(0, 10));
+		}
 		
-		TelaJogoController controller = new TelaJogoController(jogador1Name.getText(), jogador2Name.getText());
+		if(jogador2Name.getLength() > 10) {
+			jogador2Name.setText(jogador2Name.getText().substring(0, 10));
+		}
+		TelaJogoController controller = new TelaJogoController(jogador1Name.getText(), jogador2Name.getText(), isUmJogador);
 		fxmlloader.setController(controller);
 		Parent root = (Parent)fxmlloader.load();
 		Stage stage = (Stage) ((Node) event.getTarget()).getScene().getWindow();

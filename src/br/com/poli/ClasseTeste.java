@@ -8,7 +8,7 @@ import br.com.poli.componentes.Tabuleiro;
 			
 			/* 10 SEGUNDOS PARA FAZER O MOVIMENTO.*/
 			
-			Jogo jogo = new Jogo(new Jogador(), new Jogador(), new Jogador(), new Tabuleiro(), null, false);
+			Jogo jogo = new Jogo(new Jogador(false), new Jogador(false), null, new Tabuleiro(), null, false);
 			jogo.getJogador1().setNome("Primeiro jogador");
 			jogo.getJogador2().setNome("Segundo jogador");
 			System.out.println();
@@ -54,6 +54,8 @@ import br.com.poli.componentes.Tabuleiro;
 				}catch(CapturaInvalidaException e) {
 					e.printStackTrace();
 				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}catch(CapturaMultiplaException e) {
 					e.printStackTrace();
 				}
 			}

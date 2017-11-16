@@ -38,7 +38,7 @@
                   <DropShadow blurType="TWO_PASS_BOX" height="47.44" radius="22.479999999999997" spread="0.08" width="44.48" />
                </effect>
             </Rectangle>
-            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="590.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="59.0" prefWidth="178.0" style="-fx-background-color: #8FBC8F;" text="INICIAR" textFill="WHITE">
+            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="334.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="434.0" style="-fx-background-color: #8FBC8F;" text="INICIAR(MULTIJOGADOR)" textFill="WHITE">
                <font>
                   <Font size="28.0" />
                </font>
@@ -80,6 +80,22 @@
                </font>
                <effect>
                   <DropShadow offsetX="3.0" offsetY="3.0" />
+               </effect>
+            </Button>
+            <Button fx:id="umPlayer" layoutX="394.0" layoutY="58.0" mnemonicParsing="false" onAction="#escolherUmJogador" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #439ACA;" text="Um Jogador" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <DropShadow height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0" />
+               </effect>
+            </Button>
+            <Button fx:id="doisPlayers" disable="true" layoutX="570.0" layoutY="58.0" mnemonicParsing="false" onAction="#escolherDoisJogadores" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #439ACA;" text="Dois Jogadores" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <DropShadow height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0" />
                </effect>
             </Button>
          </children>

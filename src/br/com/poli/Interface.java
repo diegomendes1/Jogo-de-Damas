@@ -5,7 +5,7 @@ import br.com.poli.componentes.Tabuleiro;
 import br.com.poli.enums.Resultado;
 
 public interface Interface {
-	public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException, CapturaInvalidaException;
+	public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException, CapturaInvalidaException, CapturaMultiplaException;
 	public void iniciarPartida();
 	public boolean isFimDeJogo(boolean desistiu);
 	public Tabuleiro getTabuleiro();
