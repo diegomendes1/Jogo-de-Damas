@@ -20,6 +20,13 @@ public class Casa {
         this.posY = posY;
     }
     
+    public Casa(Casa original) {
+    	this.cor = original.getCor();
+    	this.ocupada = original.getOcupada();
+    	this.posX = original.getPosX();
+    	this.posY = original.getPosY();
+    }
+    
     //COR
     public void setCor( CorCasa cor)
     {

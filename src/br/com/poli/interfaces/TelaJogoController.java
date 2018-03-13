@@ -2,7 +2,6 @@ package br.com.poli.interfaces;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import br.com.poli.CapturaInvalidaException;
 import br.com.poli.CapturaMultiplaException;
 import br.com.poli.Interface;
@@ -11,7 +10,7 @@ import br.com.poli.Jogo;
 import br.com.poli.MovimentoInvalidoException;
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Tabuleiro;
-import br.com.poli.damIA.RandomPlayer;
+import br.com.poli.damIA.JogadorAutonomo;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
 import javafx.animation.AnimationTimer;
@@ -82,7 +81,7 @@ public class TelaJogoController implements Initializable{
 	private String jogador1Nome, jogador2Nome;
 	
 	private Interface jogo;
-	private RandomPlayer jogador3;
+	private JogadorAutonomo jogador3;
 	
 	private boolean isUmJogador;
 
@@ -133,6 +132,7 @@ public class TelaJogoController implements Initializable{
 	}
 	
 	public void rodandoJogo() {
+        
 		tabPecas.setDisable(true);
 		
 		Tabuleiro tab = new Tabuleiro();
@@ -145,7 +145,7 @@ public class TelaJogoController implements Initializable{
 		jogo = new Jogo(jogador1, jogador2, null, tab, null, false);
 		}else {
 			Jogador jogador1 = new Jogador(false);
-			jogador3 = new RandomPlayer();
+			jogador3 = new JogadorAutonomo();
 			jogador1.setNome(jogador1Nome);
 			jogador3.setNome("Computador");
 			tab.gerarTabuleiro(jogador1, jogador3);
@@ -279,9 +279,6 @@ public class TelaJogoController implements Initializable{
 		for(int i = 0; i < 8; i++) {
 			for(int j =0; j < 8; j++) {
 				
-				
-				//FASE DE TESTES
-				///////////
 				ColumnConstraints cc = new ColumnConstraints();
 			    cc.setHgrow(Priority.ALWAYS);
 			    this.tabuleiro.getColumnConstraints().add(cc);
@@ -289,7 +286,6 @@ public class TelaJogoController implements Initializable{
 			    RowConstraints rc = new RowConstraints();
 			    rc.setVgrow(Priority.ALWAYS);
 			    this.tabuleiro.getRowConstraints().add(rc);
-			    ///////////
 			    
 				if(atualBranca) {
 					ImageView imagem = new ImageView(imgCasaBranca);
@@ -323,8 +319,17 @@ public class TelaJogoController implements Initializable{
 								
 								if(isUmJogador) {
 									
+									//Pausar o movimento do jogador IA
+									
+									/*long inicioPausa = System.currentTimeMillis();
+									long atualPausa = System.currentTimeMillis();
+									while(atualPausa <= inicioPausa + 100000) {
+										atualPausa++;
+										System.out.println(atualPausa);
+										
+									}*/
+							        
 								int[] escolha = jogador3.jogarAuto();
-									//System.out.println(jogo.getAtualJogador().getNome());
 									jogo.jogar(jogo.getTabuleiro().getCasaGrid(escolha[1], escolha[2]), jogo.getTabuleiro().getCasaGrid(escolha[3], escolha[4]));
 									if(jogador3 == jogo.getJogador1()) {
 										jogo.setAtualJogador(jogo.getJogador2());
@@ -359,6 +364,7 @@ public class TelaJogoController implements Initializable{
 								erroTexto.setVisible(true);
 								erroTexto.setText(excecao.getMessage());
 							}
+							
 							
 							atualizarPecasCapturadas(jogo);
 							mostrarPecasCapturadas(true, pecasJogador1, pecasCapturadasJogador1);
@@ -437,14 +443,9 @@ public class TelaJogoController implements Initializable{
 		}
 	}
 	
-	
-	
 	public void atualizarPecasCapturadas(Interface jogo) {
 		pecasCapturadasJogador1 = jogo.getPecasCapturadas1();
 		pecasCapturadasJogador2 = jogo.getPecasCapturadas2();
 	}
-	
-	
-	
 	
 }

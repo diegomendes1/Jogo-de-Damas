@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="1080.0" maxWidth="1920.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #B2AE79;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00000058" height="44.0" layoutX="5.0" layoutY="5.0" stroke="#00000056" strokeType="INSIDE" strokeWidth="3.0" width="789.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f1d08" height="538.0" layoutX="10.0" layoutY="51.0" stroke="TRANSPARENT" strokeType="INSIDE" width="538.0">
+         <effect>
+            <DropShadow offsetX="5.0" offsetY="5.0" />
+         </effect></Rectangle>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#0000001b" height="318.0" layoutX="556.0" layoutY="52.0" stroke="#00000056" strokeType="INSIDE" strokeWidth="3.0" width="238.0" />
+      <GridPane fx:id="tabuleiro" layoutX="25.0" layoutY="65.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <rotationAxis>
+            <Point3D />
+         </rotationAxis>
+      </GridPane>
+      <GridPane fx:id="tabPecas" disable="true" layoutX="25.0" layoutY="65.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="efeitosPane" disable="true" layoutX="25.0" layoutY="65.0" pickOnBounds="false" prefHeight="512.0" prefWidth="512.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="64.0" prefWidth="64.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="64.0" minHeight="64.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Label fx:id="tempoQuePassou" layoutX="10.0" layoutY="7.0" prefHeight="36.0" prefWidth="252.0" text="Tempo de Jogo: 99:99" textFill="WHITE">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Button layoutX="578.0" layoutY="529.0" mnemonicParsing="false" onAction="#botaoDesistir" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #D98B83;" text="DESISTIR" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font>
+         <effect>
+            <DropShadow offsetX="2.0" offsetY="2.0" />
+         </effect></Button>
+      <Label fx:id="qualJogador" alignment="CENTER_RIGHT" layoutX="299.0" layoutY="7.0" prefHeight="36.0" prefWidth="249.0" text="Jogue, Jogador1" textAlignment="RIGHT" textFill="WHITE">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <GridPane fx:id="pecasJogador1" layoutX="562.0" layoutY="58.0" prefHeight="273.0" prefWidth="41.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="48.0" minWidth="48.0" prefWidth="48.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="48.0" minWidth="48.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="pecasJogador2" layoutX="692.0" layoutY="58.0" prefHeight="273.0" prefWidth="41.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="48.0" minWidth="48.0" prefWidth="48.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="48.0" minWidth="48.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="48.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
+      <Rectangle fx:id="erroFundo" arcHeight="5.0" arcWidth="5.0" fill="#f8ff1fae" height="142.0" layoutX="559.0" layoutY="376.0" stroke="#b6bc00" strokeType="INSIDE" strokeWidth="5.0" width="232.0" />
+      <Text fx:id="erroTexto" fill="WHITE" layoutX="565.0" layoutY="436.0" stroke="RED" strokeType="OUTSIDE" strokeWidth="2.0" text="Movimento Inválido" textAlignment="CENTER" wrappingWidth="220.0">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <Label alignment="CENTER" layoutX="565.0" layoutY="346.0" prefHeight="0.0" prefWidth="221.0" text="PEDRAS CAPTURADAS" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="contadorJogadas" alignment="TOP_RIGHT" layoutX="669.0" layoutY="5.0" prefHeight="44.0" prefWidth="117.0" text="20 Jogadas para empate" textAlignment="RIGHT" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <AnchorPane fx:id="desistenciaMenu" prefHeight="600.0" prefWidth="800.0" visible="false">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#804646d9" height="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
+            <Button layoutX="424.0" layoutY="316.0" mnemonicParsing="false" onAction="#jogadorDesistiu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #D98B83;" text="DESISTIR" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="2.0" offsetY="2.0" />
+               </effect>
+            </Button>
+            <Button layoutX="177.0" layoutY="316.0" mnemonicParsing="false" onAction="#naoDesistiu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #8FBC8F;" text="CONTINUAR" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="2.0" offsetY="2.0" />
+               </effect>
+            </Button>
+            <Text fill="RED" layoutX="180.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DESISTIR" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Text>
+            <Text fx:id="desistenciaTexto" fill="WHITE" layoutX="180.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JOGADOR 0, DESEJA DESISTIR DA PARTIDA?" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="gameOverMenu" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#837357d9" height="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
+            <Button layoutX="426.0" layoutY="401.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #D98B83;" text="MENU" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="2.0" offsetY="2.0" />
+               </effect>
+            </Button>
+            <Button layoutX="179.0" layoutY="401.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #8FBC8F;" text="REINICIAR" textFill="WHITE">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="2.0" offsetY="2.0" />
+               </effect>
+            </Button>
+            <Text fill="#b91010" layoutX="180.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FIM DE JOGO" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Text>
+            <Text fx:id="tempoPassado" fill="WHITE" layoutX="174.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tempo de Jogo: 59:59" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+            <Text fx:id="textoResultado" fill="WHITE" layoutX="181.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEM GANHOU FOI:" textAlignment="CENTER" wrappingWidth="450.1366882324219">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+            <Text fx:id="jogadorVencedor" fill="WHITE" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JOGADOR" textAlignment="CENTER" wrappingWidth="800.0">
+               <font>
+                  <Font size="87.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

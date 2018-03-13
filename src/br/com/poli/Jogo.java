@@ -2,7 +2,7 @@ package br.com.poli;
 
 import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Tabuleiro;
-import br.com.poli.damIA.RandomPlayer;
+import br.com.poli.damIA.JogadorAutonomo;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
 import br.com.poli.enums.Resultado;
@@ -101,9 +101,9 @@ public class Jogo implements Interface{
     /*Metodo principal, recebe duas casas e verifica o movimento ou captura de uma casa para outra.
     funciona independente das variaveis do sistema, como o jogadorAtual.*/
     public boolean jogar(Casa casaOrigem, Casa casaDestino) throws MovimentoInvalidoException,  CapturaInvalidaException, CapturaMultiplaException{
-    	if(atualJogador.getAutonomo()) {
-    		((RandomPlayer) atualJogador).jogarAuto();
-    	}
+    	/*if(atualJogador.getAutonomo()) {
+    		((JogadorAutonomo) atualJogador).jogarAuto();
+    	}*/
     	//Casa em que se pode ir depois do movimento ou captura.
     	Casa casaPossivel = null;
     	//Casa para ser capturada.
@@ -687,6 +687,14 @@ public class Jogo implements Interface{
     
     public void setAtualJogador(Jogador jogador) {
     	this.atualJogador = jogador;
+    }
+    
+    public void trocarJogador() {
+    	if(this.atualJogador == jogador1) {
+    		this.atualJogador = jogador2;
+    	}else {
+    		this.atualJogador = jogador1;
+    	}
     }
     
     public Jogador getVencedor() {

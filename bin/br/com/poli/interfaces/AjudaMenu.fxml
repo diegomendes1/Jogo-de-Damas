@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.poli.interfaces.AjudaMenuController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b2ae79" height="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="800.0" />
+      <Button fx:id="botaoVoltarMenu" layoutX="570.0" layoutY="537.0" mnemonicParsing="false" onAction="#voltarMenu" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #858585;" text="VOLTAR AO MENU" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <effect>
+            <DropShadow offsetX="2.0" offsetY="2.0" />
+         </effect></Button>
+      <TextArea editable="false" layoutX="28.0" layoutY="14.0" prefHeight="513.0" prefWidth="746.0" style="-fx-background-color: #000000;" text="     O jogo de damas é praticado entre dois jogadores, com 12 peças brancas de um lado e com 12 pretas de outro lado.&#10;&#10;                                          O lance inicial cabe sempre a quem estiver com as peças brancas.&#10;&#10;                                           A pedra anda só para frente,em diagonal, uma casa de cada vez.&#10;&#10;                                  Quando a pedra atinge a oitava linha do tabuleiro ela é promovida à dama.&#10;&#10;                                               A dama anda para frente e para trás, quantas casas quiser.&#10;&#10;                                                   A dama não pode saltar uma peça da mesma cor.&#10;&#10;                                                                       A captura é obrigatória.&#10;&#10;                            Duas ou mais peças juntas, na mesma diagonal, não podem ser capturadas.&#10;&#10;                                               A pedra captura a dama e a dama captura a pedra.&#10;&#10;                 A pedra e a dama podem capturar tanto para frente como para trás, uma ou mais peças.&#10;&#10;  A pedra que durante o lance de captura de várias peças, apenas passe por qualquer casa de coroação, sem aí parar, não será promovida à dama.&#10;&#10;                              Vitória: Ganha aquele jogador que capturar todas as peças do adversário.&#10;&#10;   Empate: Após 20 lances sucessivos de damas, sem captura ou deslocamento de pedra, a partida é declarada empatada. " wrapText="true">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextArea>
+   </children>
+</AnchorPane>

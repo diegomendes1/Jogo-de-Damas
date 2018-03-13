@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.poli.interfaces.MenuScreenController">
+   <children>
+      <ImageView fx:id="fundo" fitHeight="1001.0" fitWidth="1001.0" layoutX="-106.0" layoutY="-190.0" rotate="22.5">
+         <image>
+            <Image url="@../../../../../Pictures/back1.PNG" />
+         </image>
+         <effect>
+            <GaussianBlur radius="19.05" />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="titulo" fitHeight="298.0" fitWidth="690.0" layoutX="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../resources/titulo.png" />
+         </image>
+      </ImageView>
+      <CheckBox fx:id="isTelaCheia" alignment="CENTER_RIGHT" layoutX="410.0" layoutY="542.0" mnemonicParsing="false" onAction="#alternarTelaCheia" prefHeight="47.0" prefWidth="117.0" text="Tela Cheia" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+      <AnchorPane layoutX="14.0" layoutY="308.0" prefHeight="291.0" prefWidth="775.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8c7a56a6" height="235.0" layoutX="-1.0" layoutY="-7.0" stroke="TRANSPARENT" strokeType="INSIDE" width="776.0">
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" height="47.44" radius="22.479999999999997" spread="0.08" width="44.48" />
+               </effect>
+            </Rectangle>
+            <Button fx:id="botaoIniciar" alignment="CENTER_RIGHT" layoutX="334.0" layoutY="157.0" mnemonicParsing="false" onAction="#abrirCenaJogo" prefHeight="60.0" prefWidth="434.0" style="-fx-background-color: #8FBC8F;" text="INICIAR(MULTIJOGADOR)" textFill="WHITE">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <effect>
+                  <DropShadow height="74.37" offsetX="5.0" offsetY="5.0" radius="36.685" width="74.37" />
+               </effect></Button>
+            <TextField fx:id="jogador1Name" layoutX="77.0" layoutY="101.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 1" AnchorPane.leftAnchor="75.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </TextField>
+            <TextField fx:id="jogador2Name" layoutX="80.0" layoutY="151.0" prefHeight="30.0" prefWidth="200.0" promptText="Jogador 2" AnchorPane.leftAnchor="75.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </TextField>
+            <Label alignment="TOP_CENTER" layoutX="3.0" layoutY="2.0" prefHeight="81.0" prefWidth="343.0" text="Insira o nome dos jogadores:" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+            <Button fx:id="botaoAjuda" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="530.0" layoutY="237.0" mnemonicParsing="false" onAction="#abrirCenaAjuda" prefHeight="44.0" prefWidth="132.0" style="-fx-background-color: #66A7A7;" text="AJUDA" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
+               </effect>
+            </Button>
+            <Button fx:id="botaoSair" alignment="CENTER_RIGHT" layoutX="672.0" layoutY="236.0" mnemonicParsing="false" onAction="#fecharJogo" prefHeight="45.0" prefWidth="103.0" style="-fx-background-color: #D98B83;" text="SAIR" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <effect>
+                  <DropShadow offsetX="3.0" offsetY="3.0" />
+               </effect>
+            </Button>
+            <Button fx:id="umPlayer" layoutX="394.0" layoutY="58.0" mnemonicParsing="false" onAction="#escolherUmJogador" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #439ACA;" text="Um Jogador" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <effect>
+                  <DropShadow height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0" />
+               </effect>
+            </Button>
+            <Button fx:id="doisPlayers" disable="true" layoutX="570.0" layoutY="58.0" mnemonicParsing="false" onAction="#escolherDoisJogadores" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #439ACA;" text="Dois Jogadores" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <effect>
+                  <DropShadow height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" width="10.0" />
+               </effect>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
