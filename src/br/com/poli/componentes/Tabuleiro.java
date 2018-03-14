@@ -1,14 +1,25 @@
 package br.com.poli.componentes;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import br.com.poli.Interface;
 import br.com.poli.Jogador;
+import br.com.poli.damIA.AutoPlayer;
 import br.com.poli.enums.CorCasa;
 import br.com.poli.enums.CorPeca;
 
 /*Classe responsavel por gerenciar o tabuleiro. Aqui se cria o tabuleiro, adiciona peca nas casas,
  * e movimenta alguma peca.*/
-public class Tabuleiro {
+public class Tabuleiro implements Cloneable{
     private Casa[][] grid;
+    
+    private int score;
+    private int[] movimento;
+    private List<Tabuleiro> possibilidades;
     public Tabuleiro(){
         this.grid = new Casa[8][8];
+        score = 0;
     }
     
     public void executarMovimento(int origemX, int origemY, int destinoX, int
@@ -19,6 +30,7 @@ public class Tabuleiro {
 			casaOrigem.setOcupada(false);
 			casaOrigem.setPeca(null);
 			casaDestino.setOcupada(true);
+			possibilidades = new ArrayList<Tabuleiro>();
     }
     
     /* Adiciona cada peca em cada casa corretamente.*/
@@ -101,15 +113,152 @@ public class Tabuleiro {
     		System.out.println();
     	}
     }
+ 
+    public int getScore() {
+    	return this.score;
+    }
+    
+    public void setScore(int score) {
+    	this.score = score;
+    }
+    
+    public void setScore(Interface jogo) {
+    	int totalScore = 0;
+    	
+    	for(int i = 0; i < 8; i++) {
+    		for(int j = 0; j < 8; j++) {
+    			if(this.grid[i][j].getOcupada()) {
+    				
+    				if(this.grid[i][j].getPeca().getJogador() == jogo.getAtualJogador()) {
+    					totalScore+= i/4;
+    					if(j == 0 || j == 7) {
+    						totalScore+= 2;
+    					}
+    					
+    					if(this.grid[i][j].getPeca().getIsDama()) {
+    						totalScore += 2;
+    					}else {
+    						totalScore += 5;
+    					}
+    				}else {
+    					
+    					totalScore-= (7-i)/4;
+    					if(j == 0 || j == 7) {
+    						totalScore-= 2;
+    					}
+    					
+    					if(this.grid[i][j].getPeca().getIsDama()) {
+    						totalScore -= 2;
+    					}else {
+    						totalScore -= 5;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	this.score = totalScore;
+    }
+    
+    public void setMovimento(int[] movimento) {
+    	this.movimento = movimento;
+    }
+    
+    public int[] getMovimento() {
+    	return this.movimento;
+    }
+    
+    public List<Tabuleiro> getListaPossiveis(){
+    	return this.possibilidades;
+    }
+    
+    public void limparPossibilidades() {
+    	this.possibilidades.clear();
+    }
+    
+    public void adicionarPossiblidade(Tabuleiro possibilidade) {
+    	possibilidades.add(possibilidade);
+    }
+    
+    public int getNumeroPossiveis() {
+    	return this.possibilidades.size();
+    }
+    
+    public Tabuleiro getPossibilidade(int id) {
+    	return this.possibilidades.get(id);
+    }
     
     public Casa getCasaGrid(int i, int j) {
-    	if(grid[i][j] != null) {
-    	return grid[i][j];
+    	if(this.grid[i][j] != null) {
+    	return this.grid[i][j];
     	}
     	return null;
     }
     
     public Casa[][] getGrid(){
-    	return grid;
+    	return this.grid;
+    }
+    
+    public void gerarTabuleiroCaptura(AutoPlayer ia, int origemX, int origemY, int destinoX, int destinoY) {
+    	Casa casaAtual = getCasaGrid(origemX, origemY);
+    	Casa novaCasa = getCasaGrid(destinoX, destinoY);
+        novaCasa.setPeca(casaAtual.getPeca());
+        novaCasa.setOcupada(true);
+        casaAtual.setPeca(null);
+        casaAtual.setOcupada(false);
+        int x, y;
+        if((casaAtual.getPosX() - novaCasa.getPosX()) < 0) {
+        	x = (novaCasa.getPosX())-1;
+        }else {
+        	x = (novaCasa.getPosX())+1;
+        }
+        
+        if((casaAtual.getPosY() - novaCasa.getPosY()) < 0) {
+        	y = (novaCasa.getPosY())-1;
+        }else {
+        	y = (novaCasa.getPosY())+1;
+        }
+        getCasaGrid(x, y).setPeca(null);
+        getCasaGrid(x, y).setOcupada(false);
+        
+        int[] capMultipla = ia.verificarCapturaCasa(destinoX, destinoY, this);
+        if(capMultipla != null) {
+        	this.gerarTabuleiroCaptura(ia, destinoX, destinoY, capMultipla[0], capMultipla[1]);
+        }
+    }
+    
+    public void gerarTabuleiroMovimento(int origemX, int origemY, int destinoX, int destinoY){
+    		Casa casaOrigem = getCasaGrid(origemX, origemY);
+    		Casa casaDestino = getCasaGrid(destinoX, destinoY);
+			casaDestino.setPeca(casaOrigem.getPeca());
+			casaOrigem.setOcupada(false);
+			casaOrigem.setPeca(null);
+			casaDestino.setOcupada(true);
+    }
+    
+    @Override
+    public Tabuleiro clone() {
+    	try {
+    		Tabuleiro novoTab = (Tabuleiro)super.clone();
+    		novoTab.possibilidades = new ArrayList<Tabuleiro>();
+    		novoTab.grid = this.copiarGrid();
+    		return novoTab;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
+    public Casa[][] copiarGrid(){
+    	Casa[][] novoGrid = new Casa[8][8];
+    	
+    	for(int i = 0; i < 8; i++) {
+    		for(int j = 0; j < 8; j++) {
+    			novoGrid[i][j] = new Casa(this.grid[i][j]);
+    			if(novoGrid[i][j].getOcupada()) {
+    			novoGrid[i][j].setPeca(new Peca(this.grid[i][j].getPeca().getCor(), this.grid[i][j].getPeca().getJogador()));
+    			}
+    		}
+    	}
+    	return novoGrid;
     }
 }

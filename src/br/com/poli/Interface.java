@@ -23,4 +23,5 @@ public interface Interface {
 	public Casa getCasaCapturaMultipla();
 	public void setAtualJogador(Jogador jogador);
 	public void capturar(int origemX, int origemY, int destinoX, int destinoY);
+	public void trocarJogador();
 }
