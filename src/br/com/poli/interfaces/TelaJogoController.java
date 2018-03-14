@@ -315,29 +315,25 @@ public class TelaJogoController implements Initializable{
 						}else {
 							casaDestino = tabuleiro.getCasaGrid(GridPane.getRowIndex(btn), GridPane.getColumnIndex(btn));
 							try {
-								if(jogo.jogar(casaOrigem, casaDestino)) {
 								
 								if(isUmJogador) {
-									
-									//Pausar o movimento do jogador IA
-									
-									/*long inicioPausa = System.currentTimeMillis();
-									long atualPausa = System.currentTimeMillis();
-									while(atualPausa <= inicioPausa + 100000) {
-										atualPausa++;
-										System.out.println(atualPausa);
-										
-									}*/
-							        
-								int[] escolha = jogador3.jogarAuto();
-									jogo.jogar(jogo.getTabuleiro().getCasaGrid(escolha[1], escolha[2]), jogo.getTabuleiro().getCasaGrid(escolha[3], escolha[4]));
-									if(jogador3 == jogo.getJogador1()) {
-										jogo.setAtualJogador(jogo.getJogador2());
-									}else {
-										jogo.setAtualJogador(jogo.getJogador1());
+									if(jogo.getAtualJogador() == jogo.getJogador1() && jogo.getCasaCapturaMultipla() == null) {
+									jogo.jogar(casaOrigem, casaDestino);
+									jogo.trocarJogador();
 									}
+									//IA
+									
+									
+									jogarIA(jogo);
+									
+									jogo.trocarJogador();
+								}else {
+									jogo.jogar(casaOrigem, casaDestino);
+									jogo.trocarJogador();
 								}
-								}
+								
+								
+								
 								mostrarPecasTabuleiro(tabuleiro, false);
 								limparEfeitos();
 								erroFundo.setVisible(false);
@@ -392,6 +388,12 @@ public class TelaJogoController implements Initializable{
 			}
 		}
 		
+	}
+	
+	public void jogarIA(Interface jogo) throws MovimentoInvalidoException, CapturaInvalidaException, CapturaMultiplaException {
+		int[] escolha = jogador3.jogarAuto();
+		//System.out.println("(" + escolha[1]+","+ escolha[2] + ") (" + escolha[3] + "," + escolha[4] + ")");
+		jogo.jogar(jogo.getTabuleiro().getCasaGrid(escolha[1], escolha[2]), jogo.getTabuleiro().getCasaGrid(escolha[3], escolha[4]));
 	}
 	
 	public void fimDeJogo() {

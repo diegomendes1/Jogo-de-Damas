@@ -136,9 +136,9 @@ public class Tabuleiro implements Cloneable{
     					}
     					
     					if(this.grid[i][j].getPeca().getIsDama()) {
-    						totalScore += 8;
+    						totalScore += 2;
     					}else {
-    						totalScore +=40;
+    						totalScore += 5;
     					}
     				}else {
     					
@@ -148,9 +148,9 @@ public class Tabuleiro implements Cloneable{
     					}
     					
     					if(this.grid[i][j].getPeca().getIsDama()) {
-    						totalScore -= 8;
+    						totalScore -= 2;
     					}else {
-    						totalScore -=4;
+    						totalScore -= 5;
     					}
     				}
     			}

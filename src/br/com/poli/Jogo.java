@@ -130,19 +130,19 @@ public class Jogo implements Interface{
         			//Se o jogador escolheu uma captura possivel
         			if(casaOponente != null) {
         				if(casaCapturaMultipla == null) {
-        					capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
+        					capturar(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
         					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
-        						casaCapturaMultipla = casaDestino;
+        						this.casaCapturaMultipla = casaDestino;
         						throw new CapturaMultiplaException("Captura Múltipla!");
         					}
         				}else {
         					if(casaOrigem == casaCapturaMultipla) {
-        						capturar(casaOrigem.getPosX(), casaOrigem.getPosY(),/*casaOponente, */casaDestino.getPosX(), casaDestino.getPosY());
+        						capturar(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
             					if(verificarPossibilidadeCapturaCasa(casaDestino)) {
-            						casaCapturaMultipla = casaDestino;
+            						this.casaCapturaMultipla = casaDestino;
             						throw new CapturaMultiplaException("Captura Múltipla!");
             					}else {
-            						casaCapturaMultipla = null;
+            						this.casaCapturaMultipla = null;
             					}
         					}
         				}
@@ -159,10 +159,10 @@ public class Jogo implements Interface{
         				
         				if(atualJogador == jogador1) {
         					pecasCapturadasJogador2++;
-    	    				atualJogador = jogador2;
+    	    				//atualJogador = jogador2;
     	    			}else {
     	    				pecasCapturadasJogador1++;
-    	    				atualJogador = jogador1;
+    	    				//atualJogador = jogador1;
     	    			}
         				
         				contadorJogadas = 0;
@@ -238,15 +238,15 @@ public class Jogo implements Interface{
     			    		
     			    		//Se casaPossivel for null, significa que nenhuma oportunidade de movimento pro jogador.
     			    		if(casaPossivel == null) {
-    			    			return false;
+    			    			throw new MovimentoInvalidoException("Movimento Inválido");
     			    		}else {
     			    			tabuleiro.executarMovimento(casaOrigem.getPosX(), casaOrigem.getPosY(), casaDestino.getPosX(), casaDestino.getPosY());
     			    			
     			    			
     			    			if(atualJogador == jogador1) {
-    			    				atualJogador = jogador2;
+    			    				//atualJogador = jogador2;
     			    			}else {
-    			    				atualJogador = jogador1;
+    			    				//atualJogador = jogador1;
     			    			}
     			    			
     			    			contadorJogadas++;
@@ -320,9 +320,9 @@ public class Jogo implements Interface{
         			    			//Atualiza quem e´ o proximo jogador para fazer a jogada.
         			    			
         			    			if(atualJogador == jogador1) {
-        			    				atualJogador = jogador2;
+        			    				//atualJogador = jogador2;
         			    			}else {
-        			    				atualJogador = jogador1;
+        			    				//atualJogador = jogador1;
         			    			}
         			    			contadorJogadas = 0;
         			    			return true;
@@ -341,8 +341,7 @@ public class Jogo implements Interface{
     			throw new MovimentoInvalidoException("Pedra de Outro Jogador");
     		}
     	}else {
-    		//MOVIMENTO IMPOSSIVEL - SEM PECA PARA MOVIMENTAR
-    		return false;
+    		throw new MovimentoInvalidoException("Movimento Inválido");
     	}
     	return false;
     }
@@ -475,6 +474,8 @@ public class Jogo implements Interface{
         						Casa novaCasa = null;
         						novaCasa = tabuleiro.getCasaGrid(i-1, j-1);
         						return novaCasa;
+        					}else {
+        						break;
         					}
         				}else {
         					break;
@@ -520,6 +521,8 @@ public class Jogo implements Interface{
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i-1, j+1);
         					return novaCasa;
+        				}else {
+        					break;
         				}
         				}else {
         					break;
@@ -566,6 +569,8 @@ public class Jogo implements Interface{
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i+1, j-1);
         					return novaCasa;
+        				}else {
+        					break;
         				}
         				}else {
         					break;
@@ -610,6 +615,8 @@ public class Jogo implements Interface{
         					Casa novaCasa = null;
         					novaCasa = tabuleiro.getCasaGrid(i+1, j+1);
         					return novaCasa;
+        				}else {
+        					break;
         				}
         				}else {
         					break;

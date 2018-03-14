@@ -1,5 +1,4 @@
 package br.com.poli.damIA;
-import br.com.poli.componentes.Casa;
 import br.com.poli.componentes.Tabuleiro;
 import java.util.ArrayList;
 import br.com.poli.Interface;
@@ -20,18 +19,27 @@ public class JogadorAutonomo  extends Jogador implements AutoPlayer{
 	}
 	
 	public int[] jogarAuto() {
+		int[] escolha = new int[5];
 		
 		//Depth		
 		int nivel = 6;
 		//
 		
-		criarArvore(jogo.getTabuleiro(), nivel);
-		int[] escolha = new int[5];
-		int melhorPontuacao = 0;
-		melhorPontuacao = miniMax(jogo.getTabuleiro(), nivel+1, true);
-
-		System.out.println(melhorPontuacao);
-		escolha = encontrarJogadaPelaPontuacao(melhorPontuacao);
+		if(jogo.getCasaCapturaMultipla() != null) {
+			int x = jogo.getCasaCapturaMultipla().getPosX();
+			int y = jogo.getCasaCapturaMultipla().getPosY();
+			int[] multiplo = verificarCapturaCasa(x, y, jogo.getTabuleiro());
+			
+			escolha[1] = x;
+			escolha[2] = y;
+			escolha[3] = multiplo[0];
+			escolha[4] = multiplo[1];
+		}else {
+			criarArvore(jogo.getTabuleiro(), nivel);
+			int melhorPontuacao = 0;
+			melhorPontuacao = miniMax(jogo.getTabuleiro(), nivel+1, true);
+			escolha = encontrarJogadaPelaPontuacao(melhorPontuacao);
+		}
 		return escolha;
 	}
 	
@@ -47,18 +55,6 @@ public class JogadorAutonomo  extends Jogador implements AutoPlayer{
 				criarArvore(tab, nivel-1);
 			}
 		}
-				
-		/*gerarPossibilidadesTabuleiro(jogo.getTabuleiro());
-		tabAtual = jogo.getTabuleiro();
-		
-				for(Tabuleiro tab : tabAtual.getListaPossiveis()) {
-					jogo.setAtualJogador(jogo.getJogador1());
-					gerarPossibilidadesTabuleiro(tab);
-				for(Tabuleiro tabFilho : tab.getListaPossiveis()) {
-						jogo.setAtualJogador(jogo.getJogador2());
-						gerarPossibilidadesTabuleiro(tabFilho);
-					}
-				}*/
 		jogo.setAtualJogador(jogo.getJogador2());
 	}
 	
@@ -137,13 +133,44 @@ public class JogadorAutonomo  extends Jogador implements AutoPlayer{
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(tab.getCasaGrid(i, j).getPeca() != null && tab.getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
-					int[] destino = verificaMovimento(i, j, tab);
-					if(destino != null) {
+					
+					int[] destinoSupEsq = verificaMovimentoSupEsq(i, j, tab);
+					if(destinoSupEsq != null) {
 						int[] opcao = new int[5];
 						opcao[1] = i;
 						opcao[2] = j;
-						opcao[3] = destino[0];
-						opcao[4] = destino[1];
+						opcao[3] = destinoSupEsq[0];
+						opcao[4] = destinoSupEsq[1];
+						listaPossiveis.add(opcao);
+					}
+					
+					int[] destinoSupDir = verificaMovimentoSupDir(i, j, tab);
+					if(destinoSupDir != null) {
+						int[] opcao = new int[5];
+						opcao[1] = i;
+						opcao[2] = j;
+						opcao[3] = destinoSupDir[0];
+						opcao[4] = destinoSupDir[1];
+						listaPossiveis.add(opcao);
+					}
+					
+					int[] destinoInfEsq = verificaMovimentoInfEsq(i, j, tab);
+					if(destinoInfEsq != null) {
+						int[] opcao = new int[5];
+						opcao[1] = i;
+						opcao[2] = j;
+						opcao[3] = destinoInfEsq[0];
+						opcao[4] = destinoInfEsq[1];
+						listaPossiveis.add(opcao);
+					}
+					
+					int[] destinoInfDir = verificaMovimentoInfDir(i, j, tab);
+					if(destinoInfDir != null) {
+						int[] opcao = new int[5];
+						opcao[1] = i;
+						opcao[2] = j;
+						opcao[3] = destinoInfDir[0];
+						opcao[4] = destinoInfDir[1];
 						listaPossiveis.add(opcao);
 					}
 				}
@@ -151,50 +178,68 @@ public class JogadorAutonomo  extends Jogador implements AutoPlayer{
 		}
 	}
 	
-	public int[] verificaMovimento(int posX, int posY, Tabuleiro tab) {
-		int[] casaPossivel = null;
-    	
-    			//Verifica a direcao que a peca pode movimentar
-    			
-    			//Se a pedra for clara
-    			if(tab.getCasaGrid(posX, posY).getPeca().getCor() == CorPeca.CLARO) {
-    			casaPossivel = null;
-    			if(posX > 0 && posY > 0) {
-    			//Lado Superior Esquerdo
-    				//este if vira true se onde o jogador quer ir esta´ vazio e o jogador queria ir para tal casa
-    			if(tab.getCasaGrid(posX-1, posY-1).getOcupada() == false) {
-    				casaPossivel = new int[] {posX-1,posY-1};
-				}
-    			}
-    			
-    			if(posX > 0 && posY < 7) {
-    			//Lado Superior Direito
-    			if(tab.getCasaGrid(posX-1, posY+1).getOcupada() == false) {
-    				casaPossivel = new int[] {posX-1,posY+1};
-				}
-    			}
-    			
-    			//Se a pedra for escura
-    			}else {
-    			if(posX < 7 && posY > 0) {
-    			//Lado Inferior Esquerdo
-    			if(tab.getCasaGrid(posX+1, posY-1).getOcupada() == false) {
-    				casaPossivel = new int[] {posX+1,posY-1};
-				}
-    			}
-    			
-    			if(posX < 7 && posY < 7) {
-    			//Lado Inferior Direito
-    			if(tab.getCasaGrid(posX+1, posY+1).getOcupada() == false) {
-    				casaPossivel = new int[] {posX+1,posY+1};
-				}
-    			}
-    			
-    			}
-    			return casaPossivel;
-	}
+public int[] verificaMovimentoSupEsq(int posX, int posY, Tabuleiro tab) {
+	int[] casaPossivel = null;
 	
-	public void verificaCaptura(Tabuleiro tab) {
+	if(tab.getCasaGrid(posX, posY).getPeca().getCor() == CorPeca.CLARO) {
+		casaPossivel = null;
+		if(posX > 0 && posY > 0) {
+		//Lado Superior Esquerdo
+			//este if vira true se onde o jogador quer ir esta´ vazio e o jogador queria ir para tal casa
+			if(tab.getCasaGrid(posX-1, posY-1).getOcupada() == false) {
+				casaPossivel = new int[] {posX-1,posY-1};
+			}
+		}
+	}
+	return casaPossivel;
+}
+
+public int[] verificaMovimentoSupDir(int posX, int posY, Tabuleiro tab) {
+	int[] casaPossivel = null;
+	
+	if(tab.getCasaGrid(posX, posY).getPeca().getCor() == CorPeca.CLARO) {
+		casaPossivel = null;
+		if(posX > 0 && posY < 7) {
+			//Lado Superior Direito
+			if(tab.getCasaGrid(posX-1, posY+1).getOcupada() == false) {
+				casaPossivel = new int[] {posX-1,posY+1};
+			}
+		}
+	}
+	return casaPossivel;
+}
+
+public int[] verificaMovimentoInfEsq(int posX, int posY, Tabuleiro tab) {
+	int[] casaPossivel = null;
+	
+	if(tab.getCasaGrid(posX, posY).getPeca().getCor() == CorPeca.ESCURO) {
+		casaPossivel = null;
+		if(posX < 7 && posY > 0) {
+			//Lado Inferior Esquerdo
+			if(tab.getCasaGrid(posX+1, posY-1).getOcupada() == false) {
+				casaPossivel = new int[] {posX+1,posY-1};
+			}
+		}
+	}
+	return casaPossivel;
+}
+
+public int[] verificaMovimentoInfDir(int posX, int posY, Tabuleiro tab) {
+	int[] casaPossivel = null;
+	
+	if(tab.getCasaGrid(posX, posY).getPeca().getCor() == CorPeca.ESCURO) {
+		casaPossivel = null;
+		if(posX < 7 && posY < 7) {
+			//Lado Inferior Direito
+			if(tab.getCasaGrid(posX+1, posY+1).getOcupada() == false) {
+				casaPossivel = new int[] {posX+1,posY+1};
+			}
+		}
+	}
+	return casaPossivel;
+}
+
+public void verificaCaptura(Tabuleiro tab) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(tab.getCasaGrid(i, j).getPeca() != null && tab.getCasaGrid(i, j).getPeca().getJogador() == jogo.getAtualJogador()) {
@@ -328,6 +373,8 @@ public int[] verificarCapturaCasa(int i, int j, Tabuleiro tab) {
      		 				novaCasa[0] = i-1;
      		 				novaCasa[1] = j-1;
      						return novaCasa;
+     					}else {
+     						break;
      					}
      				}else {
      					break;
@@ -375,6 +422,8 @@ public int[] verificarCapturaCasa(int i, int j, Tabuleiro tab) {
  		 				novaCasa[0] = i-1;
  		 				novaCasa[1] = j+1;
      					return novaCasa;
+     				}else {
+     					break;
      				}
      				}else {
      					break;
@@ -424,6 +473,8 @@ public int[] verificarCapturaCasa(int i, int j, Tabuleiro tab) {
  		 				novaCasa[0] = i+1;
  		 				novaCasa[1] = j-1;
      					return novaCasa;
+     				}else {
+     					break;
      				}
      				}else {
      					break;
@@ -470,6 +521,8 @@ public int[] verificarCapturaCasa(int i, int j, Tabuleiro tab) {
  		 				novaCasa[0] = i+1;
  		 				novaCasa[1] = j+1;
      					return novaCasa;
+     				}else {
+     					break;
      				}
      				}else {
      					break;
